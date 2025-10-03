@@ -1,0 +1,125 @@
+@keyframes animate {
+  0% {
+    max-width: 0%;
+  }
+  20% {
+    max-width: 20%;
+  }
+  90% {
+    max-width: 50%;
+  }
+  93% {
+    max-width: 80%;
+  }
+  100% {
+    max-width: 100%;
+  }
+}
+
+@keyframes portal {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+    width: 10px;
+  }
+  70% {
+    width: 20px;
+  }
+  90% {
+    opacity: 1;
+  }
+  99% {
+    width: 30px;
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes dissapear {
+  0%,
+  99% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes walking {
+  0%,
+  99% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  98% {
+    transform: translateX(35px);
+    opacity: 1;
+  }
+}
+
+@keyframes runnin {
+  0%,
+  99% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0;
+  }
+  11% {
+    opacity: 1;
+  }
+  15% {
+    transform: translateX(0px);
+  }
+  98% {
+    opacity: 1;
+    transform: translateX(5vw);
+  }
+}
+
+@keyframes kick {
+  0%,
+  99% {
+    opacity: 0;
+  }
+  1%,
+  98% {
+    opacity: 1;
+  }
+  2%,
+  100% {
+    transform: translateX(6.5vw);
+  }
+}
+
+@keyframes fall {
+  0%,
+  95% {
+    opacity: 0;
+  }
+  1%,
+  94% {
+    opacity: 1;
+  }
+  10% {
+    transform: translate(-5vw, 1vh);
+  }
+  50% {
+    transform: translate(7vw, 15vh);
+    rotate: 360deg;
+  }
+  100% {
+    transform: translate(7vw, 15vh);
+    rotate: 360deg;
+  }
+}
