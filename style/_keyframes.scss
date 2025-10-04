@@ -123,3 +123,50 @@
     rotate: 360deg;
   }
 }
+
+@keyframes glow {
+  0% {
+    scale: 1;
+  }
+  10% {
+    font-size: 50px;
+    opacity: 1;
+  }
+  50% {
+    transform: scale(3);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(5);
+  }
+}
+
+@keyframes appear {
+  0% {
+    font-size: 1px;
+    opacity: 0;
+  }
+  75% {
+    font-size: 7px;
+    opacity: 0.5;
+  }
+  100% {
+    font-size: 12px;
+    opacity: 1;
+  }
+}
+
+@keyframes showtxt {
+  0% {
+    transform: translateX(-100%);
+    width: 100%;
+  }
+
+  99% {
+    width: 0%;
+  }
+  100% {
+    width: 0%;
+    opacity: 0.3;
+  }
+}

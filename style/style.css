@@ -127,6 +127,49 @@
     rotate: 360deg;
   }
 }
+@keyframes glow {
+  0% {
+    scale: 1;
+  }
+  10% {
+    font-size: 50px;
+    opacity: 1;
+  }
+  50% {
+    transform: scale(3);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(5);
+  }
+}
+@keyframes appear {
+  0% {
+    font-size: 1px;
+    opacity: 0;
+  }
+  75% {
+    font-size: 7px;
+    opacity: 0.5;
+  }
+  100% {
+    font-size: 12px;
+    opacity: 1;
+  }
+}
+@keyframes showtxt {
+  0% {
+    transform: translateX(-100%);
+    width: 100%;
+  }
+  99% {
+    width: 0%;
+  }
+  100% {
+    width: 0%;
+    opacity: 0.3;
+  }
+}
 .loading-container {
   width: 100%;
   height: 100%;
@@ -137,12 +180,72 @@
   align-items: center;
   flex-direction: column;
 }
+.loading-container .light {
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  top: 20%;
+  right: 20%;
+  rotate: -35deg;
+  background: radial-gradient(ellipse, rgba(255, 240, 200, 0.7) 0%, rgba(255, 230, 180, 0.4) 30%, rgba(255, 210, 140, 0.2) 60%, transparent 90%);
+  transform: translateX(-50%) scale(1.8);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -10px 20px rgba(255, 240, 200, 0.5), 0 0 80px rgba(255, 240, 200, 0.8);
+}
+.loading-container .bot {
+  top: 80%;
+  right: -50%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -10px 20px rgba(255, 240, 200, 0.5), 0 0 50px rgba(255, 240, 200, 0.8);
+}
+.loading-container .footer {
+  position: absolute;
+  bottom: 50px;
+  left: 50vw;
+  transform: translateX(-50%);
+  font-family: Avenir;
+  letter-spacing: 0.05em;
+  font-size: 18px;
+  color: #f2f2f2;
+}
+.loading-container .footer .hide {
+  background-color: rgb(18, 15, 5);
+  position: absolute;
+  height: 100%;
+  width: 50px;
+  animation: showtxt 10s ease-in;
+}
+.loading-container .header-txt {
+  position: absolute;
+  top: 100px;
+  left: 50vw;
+  transform: translateX(-50%);
+  font-family: Avenir;
+  letter-spacing: 0.05em;
+  font-size: 24px;
+  color: #f2f2f2;
+  opacity: 0.9;
+}
 .loading-container .x {
   position: relative;
   transform: translate(7vw, calc(15vh + 30px + 47.5px));
   color: white;
   opacity: 0;
   animation: glow 2s forwards;
+  animation-delay: 17s;
+  font-family: Creepster;
+  letter-spacing: 0.05em;
+  font-size: 20px;
+  color: white;
+}
+.loading-container .x::after {
+  content: "eLa";
+  font-family: Creepster;
+  letter-spacing: 0.05em;
+  font-size: 12px;
+  color: white;
+  animation: appear 2s forwards;
+  animation-delay: 19s;
+  text-decoration: underline;
+  opacity: 0;
 }
 .loading-container .stick-man {
   width: 100%;
@@ -189,6 +292,7 @@
 }
 .loading-container .stick-man #stickman-ouch {
   animation: fall 3s forwards;
+  animation-delay: 14.7s;
   transform: translateX(-3vw);
   rotate: 180deg;
 }
