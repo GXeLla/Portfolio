@@ -2,7 +2,7 @@
 @use "mixins" as *;
 @use "variables" as *;
 @use "keyframes" as *;
-
+// =============Loading screen ======================
 .loading-container {
   width: 100%;
   height: 100%;
@@ -56,22 +56,32 @@
     }
   }
 
-  .footer {
+  .footer_loadingScreen {
     position: absolute;
+    text-align: center;
     bottom: 50px;
     left: 50vw;
-    width: 600px;
+    max-width: 600px;
+    width: 80%;
     flex-wrap: nowrap;
     transform: translateX(-50%);
     @include Avenir_Light($textColor, 18px);
-
+    @media (max-width: 750px) {
+      max-width: 350px;
+    }
+    @media (max-width: 425px) {
+      max-width: 250px;
+    }
     .hide {
       //   transform: translateX(-100%);
       background-color: $primaryColor;
       position: absolute;
-      height: 100%;
+      height: 25px;
       width: 0;
-      animation: showtxt 20s ease-in;
+      animation: showtxt 10s ease-in;
+      @media (max-width:750px) {
+        animation: showtxt2 10s ease-in;
+      }
     }
   }
 
@@ -98,6 +108,15 @@
     animation: glow 2s forwards;
     animation-delay: 17s;
     @include Creepster(white, 20px);
+    @media (max-width: 1300px) {
+      transform: translate(10vw, calc(15vh + 30px + 47.5px));
+    }
+    @media (max-width: 1100px) {
+      transform: translate(15vw, calc(15vh + 30px + 47.5px));
+    }
+    @media (max-width: 500px) {
+      transform: translate(100px, calc(15vh + 30px + 47.5px));
+    }
 
     &::after {
       content: "eLa";
@@ -139,6 +158,9 @@
       place-self: center;
       transform: translateX(5vw);
       animation: dissapear 15s forwards;
+      @media (max-width: 950px) {
+        transform: translateX(0);
+      }
     }
     #stickman-walker {
       animation: walking 5s forwards;
@@ -153,12 +175,23 @@
       transform: translateX(3.5vw);
       animation: kick 2s forwards;
       animation-delay: 14.5s;
+      @media (max-width: 950px) {
+        transform: translateX(-100%);
+        animation: kick_mobile 2s forwards;
+        animation-delay: 14.5s;
+      }
     }
     #stickman-ouch {
       animation: fall 3s forwards;
       animation-delay: 14.7s;
       transform: translateX(-3vw);
       rotate: 180deg;
+      @media (max-width: 940px) {
+        rotate: 180deg;
+        transform: translate(-150px, 25px);
+        animation: fall_mobile 3s forwards;
+        animation-delay: 14.7s;
+      }
     }
   }
 }
@@ -205,3 +238,4 @@
   opacity: 0;
   pointer-events: none;
 }
+// =============End of Loading screen ======================

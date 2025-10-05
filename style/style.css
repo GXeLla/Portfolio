@@ -108,6 +108,17 @@
     transform: translateX(6.5vw);
   }
 }
+@keyframes kick_mobile {
+  0%, 99% {
+    opacity: 0;
+  }
+  1%, 98% {
+    opacity: 1;
+  }
+  2%, 100% {
+    transform: translateX(30px);
+  }
+}
 @keyframes fall {
   0%, 95% {
     opacity: 0;
@@ -125,6 +136,22 @@
   100% {
     transform: translate(7vw, 15vh);
     rotate: 360deg;
+  }
+}
+@keyframes fall_mobile {
+  0%, 95% {
+    opacity: 0;
+  }
+  1%, 94% {
+    opacity: 1;
+  }
+  50% {
+    rotate: 360deg;
+    transform: translate(200px, 15vh);
+  }
+  100% {
+    rotate: 360deg;
+    transform: translate(200px, 15vh);
   }
 }
 @keyframes glow {
@@ -171,6 +198,19 @@
     opacity: 0.3;
   }
 }
+@keyframes showtxt2 {
+  0% {
+    transform: translate(-70%, -50%);
+    width: 100vw;
+    height: 300px;
+  }
+  100% {
+    opacity: 0.3;
+    transform: translate(-70%, -50%);
+    width: 100vw;
+    height: 300px;
+  }
+}
 .loading-container {
   width: 100%;
   height: 100%;
@@ -214,11 +254,13 @@
     display: none;
   }
 }
-.loading-container .footer {
+.loading-container .footer_loadingScreen {
   position: absolute;
+  text-align: center;
   bottom: 50px;
   left: 50vw;
-  width: 600px;
+  max-width: 600px;
+  width: 80%;
   flex-wrap: nowrap;
   transform: translateX(-50%);
   font-family: Avenir;
@@ -226,12 +268,27 @@
   font-size: 18px;
   color: #f2f2f2;
 }
-.loading-container .footer .hide {
+@media (max-width: 750px) {
+  .loading-container .footer_loadingScreen {
+    max-width: 350px;
+  }
+}
+@media (max-width: 425px) {
+  .loading-container .footer_loadingScreen {
+    max-width: 250px;
+  }
+}
+.loading-container .footer_loadingScreen .hide {
   background-color: rgb(18, 15, 5);
   position: absolute;
-  height: 100%;
+  height: 25px;
   width: 0;
-  animation: showtxt 20s ease-in;
+  animation: showtxt 10s ease-in;
+}
+@media (max-width: 750px) {
+  .loading-container .footer_loadingScreen .hide {
+    animation: showtxt2 10s ease-in;
+  }
 }
 .loading-container .header-txt {
   width: 350px;
@@ -262,6 +319,21 @@
   letter-spacing: 0.05em;
   font-size: 20px;
   color: white;
+}
+@media (max-width: 1300px) {
+  .loading-container .x {
+    transform: translate(10vw, calc(15vh + 30px + 47.5px));
+  }
+}
+@media (max-width: 1100px) {
+  .loading-container .x {
+    transform: translate(15vw, calc(15vh + 30px + 47.5px));
+  }
+}
+@media (max-width: 500px) {
+  .loading-container .x {
+    transform: translate(100px, calc(15vh + 30px + 47.5px));
+  }
 }
 .loading-container .x::after {
   content: "eLa";
@@ -303,6 +375,11 @@
   transform: translateX(5vw);
   animation: dissapear 15s forwards;
 }
+@media (max-width: 950px) {
+  .loading-container .stick-man #stickman-pc {
+    transform: translateX(0);
+  }
+}
 .loading-container .stick-man #stickman-walker {
   animation: walking 5s forwards;
   animation-delay: 1.5s;
@@ -317,11 +394,26 @@
   animation: kick 2s forwards;
   animation-delay: 14.5s;
 }
+@media (max-width: 950px) {
+  .loading-container .stick-man #stickman-kungfu {
+    transform: translateX(-100%);
+    animation: kick_mobile 2s forwards;
+    animation-delay: 14.5s;
+  }
+}
 .loading-container .stick-man #stickman-ouch {
   animation: fall 3s forwards;
   animation-delay: 14.7s;
   transform: translateX(-3vw);
   rotate: 180deg;
+}
+@media (max-width: 940px) {
+  .loading-container .stick-man #stickman-ouch {
+    rotate: 180deg;
+    transform: translate(-150px, 25px);
+    animation: fall_mobile 3s forwards;
+    animation-delay: 14.7s;
+  }
 }
 
 .progress-bar-main-container {
