@@ -12,6 +12,6 @@ setTimeout(function () {
   setTimeout(function () {
     preloader.style.display = "none";
   }, 1000);
-  }, 11000);
-  // });
+  });
   // edit this with bottom!!!
+// }, 11000);
