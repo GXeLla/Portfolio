@@ -7,3 +7,53 @@ http://www.mansgreback.com/fonts/bouncy
 creepster
 Copyright (c) 2011, Font Diner, Inc (diner@fontdiner.com),
 with Reserved Font Names "Creepster"
+
+Video
+You must add Vecteezy.com in the final credits
+
+
+
+.spark{
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgb(223, 189, 226);
+    box-shadow: 0px 0px 16px 2px rgb(233, 179, 215);
+    animation-duration: 3s;
+    animation-name: twinkle;
+    animation-iteration-count: infinite;
+  }
+  .spark1{
+    top:200px;
+    left:200px;
+    height:5px;
+    width:5px;
+    animation-delay: 3s;
+  }
+  .spark2{
+    top:250px;
+    left:250px;
+    height:3px;
+    width:3px;
+    animation-delay: 2s;
+  }
+  .spark3{
+    top:100px;
+    left:300px;
+    height:2px;
+    width:2px;
+  }
+  .spark4{
+    top:50px;
+    left:400px;
+    height:1px;
+    width:1px;
+    animation-delay:1s;
+  
+  }
+
+    @keyframes twinkle{
+    50%{
+      transform: scale(0.5);
+      opacity: -1;
+    }
+  }
