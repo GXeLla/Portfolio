@@ -1,8 +1,161 @@
-@use 'variables' as *;
-@use 'mixins' as *;
+@use "variables" as *;
+@use "mixins" as *;
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+}
+
+// background video
+
+#bg_main {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  z-index: -2;
+}
+
+// background video filter black
+.video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(20, 20, 20, 0.79);
+  z-index: -1;
+  pointer-events: none;
+}
+
+// Mainborder in body
+.border {
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  background-color: rgba(45, 45, 45, 0.045);
+  border: 2px solid rgba(79, 79, 79, 0.23);
+  pointer-events: none;
+  width: 93%;
+  height: 87%;
+}
+
+// moon
+.moon {
+  position: relative;
+  cursor: pointer;
+  top: -12vh;
+  left: 65vw;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 240, 230, 0.9) 4%,
+    rgba(245, 225, 205, 0.85) 100%
+  );
+  box-shadow: 0 0 105px 2px rgba(220, 185, 170, 0.7),
+    0 0 50px 4px rgba(200, 180, 160, 0.8),
+    0 0 145px 2px rgba(220, 190, 170, 0.7);
+  animation: moon-light 5s infinite;
+
+  @media (max-width: 1000px) {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+//  crates
+.crat {
+  position: absolute;
+  top: 150px;
+  left: 50px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 3px solid rgba(194, 168, 140, 0.475);
+  box-shadow: inset 5px 10px 25px 4px rgba(199, 177, 171, 0.9),
+    inset -3px -3px 15px rgba(255, 245, 235, 0.5);
+
+  @media (max-width: 1000px) {
+    top: 95px;
+    left: 15px;
+    width: 15px;
+    height: 15px;
+  }
+}
+.crat2 {
+  position: absolute;
+  top: 115px;
+  left: 32px;
+  width: 10px;
+  height: 10px;
+}
+.crat3 {
+  position: absolute;
+  top: 130px;
+  left: 170px;
+  width: 20px;
+  height: 20px;
+  @media (max-width: 1000px) {
+    display: none;
+  }
+}
+.crat4 {
+  position: absolute;
+  top: 100px;
+  left: 115px;
+  width: 25px;
+  height: 25px;
+  @media (max-width: 1000px) {
+    left: 70px;
+    top: 95px;
+  }
+}
+.crat5 {
+  top: 185px;
+  left: 70px;
+  width: 10px;
+  height: 10px;
+  @media (max-width: 1000px) {
+    top: 135px;
+  }
+}
+.crat6 {
+  top: 180px;
+  left: 115px;
+  width: 22px;
+  height: 22px;
+  @media (max-width: 1000px) {
+    display: none;
+  }
+}
+.crat7 {
+  top: 130px;
+  left: 135px;
+  width: 6px;
+  height: 6px;
+  @media (max-width: 1000px) {
+    top: 110px;
+    left: 100px;
+  }
+}
+.crat8 {
+  top: 134px;
+  left: 147px;
+  width: 1px;
+  height: 1px;
+  border: 2px solid rgba(194, 168, 140, 0.475);
+  @media (max-width: 1000px) {
+    top: 110px;
+    left: 50px;
+  }
 }
