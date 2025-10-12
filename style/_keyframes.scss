@@ -228,3 +228,42 @@
       0px 0px 150px 5px #805a55dc;
   }
 }
+
+//cloud animation raining
+@keyframes animateCloud {
+  0% {
+    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 0 rgb(187, 208, 255))
+      brightness(1);
+  }
+  35% {
+    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 20px #fff5)
+      brightness(10);
+  }
+  39% {
+    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 0 rgb(187, 208, 255))
+      brightness(1);
+  }
+  45% {
+    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 50px #fff5)
+      brightness(10);
+  }
+  60% {
+    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 0 rgb(187, 208, 255))
+      brightness(1);
+  }
+}
+
+@keyframes drops {
+  0% {
+    transform: translateY(0) scaleY(1);
+  }
+  70% {
+    transform: translateY(360px) scaleY(1);
+  }
+  80% {
+    transform: translateY(360px) scaleY(0.2);
+  }
+  100% {
+    transform: translateY(360px) scaleY(0.15) scaleX(15);
+  }
+}
