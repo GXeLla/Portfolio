@@ -1,28 +1,33 @@
-@use 'fonts' as *;
+@use "fonts" as *;
 
 @mixin flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin Creepster($color, $size) {
-    font-family: Creepster;
-    letter-spacing: 0.05em;
-    font-size: $size;
-    color: $color;
+  font-family: Creepster;
+  letter-spacing: 0.05em;
+  font-size: $size;
+  color: $color;
 }
 
-@mixin Avenir_Light($color, $size){
-    font-family: Avenir;
-    letter-spacing: 0.05em;
-    font-size: $size;
-    color: $color;
+@mixin Avenir_Light($color, $size) {
+  font-family: Avenir;
+  letter-spacing: 0.05em;
+  font-size: $size;
+  color: $color;
 }
 
-@mixin Bouncy($color, $size){
-    font-family: Bouncy;
-    letter-spacing: 0.05em;
-    font-size: $size;
-    color: $color;
+@mixin Bouncy($color, $size) {
+  font-family: Bouncy;
+  letter-spacing: 0.05em;
+  font-size: $size;
+  color: $color;
+}
+
+@mixin pointer {
+  cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png),
+    pointer;
 }

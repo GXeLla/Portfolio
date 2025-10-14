@@ -9,6 +9,7 @@
 
 body {
   overflow: hidden;
+  cursor: url(../images/cursor/rsz_neon_energy_cursor--sweezycursors.png), auto;
 }
 
 // background video
@@ -44,8 +45,9 @@ body {
   background-color: rgba(45, 45, 45, 0.045);
   border: 2px solid rgba(79, 79, 79, 0.23);
   pointer-events: none;
-  width: 93%;
-  height: 85%;
+  width: 92%;
+  height: 84%;
+  z-index: 500;
   @media (max-width: 768px) {
     height: 75%;
   }
@@ -54,7 +56,8 @@ body {
 // moon
 .moon {
   position: relative;
-  cursor: pointer;
+  z-index: 499;
+  @include pointer;
   top: -110px;
   left: 65vw;
   width: 220px;
@@ -168,44 +171,44 @@ body {
   }
 }
 
-.cloud {
-  position: relative;
-  top: -225px;
-  left: 77%;
-  scale: 0.35;
-  width: 320px;
-  height: 100px;
-  border-radius: 100px;
-  filter: drop-shadow(8px 8px 0 #0005);
-  animation: animateCloud 3.5s steps(1) infinite;
+.rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    4% 100%,
+    4% 8%,
+    96% 8%,
+    96% 92%,
+    4% 92%,
+    4% 100%,
+    100% 100%,
+    100% 0%
+  ); //so it will rain outside the border
+}
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: -50px;
-    left: 40px;
-    width: 110px;
-    height: 110px;
-    border-radius: 100%;
-    background: #484f59;
-    box-shadow: 90px -10px 0 30px #484f59;
-  }
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: #484f59;
-    border-radius: 100px;
-    z-index: 1000;
-  }
+.drop {
+  position: absolute;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.7);
+  opacity: 0.5;
+  width: 2px;
+  bottom: 100%;
+  animation: fall linear forwards;
+}
 
-  .drop {
-    position: absolute;
-    top: 0;
-    width: 2px;
-    height: 10px;
-    transform-origin: bottom;
-    background: #05a2eb;
-    animation: drops 2s linear infinite;
-  }
+.splat {
+  width: 15px;
+  height: 10px;
+  border-top: 2px dotted rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  opacity: 1;
+  transform: scale(0);
+  position: absolute;
+  animation: splat 0.5s linear forwards;
 }
