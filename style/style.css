@@ -50,7 +50,6 @@ body {
   transform: translate(-50%, -50%);
   background-color: rgba(45, 45, 45, 0.045);
   border: 2px solid rgba(79, 79, 79, 0.23);
-  pointer-events: none;
   width: 92%;
   height: 84%;
   z-index: 500;
@@ -58,6 +57,355 @@ body {
 @media (max-width: 768px) {
   .border {
     height: 75%;
+  }
+}
+.border h1 {
+  padding-top: 2%;
+  font-size: clamp(20px, 3vw, 36px) !important;
+}
+.border h1,
+.border h1 + p {
+  width: 25ch;
+  color: #f2f2f2;
+  padding-left: 2%;
+  line-height: 1.2;
+  font-size: clamp(10px, 1.1vw, 18px);
+}
+.border .links-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 35%;
+  padding-top: 10%;
+  padding-left: 3%;
+}
+.border .links-group .link {
+  height: 32px;
+  align-items: center;
+  padding-left: 22px;
+  cursor: pointer;
+  transition: 1.15s all;
+}
+.border .links-group .link:hover {
+  background-color: rgba(95, 95, 95, 0.125);
+}
+.border .links-group .link p {
+  height: 100%;
+  color: #c7bcbc;
+  font-size: 22px;
+  align-content: center;
+  transition: 0.35s all;
+}
+.border .links-group .link p:hover {
+  color: #f2f2f2;
+}
+.border .messages {
+  position: absolute;
+  right: 40px;
+  top: 40px;
+  width: 45%;
+  color: #d9d9d9;
+  height: 90%;
+  border-left: 1px solid;
+  padding-left: 15px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+}
+.border .messages::-webkit-scrollbar {
+  width: 8px;
+}
+.border .messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+.border .messages::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(180, 180, 180, 0.4));
+  border-radius: 10px;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.6);
+}
+.border .messages::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(200, 200, 200, 0.6));
+}
+.border .messages .message {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.border .messages .message.active {
+  display: flex;
+  flex-direction: column;
+}
+.border .messages .message.fade-in {
+  opacity: 1;
+}
+.border .messages .contact-list {
+  list-style: none;
+  margin-top: 15px;
+  padding: 0;
+}
+.border .messages .contact-list .line {
+  width: 100%;
+  height: 1px;
+  background: white;
+  margin: 10px;
+}
+.border .messages .contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  padding: 6px 0;
+  transition: 0.3s all;
+}
+.border .messages .contact-list li a {
+  color: #f2f2f2;
+  text-decoration: none;
+  transition: 0.3s all;
+}
+.border .messages .contact-list li a:hover {
+  color: #b3a8a8;
+}
+.border .messages .contact-list li a:hover svg {
+  fill: #b3a8a8;
+  transform: scale(1.15);
+}
+.border .messages .contact-list li svg {
+  fill: #f2f2f2;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: 0.3s;
+}
+li:hover .border .messages .contact-list li svg {
+  fill: #b3a8a8;
+}
+.border .messages .contact {
+  height: 70%;
+}
+.border .messages .contact ul,
+.border .messages .contact h2,
+.border .messages .contact li {
+  width: 95%;
+}
+.border .messages .contact ul {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.border .messages .contact ul li:nth-last-child(2) {
+  margin-top: auto;
+}
+.border .faq {
+  flex-direction: column;
+  line-height: 1.6;
+  gap: 20px;
+}
+.border .faq .faq-item {
+  margin-bottom: 20px;
+  width: 68%;
+}
+.border .faq .line {
+  width: 100%;
+  height: 1px;
+  background: white;
+  margin: 10px;
+}
+.border .faq .education,
+.border .faq .certifications {
+  width: 100%;
+}
+.border .faq .education h3,
+.border .faq .certifications h3 {
+  margin-bottom: 25px;
+}
+.border .faq .education p,
+.border .faq .certifications p {
+  width: 100%;
+}
+.border .faq .certifications p a {
+  color: #f2f2f2;
+  text-decoration: underline;
+  transition: 0.3s all;
+}
+.border .faq .certifications p a:hover {
+  color: #b3a8a8;
+}
+.border .main {
+  align-content: end;
+}
+.border .main .opinion {
+  width: 100%;
+}
+.border .main .opinion p {
+  max-width: 65ch;
+  width: 100%;
+}
+.border .main .message:nth-child(1) p {
+  width: 100%;
+}
+.border .main .message:nth-child(2) {
+  align-items: center;
+}
+.border .main .message:nth-child(2) .icon {
+  width: 22px;
+  height: 22px;
+  fill: white;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.border .main .message:nth-child(2) .icon.css:hover {
+  fill: #663399;
+}
+.border .main .message:nth-child(2) .icon.html:hover {
+  fill: #e34f26;
+}
+.border .main .message:nth-child(2) .icon.sass:hover {
+  fill: #cc6699;
+}
+.border .main .message:nth-child(2) .icon.js:hover {
+  fill: #f7df1e;
+}
+.border .main .message:nth-child(2) .icon.angular:hover {
+  fill: #dd0031;
+}
+.border .main .message:nth-child(2) .icon.tailwind:hover {
+  fill: #06B6D4;
+}
+.border .main .message:nth-child(2) .icon:hover {
+  opacity: 0.9;
+  transform: scale(1.15);
+}
+.border .main .message:nth-child(1),
+.border .main .message:nth-child(3),
+.border .main .message:nth-child(4) {
+  align-items: flex-end;
+}
+.border .main p {
+  max-width: 38ch;
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 5px;
+  line-height: 1;
+  letter-spacing: 1.5px;
+}
+.border .projects {
+  height: 100%;
+}
+.border .projects .timeline {
+  position: relative;
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.border .projects .timeline::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.25);
+}
+.border .projects .timeline-item.text-only {
+  font-style: italic;
+  opacity: 0.75;
+}
+.border .projects .timeline-item.text-only .title {
+  letter-spacing: 0.5px;
+}
+.border .projects .timeline-item {
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.border .projects .timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+}
+.border .projects .timeline-item .date {
+  font-size: 13px;
+  opacity: 0.6;
+}
+.border .projects .timeline-item .title {
+  font-size: 16px;
+}
+.border .projects .timeline-item:hover {
+  transform: scale(1.03);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  border-radius: 6px;
+}
+.border .projects .timeline-item.text-only {
+  cursor: default;
+  opacity: 0.7;
+}
+.border .projects .timeline-item.text-only:hover {
+  transform: none;
+  background: none;
+  backdrop-filter: none;
+}
+.border .projects {
+  /* MODAL */
+}
+.border .projects .modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.border .projects .modal-overlay.active {
+  display: flex;
+}
+.border .projects .modal-box {
+  background: rgba(40, 40, 40, 0.85);
+  backdrop-filter: blur(6px);
+  padding: 25px;
+  border-radius: 12px;
+  width: 380px;
+  animation: zoomIn 0.3s ease;
+}
+.border .projects .close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  float: right;
+  cursor: pointer;
+}
+.border .projects .modal-links a {
+  display: inline-block;
+  margin-top: 12px;
+  margin-right: 10px;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.border .projects .modal-links a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
@@ -194,13 +542,14 @@ body {
 }
 
 .rain {
+  pointer-events: none;
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 97vh;
   overflow: hidden;
-  clip-path: polygon(0% 0%, 0% 100%, 4% 100%, 4% 8%, 96% 8%, 96% 92%, 4% 92%, 4% 100%, 100% 100%, 100% 0%);
+  clip-path: polygon(0% 0%, 0% 100%, 4% 100%, 4% 8%, 96% 8%, 96% 95%, 4% 95%, 4% 100%, 100% 100%, 100% 0%);
 }
 
 .drop {
