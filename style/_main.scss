@@ -265,7 +265,6 @@ body {
     }
 
     .message:nth-child(2) {
-      align-items: center;
 
       .icon {
         width: 22px;
@@ -294,7 +293,9 @@ body {
         &.tailwind:hover {
           fill: #06B6D4;
         }
-      }
+        &.react:hover {
+          fill: #61dafb;
+      }}
 
       .icon:hover {
         opacity: 0.9;

@@ -245,9 +245,6 @@ li:hover .border .messages .contact-list li svg {
 .border .main .message:nth-child(1) p {
   width: 100%;
 }
-.border .main .message:nth-child(2) {
-  align-items: center;
-}
 .border .main .message:nth-child(2) .icon {
   width: 22px;
   height: 22px;
@@ -272,6 +269,9 @@ li:hover .border .messages .contact-list li svg {
 }
 .border .main .message:nth-child(2) .icon.tailwind:hover {
   fill: #06B6D4;
+}
+.border .main .message:nth-child(2) .icon.react:hover {
+  fill: #61dafb;
 }
 .border .main .message:nth-child(2) .icon:hover {
   opacity: 0.9;

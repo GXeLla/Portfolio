@@ -14,7 +14,7 @@ setTimeout(function () {
   setTimeout(function () {
     preloader.style.display = "none";
   }, 1000);
-}, 10);
+}, 7500);
 // });
 // edit this to 7500ms when everything is done
 
@@ -79,18 +79,21 @@ function createDrop() {
   const dropLeft = dropPosition.left + dropPosition.width / 2 - 7.5; // Center the splat
 
   // Add the splat class when drop reaches near the bottom
-  setTimeout(() => {
-    const splat = document.createElement("div");
-    splat.className = "splat";
-    splat.style.left = dropLeft + "px"; // Position splat at the center of the drop
-    splat.style.bottom = "0"; // Align it to the bottom
-    rainContainer.appendChild(splat);
+  setTimeout(
+    () => {
+      const splat = document.createElement("div");
+      splat.className = "splat";
+      splat.style.left = dropLeft + "px"; // Position splat at the center of the drop
+      splat.style.bottom = "0"; // Align it to the bottom
+      rainContainer.appendChild(splat);
 
-    // Remove the splat after animation is done
-    splat.addEventListener("animationend", () => {
-      splat.remove();
-    });
-  }, fallDuration * 1000 * 0.9); // Add splat at 90% of fall time
+      // Remove the splat after animation is done
+      splat.addEventListener("animationend", () => {
+        splat.remove();
+      });
+    },
+    fallDuration * 1000 * 0.9,
+  ); // Add splat at 90% of fall time
 
   // Remove drop after it falls
   drop.addEventListener("animationend", () => {
@@ -99,27 +102,6 @@ function createDrop() {
 }
 
 setInterval(createDrop, 25); // Create a new drop every 100ms
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const links = document.querySelectorAll(".link");
 const messages = document.querySelectorAll(".message");
@@ -150,54 +132,63 @@ links.forEach((link, index) => {
 // show first message initially
 messages[0].classList.add("fade-in");
 
-
-
 const data = {
   p1: {
     title: "Navbar animation tabs",
     desc: "Simple navbar animation tabs using HTML & CSS.",
-    links: ["https://gxella.github.io/example/contact.html"]
+    links: ["https://gxella.github.io/example/contact.html"],
   },
   p2: {
     title: "Restaurant Menu",
     desc: "Restaurant menu built with HTML & CSS.",
-    links: ["https://gxella.github.io/Restaurant-Menu/"]
+    links: ["https://gxella.github.io/Restaurant-Menu/"],
   },
   p3: {
     title: "Wix-style Website",
     desc: "Website similar to Wix built 100% without JavaScript.",
-    links: ["https://gxella.github.io/Wix-Template-James-Consulting/"]
+    links: ["https://gxella.github.io/Wix-Template-James-Consulting/"],
   },
   p4: {
     title: "Profile Example",
     desc: "Simple profile example using HTML & CSS.",
-    links: ["https://gxella.github.io/portfolio-example_01/"]
+    links: ["https://gxella.github.io/portfolio-example_01/"],
   },
   p5: {
     title: "Social Media Dashboard",
     desc: "Dashboard UI practice project.",
-    links: ["https://gxella.github.io/Social-media-dashbord-practive/"]
+    links: ["https://gxella.github.io/Social-media-dashbord-practive/"],
   },
   p6: {
     title: "Ticket Purchase – Georgian Railway",
     desc: "Full website example for buying tickets online.",
-    links: ["https://gxella.github.io/Ticket-purchase---Georgian-Railway/"]
+    links: ["https://gxella.github.io/Ticket-purchase---Georgian-Railway/"],
   },
   p7: {
     title: "Christmas Stylings",
     desc: "Christmas theme variations for future use.",
-    links: ["https://gxella.github.io/Christmas-stylings/"]
+    links: ["https://gxella.github.io/Christmas-stylings/"],
   },
   p8: {
     title: "Angular E-shop",
     desc: "First Angular e-commerce project.",
-    links: ["https://serene-maamoul-6e75cf.netlify.app/"]
+    links: ["https://serene-maamoul-6e75cf.netlify.app/"],
   },
   p9: {
     title: "Product Shop (Real APIs)",
     desc: "Product shop using real APIs.",
-    links: ["https://product-shop-example01.netlify.app/welcome"]
-  }
+    links: ["https://product-shop-example01.netlify.app/welcome"],
+  },
+  p10: {
+    title: "Thai Food Ordering (Angular + APIs)",
+    desc: "A full Angular project for ordering Thai food online. Uses real APIs for products, cart, and checkout functionality.",
+    links: ["https://dynamic-dolphin-91bcea.netlify.app"],
+  },
+  p11: {
+    title: "Text Comparison App (React)",
+    desc: `Text Compare Tool
+A text comparison tool that lets you compare two blocks of text side by side, highlighting added and deleted words.`,
+    links: ["https://gxella.github.io/Text-comparison/"],
+  },
 };
 
 const modal = document.getElementById("modal");
@@ -205,14 +196,14 @@ const titleEl = document.getElementById("modal-title");
 const descEl = document.getElementById("modal-desc");
 const linksEl = document.getElementById("modal-links");
 
-document.querySelectorAll(".timeline-item[data-modal]").forEach(item => {
+document.querySelectorAll(".timeline-item[data-modal]").forEach((item) => {
   item.addEventListener("click", () => {
     const key = item.dataset.modal;
     titleEl.textContent = data[key].title;
     descEl.textContent = data[key].desc;
 
     linksEl.innerHTML = "";
-    data[key].links.forEach(link => {
+    data[key].links.forEach((link) => {
       const a = document.createElement("a");
       a.href = link;
       a.target = "_blank";
@@ -225,4 +216,6 @@ document.querySelectorAll(".timeline-item[data-modal]").forEach(item => {
 });
 
 document.querySelector(".close-btn").onclick = () => modal.classList.remove("active");
-modal.onclick = e => { if (e.target === modal) modal.classList.remove("active"); };
+modal.onclick = (e) => {
+  if (e.target === modal) modal.classList.remove("active");
+};
