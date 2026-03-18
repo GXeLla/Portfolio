@@ -176,7 +176,7 @@ const data = {
   p9: {
     title: "Product Shop (Real APIs)",
     desc: "Product shop using real APIs.",
-    links: ["https://product-shop-example01.netlify.app/welcome"],
+    links: ["https://product-shop-example01.netlify.app/"],
   },
   p10: {
     title: "Thai Food Ordering (Angular + APIs)",
@@ -188,6 +188,11 @@ const data = {
     desc: `Text Compare Tool
 A text comparison tool that lets you compare two blocks of text side by side, highlighting added and deleted words.`,
     links: ["https://gxella.github.io/Text-comparison/"],
+  },
+  p12: {
+    title: "Idle Game Loading Screens (Angular)",
+    desc: `This is an idle game built with Angular, designed to showcase game mechanics, world progression, and UI interactions in a web app environment. Unlike a traditional clicker, this game runs in the background, giving players resources and progress even while they’re idle.`,
+    links: ["https://idle-loader.netlify.app/"],
   },
 };
 
