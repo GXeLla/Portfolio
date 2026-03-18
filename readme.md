@@ -1,4 +1,5 @@
-Welcome to my portfolio! This project showcases my work.
+Welcome to my portfolio!
+This project showcases my work.
 
 ## About
 
