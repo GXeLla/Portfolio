@@ -31,3 +31,27 @@ Create an interactive theme switcher where the moon transitions into the sun.
 
 * Keep animation smooth and minimal
 * Focus on visual clarity
+
+
+-----------------------------------------------------------------------------------------
+
+## 2026-03-31 — Interactive Background Depth
+
+### Concept
+
+Create a background that reacts to cursor movement to simulate depth.
+
+### Behavior
+
+* Background shifts slightly with mouse movement
+* Elements move at different speeds
+
+### Details
+
+* Keep movement subtle
+* Avoid performance-heavy calculations
+
+### Tech Notes
+
+* Use mousemove event
+* Apply transform: translate for layers
