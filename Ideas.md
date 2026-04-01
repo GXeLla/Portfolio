@@ -55,3 +55,26 @@ Create a background that reacts to cursor movement to simulate depth.
 
 * Use mousemove event
 * Apply transform: translate for layers
+
+-----------------------------------------------------------------------------------------
+
+## 2026-04-01 — Projects Reveal System
+
+### Concept
+
+Animate project items when they enter the viewport.
+
+### Behavior
+
+* Projects fade in and move upward
+* Each project appears with slight delay
+
+### Enhancements
+
+* Add small scale effect (0.95 → 1)
+* Optional blur fade-in
+
+### Tech Notes
+
+* Use IntersectionObserver
+* Combine opacity + transform
