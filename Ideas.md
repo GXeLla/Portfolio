@@ -101,3 +101,21 @@ Buttons react slightly to cursor proximity.
 
 * Track cursor position
 * Apply transform translate
+
+-----------------------------------------------------------------------------------------
+
+## 2026-04-04 — Cloud Layer Refinement
+
+### Idea
+
+Improve cloud visuals during theme transition.
+
+### Behavior
+
+* Clouds appear during sunrise phase
+* Move slowly across screen
+
+### Notes
+
+* Keep opacity low
+* Avoid distracting from main animation
