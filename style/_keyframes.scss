@@ -50,6 +50,19 @@
     opacity: 1;
   }
 }
+
+// for modal
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
 // .hide for a footer on loading
 @keyframes showtxt {
   0% {
@@ -89,6 +102,18 @@
       0px 0px 150px 5px #805a55dc;
   }
 }
+
+// sun light
+
+  @keyframes sun-light {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 5px rgba(255, 245, 200, 0.6));
+    }
+    50% {
+      filter: drop-shadow(0 0 20px rgba(255, 230, 140, 0.9));
+    }
+  }
 
 //cloud animation raining
 @keyframes animateCloud {
