@@ -21,6 +21,10 @@ body {
   cursor: url(../images/cursor/rsz_neon_energy_cursor--sweezycursors.png), auto;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
 #bg_main {
   width: 100vw;
   height: 100vh;
@@ -41,6 +45,7 @@ body {
   background-color: rgba(20, 20, 20, 0.79);
   z-index: -1;
   pointer-events: none;
+  transition: background 2.55s ease-out;
 }
 
 .border {
@@ -425,12 +430,14 @@ li:hover .border .messages .contact-list li svg {
   }
 }
 
-.sun.go-up, .moon.go-up {
+.sun.go-up,
+.moon.go-up {
   position: fixed;
   animation: go-up 5s forwards;
 }
 
-.sun.go-down, .moon.go-down {
+.sun.go-down,
+.moon.go-down {
   position: relative;
   animation: go-down 5s forwards;
 }
@@ -566,7 +573,15 @@ li:hover .border .messages .contact-list li svg {
   }
 }
 
-.rain {
+.cloud-item {
+  position: absolute;
+  pointer-events: none;
+  background: transparent;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+  will-change: transform;
+}
+
+.weather {
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -703,6 +718,9 @@ li:hover .border .messages .contact-list li svg {
   }
   45% {
     opacity: 0.75;
+  }
+  85% {
+    transform: translate(3px, -3px);
   }
   100% {
     transform: translateY(0);

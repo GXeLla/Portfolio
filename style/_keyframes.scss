@@ -127,6 +127,9 @@
   45% {
     opacity: 0.75;
   }
+  85% {
+    transform: translate(3px, -3px);
+  }
   100% {
     transform: translateY(0);
     opacity: 1;

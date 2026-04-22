@@ -54,7 +54,7 @@ setTimeout(function () {
 
 // main outside border rain
 
-const rainContainer = document.querySelector(".rain");
+const rainContainer = document.querySelector(".weather");
 
 function createDrop() {
   const drop = document.createElement("div");
@@ -101,7 +101,102 @@ function createDrop() {
   });
 }
 
-setInterval(createDrop, 25); // Create a new drop every 100ms
+// 🌥 clouds
+function createCloud() {
+  const weather = document.querySelector(".weather");
+
+  const cloud = document.createElement("div");
+  cloud.classList.add("cloud-item");
+
+  //size
+  const scale = Math.random() * 1.2 + 0.8;
+
+  const baseWidth = Math.random() * 140 + 120;
+  const baseHeight = baseWidth * 0.45;
+
+  cloud.style.width = baseWidth + "px";
+  cloud.style.height = baseHeight + "px";
+
+  // spawn position
+  const x = Math.random() * 90 + 5; // 5–95vw
+  const y = Math.random() * 80 + 10; // 10–90vh
+
+  cloud.style.left = x + "vw";
+  cloud.style.top = y + "vh";
+
+  //parralax system
+  const depth = Math.random(); // 0 = far, 1 = near
+
+  cloud.style.opacity = depth * 0.5 + 0.35;
+  cloud.style.filter = `blur(${depth * 2}px)`;
+
+  // start invisible → fade in
+  cloud.style.opacity = 0;
+  weather.appendChild(cloud);
+
+  requestAnimationFrame(() => {
+    cloud.style.transition = "opacity 2.5s ease";
+    cloud.style.opacity = depth * 0.5 + 0.4;
+  });
+
+  //cloud shape
+  const puffs = 4 + Math.floor(Math.random() * 3);
+
+  for (let i = 0; i < puffs; i++) {
+    const puff = document.createElement("span");
+
+    const size = Math.random() * 70 + 40;
+
+    puff.style.position = "absolute";
+    puff.style.width = size + "px";
+    puff.style.height = size + "px";
+    puff.style.background = "white";
+    puff.style.borderRadius = "50%";
+
+    puff.style.left = Math.random() * 120 + "px";
+    puff.style.top = Math.random() * 50 + "px";
+
+    puff.style.opacity = 0.9;
+
+    cloud.appendChild(puff);
+  }
+
+  const direction = Math.random() > 0.5 ? 1 : -1;
+
+  // far clouds = slower, near clouds = slightly faster
+  const duration =
+    depth < 0.5
+      ? Math.random() * 55 + 40 // far (slow)
+      : Math.random() * 45 + 35; // near (faster )
+
+  const distance = Math.random() * 120 + 80;
+
+  cloud.animate(
+    [
+      { transform: `translateX(0px) scale(${scale})` },
+      { transform: `translateX(${direction * distance}vw) scale(${scale})` },
+    ],
+    {
+      duration: duration * 1000,
+      iterations: 1,
+      easing: "linear",
+      fill: "forwards",
+    },
+  );
+
+  //fadeout
+  setTimeout(
+    () => {
+      cloud.style.transition = "opacity 3s ease";
+      cloud.style.opacity = "0";
+
+      setTimeout(() => {
+        cloud.remove();
+      }, 3000);
+    },
+    (duration - 3) * 1000,
+  );
+}
 
 const links = document.querySelectorAll(".link");
 const messages = document.querySelectorAll(".message");
@@ -200,6 +295,7 @@ const modal = document.getElementById("modal");
 const titleEl = document.getElementById("modal-title");
 const descEl = document.getElementById("modal-desc");
 const linksEl = document.getElementById("modal-links");
+const overlay = document.querySelector(".video-overlay");
 
 document.querySelectorAll(".timeline-item[data-modal]").forEach((item) => {
   item.addEventListener("click", () => {
@@ -225,12 +321,49 @@ modal.onclick = (e) => {
   if (e.target === modal) modal.classList.remove("active");
 };
 
-
 // moon - sun toggle
 const moon = document.querySelector(".moon");
 const sun = document.querySelector(".sun");
+const bgVideo = document.getElementById("bg_main");
 
 let isDay = false;
+let cloudRainInterval;
+let borderRainInterval;
+let cloudInterval;
+
+function startRain() {
+  cloudRainInterval = setInterval(rain, 20);
+  borderRainInterval = setInterval(createDrop, 25);
+}
+
+function stopRain() {
+  clearInterval(cloudRainInterval);
+  clearInterval(borderRainInterval);
+}
+
+function showClouds() {
+  function spawn() {
+    createCloud();
+
+    cloudInterval = setTimeout(spawn, Math.random() * 400 + 500);
+  }
+
+  spawn();
+}
+
+function hideClouds() {
+  clearInterval(cloudInterval);
+
+  document.querySelectorAll(".cloud-item").forEach((c) => c.remove());
+}
+
+function playVideo() {
+  bgVideo.play();
+}
+
+function stopVideo() {
+  bgVideo.pause();
+}
 
 moon.addEventListener("click", toggle);
 sun.addEventListener("click", toggle);
@@ -239,6 +372,7 @@ function toggle() {
   isDay ? goNight() : goDay();
 }
 
+//// DAY/NIGHT TOGGLE
 function goDay() {
   sun.classList.remove("go-down");
   moon.classList.remove("go-up");
@@ -248,6 +382,12 @@ function goDay() {
 
   sun.classList.add("go-up");
   moon.classList.add("go-down");
+
+  stopRain();
+  showClouds();
+  stopVideo();
+
+  overlay.style.background = "rgb(162 175 200 / 0.85)";
 
   isDay = true;
 }
@@ -262,5 +402,13 @@ function goNight() {
   sun.classList.add("go-down");
   moon.classList.add("go-up");
 
+  startRain();
+  hideClouds();
+  playVideo();
+
+  overlay.style.background = "rgba(20, 20, 20, 0.79)";
+
   isDay = false;
 }
+
+startRain();
