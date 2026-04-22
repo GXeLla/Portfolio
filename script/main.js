@@ -119,7 +119,7 @@ function createCloud() {
 
   // spawn position
   const x = Math.random() * 90 + 5; // 5–95vw
-  const y = Math.random() * 80 + 10; // 10–90vh
+  const y = Math.random() * 75 + 1; // 1–76vh
 
   cloud.style.left = x + "vw";
   cloud.style.top = y + "vh";
