@@ -132,6 +132,23 @@
     opacity: 1;
   }
 }
+@keyframes go-down {
+  0% {
+    transform: translateY(0);
+  }
+  48% {
+    left: 75vw;
+    transform: translateY(-100vh);
+  }
+  49% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+    left: 40vw;
+  }
+}
 
 //cloud animation raining
 @keyframes animateCloud {

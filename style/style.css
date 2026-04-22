@@ -430,6 +430,11 @@ li:hover .border .messages .contact-list li svg {
   animation: go-up 5s forwards;
 }
 
+.sun.go-down, .moon.go-down {
+  position: relative;
+  animation: go-down 5s forwards;
+}
+
 .sun {
   --s: 220px;
   --_d: calc(0.353 * var(--s));
@@ -702,6 +707,23 @@ li:hover .border .messages .contact-list li svg {
   100% {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+@keyframes go-down {
+  0% {
+    transform: translateY(0);
+  }
+  48% {
+    left: 75vw;
+    transform: translateY(-100vh);
+  }
+  49% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+    left: 40vw;
   }
 }
 @keyframes animateCloud {

@@ -468,6 +468,10 @@ body {
   position: fixed;
   animation:   go-up 5s forwards;
 }
+.sun.go-down, .moon.go-down{
+  position: relative;
+  animation: go-down 5s forwards;
+}
 .sun {
   --s: 220px;
   --_d: calc(0.353 * var(--s));
