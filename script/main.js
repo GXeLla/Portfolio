@@ -52,7 +52,7 @@ setTimeout(function () {
   clearInterval(intervalId);
 }, 9000);
 
-// main ourside border rain
+// main outside border rain
 
 const rainContainer = document.querySelector(".rain");
 
@@ -224,3 +224,43 @@ document.querySelector(".close-btn").onclick = () => modal.classList.remove("act
 modal.onclick = (e) => {
   if (e.target === modal) modal.classList.remove("active");
 };
+
+
+// moon - sun toggle
+const moon = document.querySelector(".moon");
+const sun = document.querySelector(".sun");
+
+let isDay = false;
+
+moon.addEventListener("click", toggle);
+sun.addEventListener("click", toggle);
+
+function toggle() {
+  isDay ? goNight() : goDay();
+}
+
+function goDay() {
+  sun.classList.remove("go-down");
+  moon.classList.remove("go-up");
+
+  void sun.offsetWidth;
+  void moon.offsetWidth;
+
+  sun.classList.add("go-up");
+  moon.classList.add("go-down");
+
+  isDay = true;
+}
+
+function goNight() {
+  sun.classList.remove("go-up");
+  moon.classList.remove("go-down");
+
+  void sun.offsetWidth;
+  void moon.offsetWidth;
+
+  sun.classList.add("go-down");
+  moon.classList.add("go-up");
+
+  isDay = false;
+}

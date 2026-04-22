@@ -463,13 +463,15 @@ body {
   }
 }
 
-//sun
+//sun - moon transition
+.sun.go-up , .moon.go-up{
+  position: fixed;
+  animation:   go-up 5s forwards;
+}
 .sun {
   --s: 220px;
   --_d: calc(0.353 * var(--s));
-
-  animation:
-    sun-light 2.5s infinite ease-in-out;
+  animation: sun-light 2.5s infinite ease-in-out;
   filter: blur(0.3px);
   background: radial-gradient(
     circle,
@@ -485,7 +487,7 @@ body {
     0 0 80px 20px rgba(255, 230, 140, 0.4),
     0 0 120px 40px rgba(255, 210, 100, 0.2);
 
-  top: 100vh;
+  transform: translateY(100vh);
 
   //different texture of sun
   &::before {

@@ -52,17 +52,17 @@
 }
 
 // for modal
-    @keyframes zoomIn {
-      from {
-        transform: scale(0.8);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-    
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 // .hide for a footer on loading
 @keyframes showtxt {
   0% {
@@ -98,44 +98,57 @@
 // moon light
 @keyframes moon-light {
   50% {
-    box-shadow: 0px 0px 100px 5px #dfc9bdab, 0 0 55px 7px #72656fdc,
+    box-shadow:
+      0px 0px 100px 5px #dfc9bdab,
+      0 0 55px 7px #72656fdc,
       0px 0px 150px 5px #805a55dc;
   }
 }
 
 // sun light
 
-  @keyframes sun-light {
-    0%,
-    100% {
-      filter: drop-shadow(0 0 5px rgba(255, 245, 200, 0.6));
-    }
-    50% {
-      filter: drop-shadow(0 0 20px rgba(255, 230, 140, 0.9));
-    }
+@keyframes sun-light {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px rgba(255, 245, 200, 0.6));
   }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(255, 230, 140, 0.9));
+  }
+}
+// for moon-sun transition
+
+@keyframes go-up {
+  0% {
+    opacity: 0;
+    left: 40vw;
+    transform: translateY(100vh);
+  }
+  45% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 
 //cloud animation raining
 @keyframes animateCloud {
   0% {
-    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 0 rgb(187, 208, 255))
-      brightness(1);
+    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 0 rgb(187, 208, 255)) brightness(1);
   }
   35% {
-    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 20px #fff5)
-      brightness(10);
+    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 20px #fff5) brightness(10);
   }
   39% {
-    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 0 rgb(187, 208, 255))
-      brightness(1);
+    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 0 rgb(187, 208, 255)) brightness(1);
   }
   45% {
-    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 50px #fff5)
-      brightness(10);
+    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 50px #fff5) brightness(10);
   }
   60% {
-    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 0 rgb(187, 208, 255))
-      brightness(1);
+    filter: drop-shadow(8px 8px 0 #0001) drop-shadow(0 0 0 rgb(187, 208, 255)) brightness(1);
   }
 }
 //raindrops loading screen
@@ -176,6 +189,6 @@
 
 @keyframes fall {
   to {
-    transform: translateY(97vh); 
+    transform: translateY(97vh);
   }
 }
