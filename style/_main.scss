@@ -40,6 +40,21 @@ body {
   transition: background 2.55s ease-out;
 }
 
+// animating for appearing items on scroll
+.timeline-item,
+.faq-item, .container-library {
+  animation: appearOnScroll linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 3%;
+
+}
+.faq-item {
+  animation-range: entry 0% cover 30%;
+}
+.container-library {
+  animation-range: entry 0% cover 10%;
+}
+
 // Mainborder in body
 .border {
   position: fixed;
@@ -324,7 +339,7 @@ body {
   .projects {
     height: 100%;
 
-    .timeline {
+    .container-library {
       position: relative;
       padding-left: 30px;
       display: flex;
@@ -339,6 +354,12 @@ body {
         height: 100%;
         background: rgba(255, 255, 255, 0.25);
       }
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
     }
 
     .timeline-item.text-only {
