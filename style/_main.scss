@@ -12,6 +12,10 @@ body {
   cursor: url(../images/cursor/rsz_neon_energy_cursor--sweezycursors.png), auto;
 }
 
+a {
+  @include pointer;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -42,11 +46,11 @@ body {
 
 // animating for appearing items on scroll
 .timeline-item,
-.faq-item, .container-library {
+.faq-item,
+.container-library {
   animation: appearOnScroll linear;
   animation-timeline: view();
   animation-range: entry 0% cover 3%;
-
 }
 .faq-item {
   animation-range: entry 0% cover 30%;
@@ -94,7 +98,7 @@ body {
       height: 32px;
       align-items: center;
       padding-left: 22px;
-      cursor: pointer;
+      @include pointer;
       transition: 1.15s all;
 
       &:hover {
@@ -374,7 +378,7 @@ body {
     .timeline-item {
       position: relative;
       padding-left: 25px;
-      cursor: pointer;
+      @include pointer;
       transition: 0.3s ease;
 
       &::before {
@@ -447,7 +451,7 @@ body {
       color: white;
       font-size: 18px;
       float: right;
-      cursor: pointer;
+      @include pointer;
     }
 
     .modal-links a {
@@ -459,6 +463,7 @@ body {
       padding: 6px 12px;
       border-radius: 6px;
       text-decoration: none;
+      @include pointer;
 
       &:hover {
         background: rgba(255, 255, 255, 0.1);

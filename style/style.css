@@ -21,6 +21,10 @@ body {
   cursor: url(../images/cursor/rsz_neon_energy_cursor--sweezycursors.png), auto;
 }
 
+a {
+  cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -49,7 +53,8 @@ body {
 }
 
 .timeline-item,
-.faq-item, .container-library {
+.faq-item,
+.container-library {
   animation: appearOnScroll linear;
   animation-timeline: view();
   animation-range: entry 0% cover 3%;
@@ -103,7 +108,7 @@ body {
   height: 32px;
   align-items: center;
   padding-left: 22px;
-  cursor: pointer;
+  cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
   transition: 1.15s all;
 }
 .border .links-group .link:hover {
@@ -344,7 +349,7 @@ li:hover .border .messages .contact-list li svg {
 .border .projects .timeline-item {
   position: relative;
   padding-left: 25px;
-  cursor: pointer;
+  cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
   transition: 0.3s ease;
 }
 .border .projects .timeline-item::before {
@@ -408,7 +413,7 @@ li:hover .border .messages .contact-list li svg {
   color: white;
   font-size: 18px;
   float: right;
-  cursor: pointer;
+  cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
 }
 .border .projects .modal-links a {
   display: inline-block;
@@ -419,6 +424,7 @@ li:hover .border .messages .contact-list li svg {
   padding: 6px 12px;
   border-radius: 6px;
   text-decoration: none;
+  cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
 }
 .border .projects .modal-links a:hover {
   background: rgba(255, 255, 255, 0.1);
