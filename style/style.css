@@ -135,6 +135,7 @@ a {
   padding-left: 15px;
   overflow-y: auto;
   overflow-x: hidden;
+  scroll-behavior: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
 }
@@ -276,6 +277,7 @@ li:hover .border .messages .contact-list li svg {
   fill: white;
   opacity: 0.7;
   transition: opacity 0.3s ease, transform 0.3s ease;
+  cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
 }
 .border .main .message:nth-child(2) .icon.css:hover {
   fill: #663399;
@@ -319,20 +321,64 @@ li:hover .border .messages .contact-list li svg {
   height: 100%;
 }
 .border .projects .container-library {
-  position: relative;
-  padding-left: 30px;
+  position: sticky;
+  top: 0;
+  background: var(--overlay-color, rgba(20, 20, 20, 0.79));
+  padding: 30px 0 30px 0;
   display: flex;
   flex-direction: column;
   gap: 50px;
+  transition: background 2.5s ease;
+}
+.border .projects .container-library:nth-child(1) {
+  top: 0px;
+}
+.border .projects .container-library:nth-child(2) {
+  top: 70px;
+}
+.border .projects .container-library:nth-child(3) {
+  top: 140px;
+}
+.border .projects .container-library:nth-child(4) {
+  top: 210px;
+}
+.border .projects .container-library:nth-child(5) {
+  top: 280px;
+}
+.border .projects .container-library:nth-child(6) {
+  top: 350px;
+}
+.border .projects .container-library:nth-child(7) {
+  top: 420px;
+}
+.border .projects .container-library:nth-child(8) {
+  top: 490px;
+}
+.border .projects .container-library:nth-child(9) {
+  top: 560px;
+}
+.border .projects .container-library:nth-child(10) {
+  top: 630px;
 }
 .border .projects .container-library::before {
   content: "";
   position: absolute;
   left: 8px;
-  top: 0;
+  top: 30px;
   width: 2px;
-  height: 100%;
+  height: calc(100% - 30px);
   background: rgba(255, 255, 255, 0.25);
+}
+.border .projects .container-library::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: var(--overlay-color-tab, rgba(40, 40, 40, 0.85));
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background 2.5s ease;
 }
 .border .projects .timeline {
   display: flex;
@@ -340,6 +386,7 @@ li:hover .border .messages .contact-list li svg {
   gap: 30px;
 }
 .border .projects .timeline-item.text-only {
+  margin-top: 10px;
   font-style: italic;
   opacity: 0.75;
 }
@@ -376,16 +423,12 @@ li:hover .border .messages .contact-list li svg {
   border-radius: 6px;
 }
 .border .projects .timeline-item.text-only {
-  cursor: default;
   opacity: 0.7;
 }
 .border .projects .timeline-item.text-only:hover {
   transform: none;
   background: none;
   backdrop-filter: none;
-}
-.border .projects {
-  /* MODAL */
 }
 .border .projects .modal-overlay {
   position: fixed;

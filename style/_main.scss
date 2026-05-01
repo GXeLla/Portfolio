@@ -130,6 +130,7 @@ a {
     padding-left: 15px;
     overflow-y: auto;
     overflow-x: hidden;
+    scroll-behavior: auto;
 
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
@@ -296,6 +297,7 @@ a {
         transition:
           opacity 0.3s ease,
           transform 0.3s ease;
+        @include pointer;
 
         &.css:hover {
           fill: #663399;
@@ -344,19 +346,40 @@ a {
     height: 100%;
 
     .container-library {
-      position: relative;
-      padding-left: 30px;
+      position: sticky;
+      top: 0;
+      background: var(--overlay-color, rgba(20, 20, 20, 0.79));
+      padding: 30px 0 30px 0;
       display: flex;
       flex-direction: column;
       gap: 50px;
+      transition: background 2.5s ease;
+
+      @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+          top: #{($i - 1) * 70}px;
+        }
+      }
+
       &::before {
         content: "";
         position: absolute;
         left: 8px;
-        top: 0;
+        top: 30px;
         width: 2px;
-        height: 100%;
+        height: calc(100% - 30px);
         background: rgba(255, 255, 255, 0.25);
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 30px;
+        background: var(--overlay-color-tab, rgba(40, 40, 40, 0.85));
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        transition: background 2.5s ease;
       }
     }
 
@@ -367,6 +390,7 @@ a {
     }
 
     .timeline-item.text-only {
+      margin-top: 10px;
       font-style: italic;
       opacity: 0.75;
 
@@ -409,7 +433,6 @@ a {
       }
 
       &.text-only {
-        cursor: default;
         opacity: 0.7;
 
         &:hover {

@@ -389,6 +389,9 @@ function goDay() {
 
   overlay.style.background = "rgb(162 175 200 / 0.85)";
 
+  document.documentElement.style.setProperty("--overlay-color", "rgba(140, 150, 170, 0.85)");
+  document.documentElement.style.setProperty("--overlay-color-tab", "rgba(145, 160, 180, 0.92)");
+
   isDay = true;
 }
 
@@ -408,7 +411,51 @@ function goNight() {
 
   overlay.style.background = "rgba(20, 20, 20, 0.79)";
 
+  document.documentElement.style.setProperty("--overlay-color", "rgba(20, 20, 20, 0.79)");
+  document.documentElement.style.setProperty("--overlay-color-tab", "rgba(40, 40, 40, 0.85)");
+
   isDay = false;
 }
+// for library scrolling on click
+const items = Array.from(document.querySelectorAll(".container-library"));
+const scrollParent = document.querySelector(".messages");
 
+document.querySelectorAll(".timeline-item.text-only").forEach((item) => {
+  item.addEventListener("click", () => {
+    const lib = item.closest(".container-library");
+
+    let offset = 0;
+    const index = items.indexOf(lib);
+
+    for (let i = 0; i < index; i++) {
+      offset += items[i].offsetHeight;
+    }
+
+    smoothScrollTo(scrollParent, offset, 1500);
+  });
+});
+
+// for smooth scrolling
+function smoothScrollTo(container, target, duration = 800) {
+  const start = container.scrollTop;
+  const change = target - start;
+  let startTime = null;
+
+  function animateScroll(currentTime) {
+    if (!startTime) startTime = currentTime;
+
+    const time = currentTime - startTime;
+    const progress = Math.min(time / duration, 1);
+
+    const easeInOut = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+    container.scrollTop = start + change * easeInOut;
+
+    if (time < duration) {
+      requestAnimationFrame(animateScroll);
+    }
+  }
+
+  requestAnimationFrame(animateScroll);
+}
 startRain();
