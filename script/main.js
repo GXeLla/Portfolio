@@ -200,27 +200,52 @@ function createCloud() {
 
 const links = document.querySelectorAll(".link");
 const messages = document.querySelectorAll(".message");
+
 let currentIndex = 0;
 
 links.forEach((link, index) => {
   link.addEventListener("click", () => {
     if (index === currentIndex) return;
-
+    
     // fade out current
     messages[currentIndex].classList.remove("fade-in");
-
+    
     setTimeout(() => {
       messages[currentIndex].classList.remove("active");
-
+      
       // show new
       messages[index].classList.add("active");
-
+      
       requestAnimationFrame(() => {
         messages[index].classList.add("fade-in");
       });
-
+      
       currentIndex = index;
     }, 500); // match CSS transition
+  });
+});
+
+
+//Magnetic move 
+links.forEach((link) => {
+  const strength = 50; // lower = softer movement
+
+  link.addEventListener("mousemove", (e) => {
+    const rect = link.getBoundingClientRect();
+
+    // mouse position relative to center
+    const x = e.clientX - (rect.left + rect.width / 2);
+    const y = e.clientY - (rect.top + rect.height / 2);
+
+    // normalize movement
+    const moveX = (x / rect.width) * strength;
+    const moveY = (y / rect.height) * strength;
+
+    link.style.transform = `translate(${moveX}px, ${moveY}px)`;
+  });
+
+  link.addEventListener("mouseleave", () => {
+    link.style.transform = "translate(0, 0)";
   });
 });
 
