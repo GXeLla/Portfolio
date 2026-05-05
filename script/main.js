@@ -206,29 +206,28 @@ let currentIndex = 0;
 links.forEach((link, index) => {
   link.addEventListener("click", () => {
     if (index === currentIndex) return;
-    
+
     // fade out current
     messages[currentIndex].classList.remove("fade-in");
-    
+
     setTimeout(() => {
       messages[currentIndex].classList.remove("active");
-      
+
       // show new
       messages[index].classList.add("active");
-      
+
       requestAnimationFrame(() => {
         messages[index].classList.add("fade-in");
       });
-      
+
       currentIndex = index;
     }, 500); // match CSS transition
   });
 });
 
-
-//Magnetic move 
+//Magnetic move
 links.forEach((link) => {
-  const strength = 50; // lower = softer movement
+  const strength = 15; // lower = softer movement
 
   link.addEventListener("mousemove", (e) => {
     const rect = link.getBoundingClientRect();

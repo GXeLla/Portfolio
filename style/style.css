@@ -112,7 +112,7 @@ a {
   align-items: center;
   padding-left: 22px;
   cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
-  transition: 1.15s all;
+  transition: all 1.15s cubic-bezier(0.75, 1, 0.6, 1);
 }
 .border .links-group .link:hover {
   background-color: rgba(95, 95, 95, 0.125);
