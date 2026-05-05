@@ -79,7 +79,8 @@ a {
   }
   h1,
   h1 + p {
-    width: 25ch;
+    font-family: "Avenir", sans-serif;
+    width: 30ch;
     color: $textColor;
     padding-left: 2%;
     line-height: 1.2;
@@ -87,6 +88,7 @@ a {
   }
 
   .links-group {
+    font-family: "Avenir", sans-serif;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -192,6 +194,7 @@ a {
           color: $textColor;
           text-decoration: none;
           transition: 0.3s all;
+          font-family: "Bouncy";
 
           &:hover {
             color: #b3a8a8;
@@ -238,6 +241,7 @@ a {
     flex-direction: column;
     line-height: 1.6;
     gap: 20px;
+    font-family: "Avenir", sans-serif;
 
     .faq-item {
       margin-bottom: 20px;
@@ -285,6 +289,7 @@ a {
     .message:nth-child(1) {
       p {
         width: 100%;
+        font-family: "Digitalism", "LCD", monospace;
       }
     }
 
@@ -393,6 +398,11 @@ a {
       margin-top: 10px;
       font-style: italic;
       opacity: 0.75;
+      font-family: "Bouncy";
+
+      &:hover {
+        color: #f8f8f8;
+      }
 
       .title {
         letter-spacing: 0.5px;
@@ -404,6 +414,7 @@ a {
       padding-left: 25px;
       @include pointer;
       transition: 0.3s ease;
+      font-family: "Avenir", sans-serif;
 
       &::before {
         content: "";
@@ -417,6 +428,7 @@ a {
       }
 
       .date {
+        font-family: "Creepster";
         font-size: 13px;
         opacity: 0.6;
       }

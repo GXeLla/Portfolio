@@ -1,3 +1,4 @@
+@import url("https://fonts.cdnfonts.com/css/lcd");
 @font-face {
   font-family: Bouncy;
   src: url(../fonts/Bouncy-PERSONAL_USE_ONLY.otf);
@@ -90,13 +91,15 @@ a {
 }
 .border h1,
 .border h1 + p {
-  width: 25ch;
+  font-family: "Avenir", sans-serif;
+  width: 30ch;
   color: #f2f2f2;
   padding-left: 2%;
   line-height: 1.2;
   font-size: clamp(10px, 1.1vw, 18px);
 }
 .border .links-group {
+  font-family: "Avenir", sans-serif;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -189,6 +192,7 @@ a {
   color: #f2f2f2;
   text-decoration: none;
   transition: 0.3s all;
+  font-family: "Bouncy";
 }
 .border .messages .contact-list li a:hover {
   color: #b3a8a8;
@@ -227,6 +231,7 @@ li:hover .border .messages .contact-list li svg {
   flex-direction: column;
   line-height: 1.6;
   gap: 20px;
+  font-family: "Avenir", sans-serif;
 }
 .border .faq .faq-item {
   margin-bottom: 20px;
@@ -270,6 +275,7 @@ li:hover .border .messages .contact-list li svg {
 }
 .border .main .message:nth-child(1) p {
   width: 100%;
+  font-family: "Digitalism", "LCD", monospace;
 }
 .border .main .message:nth-child(2) .icon {
   width: 22px;
@@ -389,6 +395,10 @@ li:hover .border .messages .contact-list li svg {
   margin-top: 10px;
   font-style: italic;
   opacity: 0.75;
+  font-family: "Bouncy";
+}
+.border .projects .timeline-item.text-only:hover {
+  color: #f8f8f8;
 }
 .border .projects .timeline-item.text-only .title {
   letter-spacing: 0.5px;
@@ -398,6 +408,7 @@ li:hover .border .messages .contact-list li svg {
   padding-left: 25px;
   cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
   transition: 0.3s ease;
+  font-family: "Avenir", sans-serif;
 }
 .border .projects .timeline-item::before {
   content: "";
@@ -410,6 +421,7 @@ li:hover .border .messages .contact-list li svg {
   background: rgba(255, 255, 255, 0.7);
 }
 .border .projects .timeline-item .date {
+  font-family: "Creepster";
   font-size: 13px;
   opacity: 0.6;
 }
@@ -429,6 +441,9 @@ li:hover .border .messages .contact-list li svg {
   transform: none;
   background: none;
   backdrop-filter: none;
+}
+.border .projects {
+  /* MODAL */
 }
 .border .projects .modal-overlay {
   position: fixed;
