@@ -28,6 +28,39 @@
 }
 
 @mixin pointer {
-  cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png),
-    pointer;
+  cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
+}
+
+// press effect mixin
+@mixin pressable($scale: 0.97, $depth: 6px) {
+  position: relative;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  box-shadow: none;
+
+  &:active {
+    transform: translateY($depth) scale($scale);
+
+    box-shadow: 0 $depth 0 #c7bcbc;
+  }
+}
+
+@mixin bounce-press {
+  &:active {
+    animation: pressBounce 0.25s ease;
+  }
+}
+
+@keyframes pressBounce {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(2px) scale(0.96);
+  }
+  100% {
+    transform: translateY(1px) scale(0.98);
+  }
 }

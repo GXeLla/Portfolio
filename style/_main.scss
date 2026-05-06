@@ -100,8 +100,15 @@ a {
       height: 32px;
       align-items: center;
       padding-left: 22px;
+      border-bottom-right-radius: 3px;
+      border-bottom-left-radius: 3px;
       @include pointer;
-      transition: all 1.15s cubic-bezier(0.75, 1, 0.6, 1);
+      @include pressable(0.96, 5px);
+      transition:
+        transform 1.15s cubic-bezier(0.75, 1, 0.6, 1),
+        background 1.15s cubic-bezier(0.75, 1, 0.6, 1),
+        color 1.15s cubic-bezier(0.75, 1, 0.6, 1),
+        box-shadow 0.25s ease;
 
       &:hover {
         background-color: rgba(95, 95, 95, 0.125);
@@ -195,6 +202,7 @@ a {
           text-decoration: none;
           transition: 0.3s all;
           font-family: "Bouncy";
+           @include pressable(0.97, 4px);
 
           &:hover {
             color: #b3a8a8;
@@ -415,6 +423,7 @@ a {
       @include pointer;
       transition: 0.3s ease;
       font-family: "Avenir", sans-serif;
+      @include pressable(0.97, 4px);
 
       &::before {
         content: "";
@@ -487,6 +496,8 @@ a {
       font-size: 18px;
       float: right;
       @include pointer;
+      @include bounce-press;
+      
     }
 
     .modal-links a {
@@ -499,6 +510,8 @@ a {
       border-radius: 6px;
       text-decoration: none;
       @include pointer;
+      @include bounce-press;
+
 
       &:hover {
         background: rgba(255, 255, 255, 0.1);

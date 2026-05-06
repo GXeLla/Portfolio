@@ -11,6 +11,17 @@
   font-family: Creepster;
   src: url(../fonts/Creepster-Regular.ttf);
 }
+@keyframes pressBounce {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(2px) scale(0.96);
+  }
+  100% {
+    transform: translateY(1px) scale(0.98);
+  }
+}
 * {
   margin: 0;
   padding: 0;
@@ -111,8 +122,19 @@ a {
   height: 32px;
   align-items: center;
   padding-left: 22px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
   cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
-  transition: all 1.15s cubic-bezier(0.75, 1, 0.6, 1);
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: none;
+}
+.border .links-group .link:active {
+  transform: translateY(5px) scale(0.96);
+  box-shadow: 0 5px 0 #c7bcbc;
+}
+.border .links-group .link {
+  transition: transform 1.15s cubic-bezier(0.75, 1, 0.6, 1), background 1.15s cubic-bezier(0.75, 1, 0.6, 1), color 1.15s cubic-bezier(0.75, 1, 0.6, 1), box-shadow 0.25s ease;
 }
 .border .links-group .link:hover {
   background-color: rgba(95, 95, 95, 0.125);
@@ -193,6 +215,13 @@ a {
   text-decoration: none;
   transition: 0.3s all;
   font-family: "Bouncy";
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: none;
+}
+.border .messages .contact-list li a:active {
+  transform: translateY(4px) scale(0.97);
+  box-shadow: 0 4px 0 #c7bcbc;
 }
 .border .messages .contact-list li a:hover {
   color: #b3a8a8;
@@ -409,6 +438,13 @@ li:hover .border .messages .contact-list li svg {
   cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
   transition: 0.3s ease;
   font-family: "Avenir", sans-serif;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: none;
+}
+.border .projects .timeline-item:active {
+  transform: translateY(4px) scale(0.97);
+  box-shadow: 0 4px 0 #c7bcbc;
 }
 .border .projects .timeline-item::before {
   content: "";
@@ -473,6 +509,9 @@ li:hover .border .messages .contact-list li svg {
   float: right;
   cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
 }
+.border .projects .close-btn:active {
+  animation: pressBounce 0.25s ease;
+}
 .border .projects .modal-links a {
   display: inline-block;
   margin-top: 12px;
@@ -483,6 +522,9 @@ li:hover .border .messages .contact-list li svg {
   border-radius: 6px;
   text-decoration: none;
   cursor: url(../images/cursor/rsz_neon_energy_pointer--sweezycursors.png), pointer;
+}
+.border .projects .modal-links a:active {
+  animation: pressBounce 0.25s ease;
 }
 .border .projects .modal-links a:hover {
   background: rgba(255, 255, 255, 0.1);
