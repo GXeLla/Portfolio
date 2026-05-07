@@ -22,6 +22,35 @@ A contact section where users can interact directly with contact details. Instea
 - Mobile-friendly tap targets with increased spacing
 
 -----------------------------------------------------------------------------------------
+
+## 2026-05-07 — Mobile UI Improvements (Contacts & FAQ)
+
+### Concept
+Improve mobile responsiveness and readability for key sections of the portfolio, specifically Contacts and FAQ, ensuring content remains clear, properly spaced, and fully visible on smaller screens.
+
+---
+
+### Contacts Section Issues
+- Email address is not fully visible on smaller screens
+- Layout does not adapt well to narrow widths
+
+### Contacts Improvements
+- Ensure email wraps properly or uses responsive scaling
+- Adjust layout to stack elements vertically on mobile
+- Improve tap area size for better mobile usability
+
+---
+
+### FAQ Section Issues
+- Text appears broken, with each word looking isolated or split
+- Line spacing and width constraints reduce readability
+
+### FAQ Improvements
+- Increase container width or adjust size
+- Maintain consistent paragraph flow on all screen sizes
+
+---
+
 -----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
