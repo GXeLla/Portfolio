@@ -114,6 +114,41 @@ a {
         background-color: rgba(95, 95, 95, 0.125);
       }
 
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 15%;
+        width: 2px;
+        height: 70%;
+        background: linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0.2));
+        opacity: 0;
+        transition: 0.35s ease;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0%;
+        top: 0;
+        width: 80%;
+        height: 100%;
+        background: radial-gradient(circle at left, rgba(255, 255, 255, 0.12), transparent 70%);
+        opacity: 0;
+        transition: 0.4s ease;
+      }
+      &:hover::after {
+        opacity: 1;
+      }
+
+      &.active {
+        background-color: rgba(255, 255, 255, 0.05);
+
+        &::before {
+          opacity: 1;
+        }
+      }
+
       p {
         height: 100%;
         color: #c7bcbc;
@@ -202,7 +237,7 @@ a {
           text-decoration: none;
           transition: 0.3s all;
           font-family: "Bouncy";
-           @include pressable(0.97, 4px);
+          @include pressable(0.97, 4px);
 
           &:hover {
             color: #b3a8a8;
@@ -497,7 +532,6 @@ a {
       float: right;
       @include pointer;
       @include bounce-press;
-      
     }
 
     .modal-links a {
@@ -511,7 +545,6 @@ a {
       text-decoration: none;
       @include pointer;
       @include bounce-press;
-
 
       &:hover {
         background: rgba(255, 255, 255, 0.1);

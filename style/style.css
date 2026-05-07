@@ -139,6 +139,37 @@ a {
 .border .links-group .link:hover {
   background-color: rgba(95, 95, 95, 0.125);
 }
+.border .links-group .link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 15%;
+  width: 2px;
+  height: 70%;
+  background: linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0.2));
+  opacity: 0;
+  transition: 0.35s ease;
+}
+.border .links-group .link::after {
+  content: "";
+  position: absolute;
+  left: 0%;
+  top: 0;
+  width: 80%;
+  height: 100%;
+  background: radial-gradient(circle at left, rgba(255, 255, 255, 0.12), transparent 70%);
+  opacity: 0;
+  transition: 0.4s ease;
+}
+.border .links-group .link:hover::after {
+  opacity: 1;
+}
+.border .links-group .link.active {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.border .links-group .link.active::before {
+  opacity: 1;
+}
 .border .links-group .link p {
   height: 100%;
   color: #c7bcbc;

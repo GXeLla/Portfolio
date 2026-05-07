@@ -207,6 +207,12 @@ links.forEach((link, index) => {
   link.addEventListener("click", () => {
     if (index === currentIndex) return;
 
+    // remove active from all links
+    links.forEach((l) => l.classList.remove("active"));
+
+    // set clicked link as active
+    link.classList.add("active");
+
     // fade out current
     messages[currentIndex].classList.remove("fade-in");
 
