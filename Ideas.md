@@ -1,56 +1,61 @@
-# Portfolio Ideas & Experiments
+# Portfolio Roadmap
 
------------------------------------------------------------------------------------------
-## 2026-05-07 — Contact Interaction: Click to Copy 
+Last updated: 2026-08-15
 
-### Concept
-A contact section where users can interact directly with contact details. Instead of static text, phone numbers and emails become interactive elements that support quick actions like copying or opening native apps.
+Only unfinished work is kept here. Finished improvements are represented by the code and commit history.
 
-### Behavior
-- Clicking a phone number copies it to clipboard
-- Clicking an email copies it to clipboard
+## In Progress
 
-### Visual Feedback
-- Small “Copied” tooltip appears near the clicked item
-- Subtle highlight flash on the selected contact item
-- Tooltip fades out automatically after 1–2 seconds
-- Cursor changes to pointer on hover to indicate interactivity
+### Complete the Experience / Workplace Content
 
-### Optional Enhancements
-- Hover state shows “Click to copy” hint
-- Slight scale-up effect on click for tactile feedback
-- Mobile-friendly tap targets with increased spacing
+The section and admin editor are ready, but the real content still needs to be written.
 
------------------------------------------------------------------------------------------
+- Add the company or workplace name.
+- Add the position, employment type, dates, and location or remote status.
+- Write a short role description and the main responsibilities.
+- Add technologies, achievements, and what was learned.
+- Keep the current placeholder until the information is ready to publish.
 
-## 2026-05-07 — Mobile UI Improvements (Contacts & FAQ)
+### Polish Light Mode
 
-### Concept
-Improve mobile responsiveness and readability for key sections of the portfolio, specifically Contacts and FAQ, ensuring content remains clear, properly spaced, and fully visible on smaller screens.
+- Introduce shared theme variables for surfaces, text, borders, highlights, and shadows.
+- Improve contrast in navigation, project cards, Experience, FAQ, Contacts, and the project modal.
+- Refine the light glass effect and reduce overly bright borders.
+- Balance the sun glow so nearby content stays readable.
+- Check keyboard focus and text contrast in every section.
+- Test the complete theme on desktop and mobile.
 
----
+### Fine-Tune Weather on Real Devices
 
-### Contacts Section Issues
-- Email address is not fully visible on smaller screens
-- Layout does not adapt well to narrow widths
+- Test rain landing and splash timing on Safari, Chrome, and mobile devices.
+- Reduce particle quantity automatically on slower devices if needed.
+- Verify the four-mode click cycle after viewport rotation and resizing.
+- Keep reduced-motion behavior calm and usable.
 
-### Contacts Improvements
-- Ensure email wraps properly or uses responsive scaling
-- Adjust layout to stack elements vertically on mobile
-- Improve tap area size for better mobile usability
+## Planned
 
----
+### Add a PDF Version of the Portfolio
 
-### FAQ Section Issues
-- Text appears broken, with each word looking isolated or split
-- Line spacing and width constraints reduce readability
+- Create a clean one- or two-page A4 layout.
+- Include the introduction, skills, experience, education, certification, selected projects, and contacts.
+- Add clickable project, GitHub, LinkedIn, and live-portfolio links.
+- Keep the PDF readable in black and white and use a body font suited to numbers.
+- Add a Download Portfolio PDF button after the Experience content is final.
+- Keep the PDF updated when major project or experience information changes.
 
-### FAQ Improvements
-- Increase container width or adjust size
-- Maintain consistent paragraph flow on all screen sizes
+### Optional Remote Admin in the Future
 
----
+The current editor is intentionally local-only and writes to the project source. A remotely available admin would require real authentication and a backend or a carefully scoped GitHub integration.
 
------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------
+- Choose a hosting/backend solution.
+- Add authenticated access and server-side authorization.
+- Validate and sanitize all edits server-side.
+- Keep an audit or version history and a safe rollback path.
+
+## Suggested Order
+
+1. Write and approve the Experience content.
+2. Finish the light-mode polish.
+3. Test and fine-tune weather on real devices.
+4. Create the PDF.
+5. Consider a remote admin only if editing away from the local project becomes necessary.

@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio</title>
+    <title>Giorgi Khelashvili — Front-End Developer</title>
     <link rel="icon" type="image/png" href="./images/turtle.png" />
-    <link rel="stylesheet" href="./style/style.css" />
+    <link rel="stylesheet" href="./style/style.css?v=8" />
   </head>
   <body>
     <!-- loading screen at start  -->
@@ -44,17 +44,28 @@
     <!-- Main content  -->
 
     <div class="border">
-      <h1>Giorgi Khelashvili</h1>
-      <p>Front End Web Developer</p>
-      <div class="links-group">
-        <div class="link active"><p>Main</p></div>
-        <div class="link"><p>Projects</p></div>
-        <div class="link"><p>FAQ</p></div>
-        <div class="link"><p>Contacts</p></div>
-      </div>
+      <h1 id="portfolio-name">Giorgi Khelashvili</h1>
+      <p id="portfolio-role">Front End Web Developer</p>
+      <nav class="links-group" role="tablist" aria-label="Portfolio sections">
+        <button class="link active" id="tab-main" type="button" role="tab" data-panel="panel-main" aria-controls="panel-main" aria-selected="true">
+          Main
+        </button>
+        <button class="link" id="tab-experience" type="button" role="tab" data-panel="panel-experience" aria-controls="panel-experience" aria-selected="false" tabindex="-1">
+          Experience
+        </button>
+        <button class="link" id="tab-projects" type="button" role="tab" data-panel="panel-projects" aria-controls="panel-projects" aria-selected="false" tabindex="-1">
+          Projects
+        </button>
+        <button class="link" id="tab-faq" type="button" role="tab" data-panel="panel-faq" aria-controls="panel-faq" aria-selected="false" tabindex="-1">
+          FAQ
+        </button>
+        <button class="link" id="tab-contact" type="button" role="tab" data-panel="panel-contact" aria-controls="panel-contact" aria-selected="false" tabindex="-1">
+          Contacts
+        </button>
+      </nav>
 
       <div class="messages main">
-        <div class="message active">
+        <div class="message main-intro active" id="panel-main" role="tabpanel" aria-labelledby="tab-main">
           <p>
             I am a front-end developer learning and building my skills in JavaScript and Angular. Most of my experience
             comes from self-study, school projects, and personal side-projects, where I’ve practiced creating real
@@ -67,11 +78,23 @@
           </p>
         </div>
 
-        <div class="message projects">
+        <div class="message experience" id="panel-experience" role="tabpanel" aria-labelledby="tab-experience">
+          <div class="experience-placeholder">
+            <span class="draft-label">Draft section</span>
+            <h2>Experience details are coming soon.</h2>
+            <p>
+              I’m currently working on this section. I’ll add my role, responsibilities, tools, and the work I’m most
+              proud of here.
+            </p>
+            <p class="draft-note">Placeholder content — ready for me to update later.</p>
+          </div>
+        </div>
+
+        <div class="message projects" id="panel-projects" role="tabpanel" aria-labelledby="tab-projects">
           <section class="timeline">
             <!-- HTML5 -->
 
-            <div class="container-library">
+            <div class="container-library" data-project-group="html">
               <div class="timeline-item text-only">
                 <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon html">
                   <title>HTML5</title>
@@ -122,7 +145,7 @@
 
             <!-- JS journey -->
 
-            <div class="container-library">
+            <div class="container-library" data-project-group="javascript">
               <div class="timeline-item text-only">
                 <svg class="icon js" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <title>JavaScript</title>
@@ -151,7 +174,7 @@
             </div>
 
             <!-- Angular journey -->
-            <div class="container-library">
+            <div class="container-library" data-project-group="angular">
               <div class="timeline-item text-only">
                 <svg class="icon tailwind" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <title>Tailwind CSS</title>
@@ -191,7 +214,7 @@
             </div>
 
             <!-- React journey -->
-            <div class="container-library">
+            <div class="container-library" data-project-group="react">
               <div class="timeline-item text-only">
                 <svg class="icon react" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <title>React</title>
@@ -208,20 +231,26 @@
                 <span class="title">Text Comparison App (React)</span>
               </div>
             </div>
+
+            <!-- Creative development and banner work -->
+            <div class="container-library" data-project-group="banner">
+              <div class="timeline-item text-only">
+                <span class="featured-symbol" aria-hidden="true">◆</span>
+                <span class="date">Creative development</span>
+                <span class="title">Banner &amp; ad work</span>
+              </div>
+
+              <div class="timeline-item featured-project" data-modal="p13">
+                <span class="project-badge">Favourite</span>
+                <span class="date">Aug 10, 2026</span>
+                <span class="title">Motion Shelf — Visual CSS Animation Library</span>
+              </div>
+            </div>
           </section>
 
-          <!-- MODAL -->
-          <div class="modal-overlay" id="modal">
-            <div class="modal-box">
-              <button class="close-btn">✕</button>
-              <h2 id="modal-title"></h2>
-              <p id="modal-desc"></p>
-              <div class="modal-links" id="modal-links"></div>
-            </div>
-          </div>
         </div>
 
-        <div class="message faq">
+        <div class="message faq" id="panel-faq" role="tabpanel" aria-labelledby="tab-faq">
           <!-- FAQ -->
           <div class="faq-item">
             <h3>Where can I find your code?</h3>
@@ -304,55 +333,68 @@
           </div>
         </div>
 
-        <div class="message contact">
-          <h2>Personal Info</h2>
+        <div class="message contact" id="panel-contact" role="tabpanel" aria-labelledby="tab-contact">
+          <h2 id="contact-heading">Personal Info</h2>
           <ul class="contact-list">
-            <li>
-              <!-- Phone icon: simple, bigger, aligned -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.05-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1C10.07 21 3 13.93 3 5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.24 1.05l-2.2 2.2z"
-                />
-              </svg>
-              +995 544 111 895
+            <li class="copyable-contact">
+              <button class="contact-copy" id="contact-phone" type="button" data-copy="+995 544 111 895" aria-label="Copy phone number">
+                <!-- Phone icon: simple, bigger, aligned -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.05-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1C10.07 21 3 13.93 3 5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.24 1.05l-2.2 2.2z"
+                  />
+                </svg>
+                <span class="contact-value" id="contact-phone-value">+995 544 111 895</span>
+                <span class="copy-hint" aria-hidden="true">Click to copy</span>
+              </button>
             </li>
-            <li>
-              <!-- Email icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4z" />
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1"
-                  d="M0 4l8 5 8-5"
-                />
-              </svg>
-              g.xelashvili2001@gmail.com
+            <li class="copyable-contact">
+              <button
+                class="contact-copy"
+                id="contact-email"
+                type="button"
+                data-copy="g.xelashvili2001@gmail.com"
+                aria-label="Copy email address"
+              >
+                <!-- Email icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4z" />
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                    d="M0 4l8 5 8-5"
+                  />
+                </svg>
+                <span class="contact-value" id="contact-email-value">g.xelashvili2001@gmail.com</span>
+                <span class="copy-hint" aria-hidden="true">Click to copy</span>
+              </button>
             </li>
-            <li>
+            <li id="contact-location-item">
               <!-- Location icon -->
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
                 <path
                   d="M8 0C5.243 0 3 2.243 3 5c0 3.75 5 11 5 11s5-7.25 5-11c0-2.757-2.243-5-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
                 />
               </svg>
-              Tbilisi, Georgia
+              <span id="contact-location">Tbilisi, Georgia</span>
             </li>
-            <li>
+            <li id="contact-birth-item">
               <!-- Date of birth icon: new clean calendar -->
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M7 11h5v5H7v-5zm7 0h5v5h-5v-5zM4 2h1V0h2v2h10V0h2v2h1a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 4v16h16V6H4z"
                 />
               </svg>
-              12.05.2001
+              <span id="contact-birth-date">12.05.2001</span>
             </li>
-            <div class="line"></div>
+            <li class="contact-divider" role="separator" aria-hidden="true"></li>
             <li>
               <!-- LinkedIn icon -->
               <a
+                id="contact-linkedin"
                 href="https://www.linkedin.com/in/giorgi-khelashvili-701978248/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -367,7 +409,7 @@
             </li>
             <li>
               <!-- GitHub icon -->
-              <a href="https://github.com/GXeLla/" target="_blank" rel="noopener noreferrer">
+              <a id="contact-github" href="https://github.com/GXeLla/" target="_blank" rel="noopener noreferrer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
                   <path
                     d="M8 0C3.58 0 0 3.582 0 8c0 3.538 2.292 6.533 5.47 7.594.4.074.546-.174.546-.386 0-.19-.007-.693-.01-1.36-2.226.484-2.695-1.073-2.695-1.073-.364-.922-.89-1.168-.89-1.168-.727-.497.055-.487.055-.487.803.056 1.225.825 1.225.825.715 1.223 1.874.87 2.33.665.072-.517.28-.87.508-1.07-1.777-.203-3.644-.888-3.644-3.955 0-.873.31-1.588.823-2.148-.083-.203-.357-1.02.078-2.127 0 0 .672-.215 2.2.82a7.657 7.657 0 0 1 2-.27c.68.003 1.36.092 2 .27 1.527-1.035 2.198-.82 2.198-.82.437 1.107.163 1.924.08 2.127.513.56.822 1.275.822 2.148 0 3.075-1.87 3.75-3.652 3.948.288.247.544.736.544 1.484 0 1.072-.01 1.937-.01 2.2 0 .214.144.463.55.384C13.71 14.533 16 11.538 16 8c0-4.418-3.582-8-8-8z"
@@ -380,9 +422,49 @@
         </div>
       </div>
     </div>
+
+    <div class="project-modal" id="project-modal" aria-hidden="true">
+      <div class="project-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
+        <header class="project-modal-header">
+          <div class="project-modal-heading">
+            <span class="modal-eyebrow">Interactive project preview</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-desc"></p>
+          </div>
+          <div class="project-modal-actions">
+            <a id="modal-external-link" href="#" target="_blank" rel="noopener noreferrer">Open live site ↗</a>
+            <a id="modal-repo-link" href="#" target="_blank" rel="noopener noreferrer" hidden>View source ↗</a>
+            <button class="close-btn" type="button" aria-label="Close project preview">✕</button>
+          </div>
+        </header>
+
+        <div class="project-browser">
+          <div class="browser-bar" aria-hidden="true">
+            <span class="browser-dot red"></span>
+            <span class="browser-dot yellow"></span>
+            <span class="browser-dot green"></span>
+            <span class="browser-address" id="modal-url"></span>
+          </div>
+          <div class="project-frame-wrap">
+            <div class="project-frame-loader" id="project-frame-loader">Loading interactive preview…</div>
+            <iframe
+              id="project-frame"
+              title="Interactive project preview"
+              allow="clipboard-read; clipboard-write; fullscreen"
+              referrerpolicy="strict-origin-when-cross-origin"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy-toast" id="copy-toast" role="status" aria-live="polite">Copied</div>
+
+    <div class="star-field" id="star-field" aria-hidden="true"></div>
+
     <div class="overflow-hidden">
       <!-- moon  -->
-      <div class="moon">
+      <div class="moon" role="button" tabindex="0" aria-label="Show next weather atmosphere">
         <div class="crat crat1"></div>
         <div class="crat crat2"></div>
         <div class="crat crat3"></div>
@@ -391,15 +473,22 @@
         <div class="crat crat6"></div>
         <div class="crat crat7"></div>
         <div class="crat crat8"></div>
+        <div class="crat crat9"></div>
+        <div class="crat crat10"></div>
+        <div class="crat crat11"></div>
+        <div class="crat crat12"></div>
+        <div class="crat crat13"></div>
+        <div class="crat crat14"></div>
       </div>
       <div class="weather"></div>
       <!-- sun  -->
-      <div class="sun"></div>
+      <div class="sun" role="button" tabindex="-1" aria-label="Show next weather atmosphere"></div>
       <!-- <div class="spark spark1"></div>
       <div class="spark spark2"></div>
       <div class="spark spark3"></div>
       <div class="spark spark4"></div> -->
     </div>
-    <script src="./script/main.js?v=2"></script>
+    <script src="./script/portfolio-content.js?v=3"></script>
+    <script src="./script/main.js?v=9"></script>
   </body>
 </html>

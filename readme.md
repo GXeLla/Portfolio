@@ -17,6 +17,7 @@ The project is built using core web technologies without frameworks, allowing fu
 * Light/Dark mode toggle for accessibility and personalization
 * Interactive elements such as hover effects and smooth animations
 * Focus on clean UI and consistent visual experience
+* Local-only content admin that writes approved edits back to the source file
 
 ## Technologies Used
 
@@ -30,9 +31,13 @@ The project is built using core web technologies without frameworks, allowing fu
 The project is organized in a simple and scalable way:
 
 * `index.html` – main structure
-* `styles/` – SCSS files
-* `scripts/` – JavaScript logic
+* `style/` – SCSS and compiled CSS files
+* `script/` – JavaScript logic and editable portfolio content
 * `assets/` – images and static resources
+
+## Local Admin
+
+Run the portfolio locally and add `?admin=1` to the URL to edit content and weather settings. See [ADMIN.md](./ADMIN.md) for the complete workflow and privacy details.
 
 ## Live Demo
 
@@ -55,4 +60,3 @@ Feel free to reach out:
 ---
 
 This project reflects continuous learning, experimentation, and incremental improvement in frontend development.
-
