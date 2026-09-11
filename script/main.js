@@ -1,3 +1,5 @@
+const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+
 // Hide loading bar and cloud
 setTimeout(function () {
   const preloadItems = document.querySelector(".progress-bar-main-container");
@@ -19,6 +21,7 @@ setTimeout(function () {
 
 //cloud raindrops
 function rain() {
+  if (motionPreference.matches || document.hidden) return;
   //creating rain properties
   let cloud = document.querySelector(".cloud");
   let e = document.createElement("div");
@@ -57,6 +60,7 @@ const rainContainer = document.querySelector(".weather");
 const activeRainParticles = new Set();
 
 function createDrop() {
+  if (motionPreference.matches || document.hidden || activeRainParticles.size >= rainParticleLimit) return;
   const containerRect = rainContainer.getBoundingClientRect();
 
   if (containerRect.width === 0 || containerRect.height === 0) return;
@@ -82,8 +86,11 @@ function createDrop() {
   rainContainer.appendChild(particle);
   activeRainParticles.add(particle);
 
-  // The streak's bottom edge lands exactly on the splash line.
-  const landingY = Math.max(containerRect.height - streakHeight, 0);
+  // The visible impact is the splash's TOP border, not the viewport bottom.
+  // Measuring its untransformed layout keeps the existing splash animation and
+  // accounts for its height/border without duplicating those CSS dimensions.
+  const impactY = splash.offsetTop + splash.clientTop / 2;
+  const landingY = Math.max(impactY - streakHeight, 0);
   const fallAnimation = streak.animate(
     [
       {
@@ -256,6 +263,23 @@ const projectSectionTemplates = new Map(
 const PROJECT_SECTIONS_PER_PAGE = 5;
 let currentProjectPage = 0;
 let projectPageBusy = false;
+let projectStackFrame;
+
+function updateProjectStack() {
+  cancelAnimationFrame(projectStackFrame);
+  projectStackFrame = requestAnimationFrame(() => {
+    if (!desktopProjectPagination.matches) return;
+    const folders = Array.from(projectTimeline.querySelectorAll('.project-page:not([hidden]) > .container-library'));
+    const bounds = folders.map(folder => folder.getBoundingClientRect());
+    folders.forEach((folder, index) => {
+      const next = bounds[index + 1];
+      const overlap = next ? Math.max(0, bounds[index].bottom - next.top) : 0;
+      // Transparent sticky cards must not show a covered folder's text through
+      // their surface. Clip only the covered portion, preserving the tab stack.
+      folder.style.clipPath = overlap > 0 ? `inset(0 0 ${overlap}px 0)` : "none";
+    });
+  });
+}
 
 function setContentValue(path, value) {
   const parts = path.split(".");
@@ -420,7 +444,15 @@ function renderExperience() {
     list.appendChild(card);
   });
 
-  panel.replaceChildren(list);
+  const pdfLink = document.createElement("a");
+  pdfLink.className = "experience-pdf-link";
+  pdfLink.href = "./portfolio-print.html";
+  pdfLink.target = "_blank";
+  pdfLink.rel = "noopener";
+  pdfLink.dataset.portfolioPdf = "";
+  pdfLink.textContent = "Download Portfolio PDF ↗";
+  pdfLink.title = "Open the current portfolio and choose Save as PDF";
+  panel.replaceChildren(list, pdfLink);
 }
 
 function renderProjects() {
@@ -609,6 +641,8 @@ function renderProjects() {
   // The desktop page control belongs below the folders and remains visible
   // while the folder stack itself scrolls.
   projectTimeline.replaceChildren(pages, pagination, mobileTopButton);
+  pages.addEventListener("scroll", updateProjectStack, { passive: true });
+  updateProjectStack();
   updateProjectPagination();
 }
 
@@ -666,6 +700,7 @@ async function showProjectPage(targetPage, direction = "forward") {
   updateProjectPagination();
   const projectPagesScroller = projectTimeline.querySelector(".project-pages");
   if (projectPagesScroller) projectPagesScroller.scrollTop = 0;
+  updateProjectStack();
 
   await incoming
     .animate(
@@ -775,6 +810,20 @@ function renderFaq() {
   certificationParagraph.appendChild(certificateLink);
   certifications.append(certificationHeading, certificationParagraph);
 
+  const pdfSection = document.createElement("section");
+  pdfSection.className = "portfolio-pdf";
+  const pdfHeading = document.createElement("h3");
+  pdfHeading.textContent = "Portfolio PDF";
+  const pdfDescription = document.createElement("p");
+  pdfDescription.textContent = "Open the latest version of my portfolio, then choose Save as PDF to keep a copy.";
+  const pdfLink = document.createElement("a");
+  pdfLink.href = "./portfolio-print.html";
+  pdfLink.target = "_blank";
+  pdfLink.rel = "noopener";
+  pdfLink.dataset.portfolioPdf = "";
+  pdfLink.textContent = "Open portfolio PDF ↗";
+  pdfSection.append(pdfHeading, pdfDescription, pdfLink);
+
   fragment.append(
     firstLine,
     opinion,
@@ -782,6 +831,7 @@ function renderFaq() {
     education,
     thirdLine,
     certifications,
+    pdfSection,
   );
   panel.replaceChildren(fragment);
 }
@@ -947,6 +997,7 @@ links.forEach((link, linkIndex) => {
       });
 
       currentPanel = nextPanel;
+      if (nextPanel.id === "panel-projects") updateProjectStack();
     }, 500); // match CSS transition
   });
 
@@ -1101,7 +1152,13 @@ function openProject(item) {
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
   lastModalTrigger = item;
-  closeModalButton.focus();
+  requestAnimationFrame(() => {
+    if (modal.classList.contains("active")) {
+      // Resolve the visibility transition before attempting to focus its child.
+      void modal.offsetWidth;
+      closeModalButton.focus();
+    }
+  });
 }
 
 projectTimeline.addEventListener("click", (event) => {
@@ -1137,6 +1194,11 @@ function closeProjectModal() {
 }
 
 closeModalButton.addEventListener("click", closeProjectModal);
+modal.addEventListener("transitionend", (event) => {
+  if (event.target === modal && event.propertyName === "opacity" && modal.classList.contains("active") && !modal.contains(document.activeElement)) {
+    closeModalButton.focus();
+  }
+});
 modal.onclick = (e) => {
   if (e.target === modal) closeProjectModal();
 };
@@ -1157,7 +1219,7 @@ document.addEventListener("keydown", (event) => {
 
   const focusable = Array.from(
     modal.querySelectorAll("a[href], button:not([disabled]), iframe"),
-  );
+  ).filter(element => !element.hidden && element.getClientRects().length > 0);
   const firstItem = focusable[0];
   const lastItem = focusable[focusable.length - 1];
 
@@ -1226,6 +1288,7 @@ const moon = document.querySelector(".moon");
 const sun = document.querySelector(".sun");
 const bgVideo = document.getElementById("bg_main");
 const starField = document.getElementById("star-field");
+let shootingStarTimer;
 
 const weatherModes = {
   storm: {
@@ -1259,16 +1322,46 @@ let celestialTransitioning = false;
 let borderRainInterval;
 let cloudInterval;
 let rainResizeTimer;
+let rainParticleLimit = 48;
+let weatherPerformanceFrame;
+let weatherSlowFrames = 0;
+let weatherFrameSamples = 0;
+let weatherPreviousFrame;
+let weatherLowPerformance = false;
+
+function measureWeatherPerformance(now) {
+  if (weatherPreviousFrame && now - weatherPreviousFrame > 34) weatherSlowFrames += 1;
+  weatherPreviousFrame = now;
+  weatherFrameSamples += 1;
+  if (weatherFrameSamples >= 120) {
+    if (weatherSlowFrames > 30 && !weatherLowPerformance) {
+      weatherLowPerformance = true;
+      startRain();
+      return;
+    }
+    weatherFrameSamples = 0;
+    weatherSlowFrames = 0;
+  }
+  weatherPerformanceFrame = requestAnimationFrame(measureWeatherPerformance);
+}
 
 function startRain() {
   stopRain();
-
-  const spawnDelay = window.matchMedia("(max-width: 700px)").matches ? 62 : 38;
+  if (motionPreference.matches || document.hidden) return;
+  const constrained = weatherLowPerformance || navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4 || navigator.connection?.saveData;
+  const mobile = window.matchMedia("(max-width: 700px)").matches;
+  rainParticleLimit = constrained ? 12 : mobile ? 24 : 48;
+  const spawnDelay = constrained ? 150 : mobile ? 80 : 45;
   borderRainInterval = setInterval(createDrop, spawnDelay);
+  weatherPreviousFrame = undefined;
+  weatherFrameSamples = 0;
+  weatherSlowFrames = 0;
+  if (!weatherLowPerformance) weatherPerformanceFrame = requestAnimationFrame(measureWeatherPerformance);
 }
 
 function stopRain() {
   clearInterval(borderRainInterval);
+  cancelAnimationFrame(weatherPerformanceFrame);
 
   activeRainParticles.forEach((particle) => {
     particle
@@ -1281,6 +1374,7 @@ function stopRain() {
 
 function showClouds(minDelay = 700, maxDelay = 1250) {
   hideClouds();
+  if (motionPreference.matches || document.hidden) return;
 
   function spawn() {
     createCloud();
@@ -1300,6 +1394,7 @@ function hideClouds() {
 }
 
 function playVideo() {
+  if (motionPreference.matches || document.hidden) return;
   const playPromise = bgVideo.play();
   playPromise?.catch(() => {});
 }
@@ -1328,6 +1423,39 @@ function buildStars() {
   }
 
   starField.appendChild(fragment);
+}
+
+function stopShootingStars() {
+  clearTimeout(shootingStarTimer);
+  shootingStarTimer = undefined;
+  starField.querySelectorAll(".shooting-star").forEach((star) => star.remove());
+}
+
+function scheduleShootingStar() {
+  clearTimeout(shootingStarTimer);
+  if (motionPreference.matches || document.hidden) return;
+
+  // A single star is launched at an intentionally varied interval, so it never
+  // falls into a visible repeating rhythm.
+  shootingStarTimer = setTimeout(() => {
+    if (currentWeather !== "clear-night") return;
+
+    const star = document.createElement("span");
+    star.className = "shooting-star";
+    star.style.setProperty("--shooting-star-x", `${58 + Math.random() * 37}%`);
+    star.style.setProperty("--shooting-star-y", `${6 + Math.random() * 48}%`);
+    star.style.setProperty("--shooting-distance", `${260 + Math.random() * 190}px`);
+    starField.appendChild(star);
+
+    requestAnimationFrame(() => star.classList.add("is-falling"));
+    setTimeout(() => star.remove(), 1400);
+    scheduleShootingStar();
+  }, 10000 + Math.random() * 5000);
+}
+
+function startShootingStars() {
+  stopShootingStars();
+  scheduleShootingStar();
 }
 
 function isSunWeather(mode) {
@@ -1413,6 +1541,10 @@ function prepareCelestialExit(celestial, restingRect) {
 });
 
 function transitionCelestial(showSun, previousWeather, outgoingRect) {
+  if (motionPreference.matches) {
+    settleCelestial();
+    return;
+  }
   const wasShowingSun = previousWeather ? isSunWeather(previousWeather) : null;
 
   if (wasShowingSun === showSun) return;
@@ -1468,6 +1600,7 @@ function setWeather(mode) {
   stopRain();
   hideClouds();
   stopVideo();
+  stopShootingStars();
 
   currentWeather = mode;
   document.body.dataset.weather = mode;
@@ -1482,6 +1615,8 @@ function setWeather(mode) {
     showClouds(720, 1300);
   } else if (mode === "sunset") {
     showClouds(1500, 2600);
+  } else if (mode === "clear-night") {
+    startShootingStars();
   }
 
   updateCelestialAccessibility(showSun);
@@ -1515,11 +1650,45 @@ function showNextWeather() {
 window.addEventListener("resize", () => {
   clearTimeout(rainResizeTimer);
   rainResizeTimer = setTimeout(() => {
+    updateProjectStack();
+    settleCelestial();
+    syncWeatherFrame();
     if (currentWeather === "storm") startRain();
   }, 160);
 });
 
+function settleCelestial() {
+  resetCelestialMotion(sun);
+  resetCelestialMotion(moon);
+  (isSunWeather(currentWeather) ? sun : moon).classList.add("is-visible");
+  celestialTransitioning = false;
+}
+
+function syncWeatherFrame() {
+  const rect = document.querySelector(".border").getBoundingClientRect();
+  rainContainer.style.setProperty("--frame-top", `${rect.top}px`);
+  rainContainer.style.setProperty("--frame-bottom", `${rect.bottom}px`);
+  rainContainer.style.setProperty("--frame-left", `${rect.left}px`);
+  rainContainer.style.setProperty("--frame-right", `${rect.right}px`);
+}
+
+function refreshWeatherMotion() {
+  stopRain();
+  stopShootingStars();
+  hideClouds();
+  stopVideo();
+  settleCelestial();
+  if (motionPreference.matches || document.hidden) return;
+  if (currentWeather === "storm") { startRain(); playVideo(); }
+  else if (currentWeather === "clear-night") startShootingStars();
+  else if (currentWeather === "day") showClouds(720, 1300);
+  else if (currentWeather === "sunset") showClouds(1500, 2600);
+}
+motionPreference.addEventListener("change", refreshWeatherMotion);
+document.addEventListener("visibilitychange", refreshWeatherMotion);
+
 buildStars();
+syncWeatherFrame();
 setWeather(portfolioContent.settings?.defaultWeather || "storm");
 
 const adminRequested =

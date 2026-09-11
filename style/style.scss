@@ -2,6 +2,7 @@
 @use "mixins" as *;
 @use "variables" as *;
 @use "keyframes" as *;
+@use "theme";
 // =============Loading screen ======================
 .loading-container {
   width: 100%;

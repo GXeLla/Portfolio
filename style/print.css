@@ -1,0 +1,23 @@
+@page { size: A4; margin: 14mm; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #202020; background: white; font: 9.5pt/1.4 Arial, Helvetica, sans-serif; font-variant-numeric: tabular-nums; }
+.print-toolbar { display: flex; align-items: center; gap: 16px; max-width: 178mm; margin: 16px auto; padding: 12px; border-bottom: 1px solid #aaa; }
+.print-toolbar button { flex: 0 0 auto; min-height: 44px; padding: 10px 16px; border: 1px solid #222; border-radius: 6px; background: #222; color: white; font: inherit; cursor: pointer; }
+.print-toolbar button:focus-visible { outline: 2px solid #075b9b; outline-offset: 3px; }
+.print-toolbar p { font-size: 9pt; }
+main { max-width: 178mm; margin: 24px auto; padding: 0 12px; }
+h1 { margin: 0; font-size: 28pt; line-height: 1.1; letter-spacing: -0.8pt; }
+.role { margin: 2mm 0 4mm; font-size: 12pt; color: #444; }
+h2 { margin: 4mm 0 2mm; padding-bottom: 1.5mm; border-bottom: 1px solid #bbb; font-size: 9pt; letter-spacing: 1.2pt; text-transform: uppercase; break-after: avoid; }
+h3 { margin: 3mm 0 1mm; font-size: 10.5pt; line-height: 1.35; }
+p { margin: 1.5mm 0; overflow-wrap: anywhere; }
+h1, h2, h3 { overflow-wrap: anywhere; }
+a { color: #171717; text-decoration: underline; overflow-wrap: anywhere; }
+article { break-inside: avoid; }
+.meta { color: #444; font-size: 9pt; }
+.projects article + article { margin-top: 4mm; }
+.contact { display: flex; flex-wrap: wrap; gap: 1mm 4mm; }
+.note { margin-top: 5mm; padding-top: 3mm; border-top: 1px solid #bbb; font-size: 8pt; color: #555; }
+ul { margin: 2mm 0; padding-left: 5mm; }
+@media (max-width: 500px) { .print-toolbar { align-items: flex-start; flex-direction: column; gap: 8px; } }
+@media print { main { margin: 0; padding: 0; max-width: none; } .print-toolbar { display: none; } }

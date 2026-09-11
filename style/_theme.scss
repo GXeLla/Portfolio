@@ -1,0 +1,101 @@
+// Shared palette for the public portfolio; day is the light atmosphere.
+:root {
+  --surface: rgba(45, 45, 45, 0.045);
+  --card: #1b2330;
+  --glass-card: rgba(18, 23, 32, 0.22);
+  --glass-dialog: rgba(18, 23, 32, 0.48);
+  --text: #f2f4f8;
+  --muted: #bac5d5;
+  --edge: rgba(180, 200, 225, 0.28);
+  --highlight: #ffd2aa;
+  --hover: rgba(180, 200, 225, 0.12);
+  --shadow: 0 18px 48px rgba(0, 0, 0, 0.24);
+  --focus: #a8d8ff;
+}
+
+body[data-weather="day"] {
+  color-scheme: light;
+  --surface: rgba(242, 247, 252, 0.16);
+  --card: #edf3f9;
+  --glass-card: rgba(242, 247, 252, 0.18);
+  --glass-dialog: rgba(242, 247, 252, 0.38);
+  --text: #17293e;
+  --muted: #24374e;
+  --edge: rgba(39, 66, 96, 0.25);
+  --highlight: #754115;
+  --hover: rgba(39, 66, 96, 0.09);
+  --shadow: 0 18px 48px rgba(26, 48, 75, 0.12);
+  --focus: #075b9b;
+}
+
+body .border {
+  background: var(--surface);
+  border-color: var(--edge);
+  box-shadow: none;
+  backdrop-filter: none;
+  h1, h1 + p, .messages, .links-group .link,
+  .messages .contact-list li a, .messages .contact-list li .contact-copy,
+  .faq .certifications p a { color: var(--text); }
+  .messages { border-color: var(--edge); scrollbar-color: var(--muted) transparent; }
+  .links-group .link.active, .links-group .link:hover { background: var(--hover); color: var(--text); }
+  .links-group .link::before { background: var(--focus); }
+  .messages .contact-list li svg { fill: currentColor; }
+  .messages .contact-list li .contact-copy { background: var(--hover); }
+  .messages .contact-list li .copy-hint { color: var(--muted); }
+  .main .experience-placeholder {
+    background: var(--card); border-color: var(--edge); box-shadow: var(--shadow);
+  }
+  .main .experience-entry { background: var(--glass-card); border-color: var(--edge); box-shadow: none; backdrop-filter: blur(3px); }
+  .main .experience-placeholder .draft-label,
+  .main .experience-placeholder .draft-note,
+  .main .experience-entry .experience-company,
+  .main .experience-entry .experience-meta { color: var(--muted); border-color: var(--edge); }
+  .main .experience-entry .experience-current { color: var(--text); background: var(--hover); border-color: var(--edge); }
+  .projects .container-library { background: var(--glass-card); box-shadow: none; }
+  .projects .container-library::after { background: var(--glass-card); border-color: var(--edge); }
+  .projects .container-library::before, .projects .timeline-item::before { background: var(--muted); }
+  .projects .timeline-item { overflow-wrap: anywhere; padding-right: 12px; }
+  .projects .timeline-item.text-only { opacity: 1; color: var(--text); }
+  .projects .timeline-item .date { opacity: 1; color: var(--muted); }
+  .main .projects .icon { fill: currentColor; opacity: 1; }
+  .projects .timeline-item:not(.featured-project) .date { margin-right: 8px; }
+  .projects .timeline-item:hover { color: var(--text); background: var(--hover); }
+  .projects .timeline-item.featured-project { background: var(--hover); border-color: var(--edge); box-shadow: var(--shadow); }
+  .projects .project-badge, .projects .featured-symbol { color: var(--highlight); border-color: var(--edge); text-shadow: none; }
+  .projects .project-pagination-label, .projects .project-section-empty { color: var(--muted); }
+  .projects .project-page-buttons button { color: var(--text); background: var(--hover); border-color: var(--edge); }
+  .projects .project-page-buttons button.is-current { color: var(--text); background: var(--hover); border-color: var(--focus); }
+  .faq .line, .messages .contact-list .contact-divider { background: var(--edge); margin-inline: 0; }
+  .faq-item { animation: none; } // Keep every answer readable at the scroll boundaries.
+  .portfolio-pdf { width: 100%; margin-top: 20px; }
+  .portfolio-pdf a { display: inline-flex; min-height: 44px; align-items: center; margin-top: 12px; padding: 10px 14px; border: 1px solid var(--edge); border-radius: 8px; background: var(--hover); color: var(--text); }
+  .experience-pdf-link { display: inline-flex; min-height: 44px; align-items: center; margin-top: 18px; padding: 10px 14px; border: 1px solid var(--edge); border-radius: 8px; background: var(--hover); color: var(--text); }
+  .projects .timeline-item:hover { transform: none; backdrop-filter: none; }
+}
+
+@media (max-width: 768px) {
+  body .border { backdrop-filter: blur(3px); }
+}
+
+body .project-modal { background: rgba(3, 5, 10, 0.28); backdrop-filter: blur(3px); }
+body[data-weather="day"] .project-modal { background: rgba(220, 231, 243, 0.18); }
+body .project-dialog { background: var(--glass-dialog); border-color: var(--edge); box-shadow: none; }
+body .project-modal-heading h2 { color: var(--text); overflow-wrap: anywhere; }
+body .project-modal-heading p, body .project-modal-heading .modal-eyebrow,
+body .browser-address { color: var(--muted); }
+body .project-modal .project-modal-actions :is(a, .close-btn) { color: var(--text); background: var(--hover); border-color: var(--edge); }
+body .browser-bar { background: var(--glass-card); border-color: var(--edge); }
+body .project-frame-loader { color: var(--text); background: var(--card); animation: none; }
+body :is(.border, .project-modal) :focus-visible, body :is(.sun, .moon):focus-visible {
+  outline: 2px solid var(--focus); outline-offset: 2px;
+}
+body .project-modal .project-modal-actions :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+body[data-weather="day"] .sun { box-shadow: 0 0 32px rgba(255, 222, 130, 0.3); }
+body[data-weather="day"] .sun.is-visible { animation: none; filter: drop-shadow(0 0 8px rgba(255, 225, 150, 0.3)); }
+.sun:not(.is-visible):not(.go-up):not(.go-down),
+.moon:not(.is-visible):not(.go-up):not(.go-down) { visibility: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  body *, body *::before, body *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  .loading-container, .weather, #bg_main { display: none !important; }
+}

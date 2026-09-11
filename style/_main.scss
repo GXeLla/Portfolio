@@ -109,8 +109,7 @@ body[data-weather="clear-night"] .video-overlay {
 
 // animating for appearing items on scroll
 .timeline-item,
-.faq-item,
-.container-library {
+.faq-item {
   animation: appearOnScroll linear;
   animation-timeline: view();
   animation-range: entry 0% cover 3%;
@@ -118,9 +117,9 @@ body[data-weather="clear-night"] .video-overlay {
 .faq-item {
   animation-range: entry 0% cover 30%;
 }
-.container-library {
-  animation-range: entry 0% cover 10%;
-}
+// Sticky folders must not scale while they scroll: that also scales all their
+// children and makes the stack appear to jump as the next folder enters.
+.container-library { animation: none; }
 
 // Mainborder in body
 .border {
@@ -242,9 +241,10 @@ body[data-weather="clear-night"] .video-overlay {
     color: #d9d9d9;
     height: 90%;
     border-left: 1px solid;
-    padding-left: 15px;
+    padding: 0 20px 0 15px;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-gutter: stable;
     scroll-behavior: auto;
 
     scrollbar-width: thin;
@@ -278,6 +278,7 @@ body[data-weather="clear-night"] .video-overlay {
     }
 
     .message {
+      min-width: 0;
       display: none;
       opacity: 0;
       transition: opacity 0.5s ease;
@@ -442,10 +443,13 @@ body[data-weather="clear-night"] .video-overlay {
     .faq-item {
       margin-bottom: 20px;
       width: min(100%, 70ch);
+      max-width: 100%;
+      min-width: 0;
 
       h3 {
         margin-bottom: 7px;
         line-height: 1.3;
+        overflow-wrap: anywhere;
       }
 
       p {
@@ -810,8 +814,7 @@ body[data-weather="clear-night"] .video-overlay {
       border-radius: 8px 8px 0 0;
       box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.16);
       transition:
-        background 2.5s ease,
-        box-shadow 0.35s ease;
+        background 0.35s ease;
 
       @for $i from 1 through 5 {
         &:nth-child(#{$i}) {
@@ -1279,6 +1282,25 @@ body[data-weather="clear-night"] .star-field {
     infinite;
 }
 
+.shooting-star {
+  position: absolute;
+  top: var(--shooting-star-y);
+  left: var(--shooting-star-x);
+  width: clamp(90px, 14vw, 150px);
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f6fbff, rgba(193, 220, 255, 0.62) 18%, transparent 78%);
+  box-shadow: 0 0 6px rgba(211, 232, 255, 0.72), 0 0 14px rgba(139, 184, 255, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transform: rotate(-32deg);
+  will-change: transform, opacity;
+
+  &.is-falling {
+    animation: shooting-star 1.15s ease-out forwards;
+  }
+}
+
 .moon,
 .sun {
   position: relative;
@@ -1590,12 +1612,12 @@ body[data-weather="clear-night"] .moon,
     0 0,
     0 100%,
 
-    4% 100%,
-    4% calc(var(--frame-top) + 2px),
-    96% calc(var(--frame-top) + 2px),
-    96% calc(var(--frame-bottom) - 2px),
-    4% calc(var(--frame-bottom) - 2px),
-    4% 100%,
+    var(--frame-left, 4%) 100%,
+    var(--frame-left, 4%) calc(var(--frame-top) + 2px),
+    var(--frame-right, 96%) calc(var(--frame-top) + 2px),
+    var(--frame-right, 96%) calc(var(--frame-bottom) - 2px),
+    var(--frame-left, 4%) calc(var(--frame-bottom) - 2px),
+    var(--frame-left, 4%) 100%,
 
     100% 100%,
     100% 0
@@ -2693,6 +2715,7 @@ body.admin-inline-editing [data-admin-path] {
       padding: 16px 8px 22px;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
       border-left: 0;
+      scrollbar-gutter: stable;
 
       .message.active {
         min-height: 100%;
@@ -3012,5 +3035,9 @@ body.admin-inline-editing [data-admin-path] {
   .star {
     animation: none;
     opacity: 0.72;
+  }
+
+  .shooting-star {
+    display: none;
   }
 }

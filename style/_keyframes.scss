@@ -140,6 +140,20 @@
     filter: drop-shadow(0 0 20px rgba(255, 230, 140, 0.9));
   }
 }
+
+@keyframes shooting-star {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(-32deg);
+  }
+  12% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--shooting-distance) * -1), calc(var(--shooting-distance) * 0.62), 0) rotate(-32deg);
+  }
+}
 // for moon-sun transition
 
 @keyframes go-up {

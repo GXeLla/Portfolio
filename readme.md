@@ -60,3 +60,34 @@ Feel free to reach out:
 ---
 
 This project reflects continuous learning, experimentation, and incremental improvement in frontend development.
+
+## Theme and PDF maintenance
+
+Install development tools with `npm ci`. Compile SCSS with `npm run build:css` after changing styles.
+
+FAQ → **Open portfolio PDF** opens an A4 preview with a **Save as PDF** button.
+Choose Save as PDF in the browser's print dialog. The preview receives the website's current
+content and updates when local admin changes are applied, including new Experience entries,
+selected projects, education, and contacts. The PDF omits FAQ answers and empty Experience placeholders.
+It features at most three projects: favorites first, then Motion Shelf, Idle Loader, and Angular E-shop
+to fill remaining places. Mark a project as Favourite to prioritize it. Known descriptions are polished
+for the PDF; newly edited wording appears as written. Page count grows when Experience content is added.
+Saved PDF files are snapshots; open the FAQ option again to export a newer copy.
+The same PDF preview link appears after Experience when entries have been added; the empty placeholder stays unchanged.
+
+Opened directly, `portfolio-print.html` renders from `script/portfolio-content.js`.
+For an optional checked-in snapshot, generate `assets/portfolio.pdf` with `npm run build:pdf` after installing Chromium with
+`npx playwright install chromium`. Alternatively, point `CHROME_PATH` at an installed Chrome executable.
+The document uses monochrome styling, tabular numbers, and clickable contact/project links.
+
+The FAQ preview needs no manual PDF rebuild. Regenerate the optional snapshot after major changes
+and inspect page breaks before committing it. The website continues to use the local desktop admin at `?admin=1`.
+
+## Weather verification
+
+Rain now targets the splash's visible top border, measured from its layout, rather than the viewport bottom.
+The existing splash animation and timing are unchanged. Chrome geometry checks across 25 drops and five
+viewport sizes measured zero horizontal streak offset and less than 0.02px vertical error. A simulated
+two-core device with 6× CPU throttling stayed within the 12-particle cap. These checks do not replace
+testing on older physical devices. Safari automation was unavailable because “Allow remote automation”
+is disabled; Safari and phone checks remain in `Ideas.md`.

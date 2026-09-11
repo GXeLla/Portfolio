@@ -100,8 +100,7 @@ body[data-weather=clear-night] .video-overlay {
 }
 
 .timeline-item,
-.faq-item,
-.container-library {
+.faq-item {
   animation: appearOnScroll linear;
   animation-timeline: view();
   animation-range: entry 0% cover 3%;
@@ -112,7 +111,7 @@ body[data-weather=clear-night] .video-overlay {
 }
 
 .container-library {
-  animation-range: entry 0% cover 10%;
+  animation: none;
 }
 
 .border {
@@ -226,9 +225,10 @@ body[data-weather=clear-night] .video-overlay {
   color: #d9d9d9;
   height: 90%;
   border-left: 1px solid;
-  padding-left: 15px;
+  padding: 0 20px 0 15px;
   overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-gutter: stable;
   scroll-behavior: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
@@ -248,6 +248,7 @@ body[data-weather=clear-night] .video-overlay {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(200, 200, 200, 0.6));
 }
 .border .messages .message {
+  min-width: 0;
   display: none;
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -396,10 +397,13 @@ li:hover .border .messages .contact-list li svg {
 .border .faq .faq-item {
   margin-bottom: 20px;
   width: min(100%, 70ch);
+  max-width: 100%;
+  min-width: 0;
 }
 .border .faq .faq-item h3 {
   margin-bottom: 7px;
   line-height: 1.3;
+  overflow-wrap: anywhere;
 }
 .border .faq .faq-item p {
   max-width: 100%;
@@ -700,7 +704,7 @@ li:hover .border .messages .contact-list li svg {
   gap: 50px;
   border-radius: 8px 8px 0 0;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.16);
-  transition: background 2.5s ease, box-shadow 0.35s ease;
+  transition: background 0.35s ease;
 }
 .border .projects .container-library:nth-child(1) {
   top: 0px;
@@ -1111,6 +1115,24 @@ body[data-weather=clear-night] .star-field {
   animation: star-twinkle var(--star-speed) ease-in-out var(--star-delay) infinite;
 }
 
+.shooting-star {
+  position: absolute;
+  top: var(--shooting-star-y);
+  left: var(--shooting-star-x);
+  width: clamp(90px, 14vw, 150px);
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f6fbff, rgba(193, 220, 255, 0.62) 18%, transparent 78%);
+  box-shadow: 0 0 6px rgba(211, 232, 255, 0.72), 0 0 14px rgba(139, 184, 255, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transform: rotate(-32deg);
+  will-change: transform, opacity;
+}
+.shooting-star.is-falling {
+  animation: shooting-star 1.15s ease-out forwards;
+}
+
 .moon,
 .sun {
   position: relative;
@@ -1354,7 +1376,7 @@ body[data-weather=clear-night] .moon,
   width: 100vw;
   height: 100svh;
   overflow: hidden;
-  clip-path: polygon(0 0, 0 100%, 4% 100%, 4% calc(var(--frame-top) + 2px), 96% calc(var(--frame-top) + 2px), 96% calc(var(--frame-bottom) - 2px), 4% calc(var(--frame-bottom) - 2px), 4% 100%, 100% 100%, 100% 0);
+  clip-path: polygon(0 0, 0 100%, var(--frame-left, 4%) 100%, var(--frame-left, 4%) calc(var(--frame-top) + 2px), var(--frame-right, 96%) calc(var(--frame-top) + 2px), var(--frame-right, 96%) calc(var(--frame-bottom) - 2px), var(--frame-left, 4%) calc(var(--frame-bottom) - 2px), var(--frame-left, 4%) 100%, 100% 100%, 100% 0);
 }
 @media (max-width: 768px) {
   .weather {
@@ -2289,6 +2311,7 @@ body.admin-inline-editing [data-admin-path]:focus {
     padding: 16px 8px 22px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     border-left: 0;
+    scrollbar-gutter: stable;
   }
   .border .messages .message.active {
     min-height: 100%;
@@ -2549,6 +2572,9 @@ body.admin-inline-editing [data-admin-path]:focus {
     animation: none;
     opacity: 0.72;
   }
+  .shooting-star {
+    display: none;
+  }
 }
 @keyframes animate {
   0% {
@@ -2664,6 +2690,19 @@ body.admin-inline-editing [data-admin-path]:focus {
   }
   50% {
     filter: drop-shadow(0 0 20px rgba(255, 230, 140, 0.9));
+  }
+}
+@keyframes shooting-star {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(-32deg);
+  }
+  12% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--shooting-distance) * -1), calc(var(--shooting-distance) * 0.62), 0) rotate(-32deg);
   }
 }
 @keyframes go-up {
@@ -2819,6 +2858,266 @@ body.admin-inline-editing [data-admin-path]:focus {
     clip-path: inset(0 0 0 0);
     scale: 1;
     filter: blur(0);
+  }
+}
+:root {
+  --surface: rgba(45, 45, 45, 0.045);
+  --card: #1b2330;
+  --glass-card: rgba(18, 23, 32, 0.22);
+  --glass-dialog: rgba(18, 23, 32, 0.48);
+  --text: #f2f4f8;
+  --muted: #bac5d5;
+  --edge: rgba(180, 200, 225, 0.28);
+  --highlight: #ffd2aa;
+  --hover: rgba(180, 200, 225, 0.12);
+  --shadow: 0 18px 48px rgba(0, 0, 0, 0.24);
+  --focus: #a8d8ff;
+}
+
+body[data-weather=day] {
+  color-scheme: light;
+  --surface: rgba(242, 247, 252, 0.16);
+  --card: #edf3f9;
+  --glass-card: rgba(242, 247, 252, 0.18);
+  --glass-dialog: rgba(242, 247, 252, 0.38);
+  --text: #17293e;
+  --muted: #24374e;
+  --edge: rgba(39, 66, 96, 0.25);
+  --highlight: #754115;
+  --hover: rgba(39, 66, 96, 0.09);
+  --shadow: 0 18px 48px rgba(26, 48, 75, 0.12);
+  --focus: #075b9b;
+}
+
+body .border {
+  background: var(--surface);
+  border-color: var(--edge);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+body .border h1, body .border h1 + p, body .border .messages, body .border .links-group .link,
+body .border .messages .contact-list li a, body .border .messages .contact-list li .contact-copy,
+body .border .faq .certifications p a {
+  color: var(--text);
+}
+body .border .messages {
+  border-color: var(--edge);
+  scrollbar-color: var(--muted) transparent;
+}
+body .border .links-group .link.active, body .border .links-group .link:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+body .border .links-group .link::before {
+  background: var(--focus);
+}
+body .border .messages .contact-list li svg {
+  fill: currentColor;
+}
+body .border .messages .contact-list li .contact-copy {
+  background: var(--hover);
+}
+body .border .messages .contact-list li .copy-hint {
+  color: var(--muted);
+}
+body .border .main .experience-placeholder {
+  background: var(--card);
+  border-color: var(--edge);
+  box-shadow: var(--shadow);
+}
+body .border .main .experience-entry {
+  background: var(--glass-card);
+  border-color: var(--edge);
+  box-shadow: none;
+  backdrop-filter: blur(3px);
+}
+body .border .main .experience-placeholder .draft-label,
+body .border .main .experience-placeholder .draft-note,
+body .border .main .experience-entry .experience-company,
+body .border .main .experience-entry .experience-meta {
+  color: var(--muted);
+  border-color: var(--edge);
+}
+body .border .main .experience-entry .experience-current {
+  color: var(--text);
+  background: var(--hover);
+  border-color: var(--edge);
+}
+body .border .projects .container-library {
+  background: var(--glass-card);
+  box-shadow: none;
+}
+body .border .projects .container-library::after {
+  background: var(--glass-card);
+  border-color: var(--edge);
+}
+body .border .projects .container-library::before, body .border .projects .timeline-item::before {
+  background: var(--muted);
+}
+body .border .projects .timeline-item {
+  overflow-wrap: anywhere;
+  padding-right: 12px;
+}
+body .border .projects .timeline-item.text-only {
+  opacity: 1;
+  color: var(--text);
+}
+body .border .projects .timeline-item .date {
+  opacity: 1;
+  color: var(--muted);
+}
+body .border .main .projects .icon {
+  fill: currentColor;
+  opacity: 1;
+}
+body .border .projects .timeline-item:not(.featured-project) .date {
+  margin-right: 8px;
+}
+body .border .projects .timeline-item:hover {
+  color: var(--text);
+  background: var(--hover);
+}
+body .border .projects .timeline-item.featured-project {
+  background: var(--hover);
+  border-color: var(--edge);
+  box-shadow: var(--shadow);
+}
+body .border .projects .project-badge, body .border .projects .featured-symbol {
+  color: var(--highlight);
+  border-color: var(--edge);
+  text-shadow: none;
+}
+body .border .projects .project-pagination-label, body .border .projects .project-section-empty {
+  color: var(--muted);
+}
+body .border .projects .project-page-buttons button {
+  color: var(--text);
+  background: var(--hover);
+  border-color: var(--edge);
+}
+body .border .projects .project-page-buttons button.is-current {
+  color: var(--text);
+  background: var(--hover);
+  border-color: var(--focus);
+}
+body .border .faq .line, body .border .messages .contact-list .contact-divider {
+  background: var(--edge);
+  margin-inline: 0;
+}
+body .border .faq-item {
+  animation: none;
+}
+body .border .portfolio-pdf {
+  width: 100%;
+  margin-top: 20px;
+}
+body .border .portfolio-pdf a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-top: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--edge);
+  border-radius: 8px;
+  background: var(--hover);
+  color: var(--text);
+}
+body .border .experience-pdf-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-top: 18px;
+  padding: 10px 14px;
+  border: 1px solid var(--edge);
+  border-radius: 8px;
+  background: var(--hover);
+  color: var(--text);
+}
+body .border .projects .timeline-item:hover {
+  transform: none;
+  backdrop-filter: none;
+}
+
+@media (max-width: 768px) {
+  body .border {
+    backdrop-filter: blur(3px);
+  }
+}
+body .project-modal {
+  background: rgba(3, 5, 10, 0.28);
+  backdrop-filter: blur(3px);
+}
+
+body[data-weather=day] .project-modal {
+  background: rgba(220, 231, 243, 0.18);
+}
+
+body .project-dialog {
+  background: var(--glass-dialog);
+  border-color: var(--edge);
+  box-shadow: none;
+}
+
+body .project-modal-heading h2 {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+body .project-modal-heading p, body .project-modal-heading .modal-eyebrow,
+body .browser-address {
+  color: var(--muted);
+}
+
+body .project-modal .project-modal-actions :is(a, .close-btn) {
+  color: var(--text);
+  background: var(--hover);
+  border-color: var(--edge);
+}
+
+body .browser-bar {
+  background: var(--glass-card);
+  border-color: var(--edge);
+}
+
+body .project-frame-loader {
+  color: var(--text);
+  background: var(--card);
+  animation: none;
+}
+
+body :is(.border, .project-modal) :focus-visible, body :is(.sun, .moon):focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+body .project-modal .project-modal-actions :focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+body[data-weather=day] .sun {
+  box-shadow: 0 0 32px rgba(255, 222, 130, 0.3);
+}
+
+body[data-weather=day] .sun.is-visible {
+  animation: none;
+  filter: drop-shadow(0 0 8px rgba(255, 225, 150, 0.3));
+}
+
+.sun:not(.is-visible):not(.go-up):not(.go-down),
+.moon:not(.is-visible):not(.go-up):not(.go-down) {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body *, body *::before, body *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .loading-container, .weather, #bg_main {
+    display: none !important;
   }
 }
 .loading-container {
