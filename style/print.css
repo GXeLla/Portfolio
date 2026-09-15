@@ -1,23 +1,60 @@
-@page { size: A4; margin: 14mm; }
+@page { size: A4; margin: 12mm; }
+:root { --ink: #191d1c; --muted: #626967; --accent: #326c60; --line: #dce1de; --paper: #fff; }
 * { box-sizing: border-box; }
-body { margin: 0; color: #202020; background: white; font: 9.5pt/1.4 Arial, Helvetica, sans-serif; font-variant-numeric: tabular-nums; }
-.print-toolbar { display: flex; align-items: center; gap: 16px; max-width: 178mm; margin: 16px auto; padding: 12px; border-bottom: 1px solid #aaa; }
-.print-toolbar button { flex: 0 0 auto; min-height: 44px; padding: 10px 16px; border: 1px solid #222; border-radius: 6px; background: #222; color: white; font: inherit; cursor: pointer; }
-.print-toolbar button:focus-visible { outline: 2px solid #075b9b; outline-offset: 3px; }
-.print-toolbar p { font-size: 9pt; }
-main { max-width: 178mm; margin: 24px auto; padding: 0 12px; }
-h1 { margin: 0; font-size: 28pt; line-height: 1.1; letter-spacing: -0.8pt; }
-.role { margin: 2mm 0 4mm; font-size: 12pt; color: #444; }
-h2 { margin: 4mm 0 2mm; padding-bottom: 1.5mm; border-bottom: 1px solid #bbb; font-size: 9pt; letter-spacing: 1.2pt; text-transform: uppercase; break-after: avoid; }
-h3 { margin: 3mm 0 1mm; font-size: 10.5pt; line-height: 1.35; }
-p { margin: 1.5mm 0; overflow-wrap: anywhere; }
+body { margin: 0; color: var(--ink); background: #e9ece9; font: 9pt/1.5 Arial, Helvetica, sans-serif; font-variant-numeric: tabular-nums; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.print-toolbar { display: flex; align-items: center; gap: 20px; max-width: 210mm; margin: 20px auto; padding: 0 24px; }
+.print-toolbar button { flex: 0 0 auto; min-height: 44px; padding: 10px 20px; border: 1px solid var(--ink); border-radius: 4px; background: var(--ink); color: white; font: inherit; cursor: pointer; }
+.print-toolbar p { color: var(--muted); max-width: 115mm; font-size: 9pt; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+main { width: 210mm; min-height: 297mm; margin: 24px auto 40px; padding: 12mm; background: var(--paper); box-shadow: 0 8px 40px #19251f14; }
+.document-header { padding: 7mm 8mm 6mm; color: white; background: var(--ink); border-top: 1.5mm solid var(--accent); break-inside: avoid; }
+.masthead, .header-bottom, .project-meta, .document-footer { display: flex; justify-content: space-between; align-items: center; gap: 4mm; }
+.eyebrow { font-size: 7pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1.7pt; color: #c9d4cf; }
+.monogram { font-size: 14pt; letter-spacing: -1pt; color: #a8c5bb; }
+h1 { margin: 6mm 0 4mm; max-width: 145mm; font-size: 36pt; font-weight: 700; line-height: 1.02; letter-spacing: -1.8pt; }
+.role { margin: 0; font-size: 12pt; }
+.location { color: #c9d4cf; font-size: 8pt; }
+.document-layout { display: grid; grid-template-columns: 48mm minmax(0, 1fr); gap: 8mm; margin-top: 8mm; }
+.document-sidebar { padding-right: 5mm; border-right: 1px solid var(--line); font-size: 8pt; }
+section + section { margin-top: 7mm; }
+h2 { margin: 0 0 3.5mm; color: var(--accent); font-size: 7.5pt; font-weight: 700; letter-spacing: 1.2pt; text-transform: uppercase; break-after: avoid; }
+h3 { margin: 0 0 1.5mm; font-size: 13pt; line-height: 1.2; letter-spacing: -0.25pt; break-after: avoid; }
+p { margin: 0 0 2.5mm; overflow-wrap: anywhere; }
 h1, h2, h3 { overflow-wrap: anywhere; }
-a { color: #171717; text-decoration: underline; overflow-wrap: anywhere; }
+a { color: inherit; text-decoration-color: #a3b6ae; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.contact > a { display: block; margin-bottom: 2.5mm; }
+.social-links { display: flex; flex-wrap: wrap; gap: 2mm 4mm; margin-bottom: 2.5mm; }
+.skills { display: flex; flex-wrap: wrap; gap: 1.5mm; margin: 0; padding: 0; list-style: none; }
+.skills li { padding: 1mm 2mm; background: #f0f3f1; border: 1px solid #e1e7e3; font-size: 7.5pt; line-height: 1.35; }
+.education article + article { margin-top: 4mm; }
+.document-sidebar h3 { font-size: 9pt; line-height: 1.35; letter-spacing: 0; }
+.document-sidebar p { margin-bottom: 1mm; }
+.meta { color: var(--muted); font-size: 7.5pt; }
+.profile p + p { color: #4d5551; }
 article { break-inside: avoid; }
-.meta { color: #444; font-size: 9pt; }
-.projects article + article { margin-top: 4mm; }
-.contact { display: flex; flex-wrap: wrap; gap: 1mm 4mm; }
-.note { margin-top: 5mm; padding-top: 3mm; border-top: 1px solid #bbb; font-size: 8pt; color: #555; }
-ul { margin: 2mm 0; padding-left: 5mm; }
-@media (max-width: 500px) { .print-toolbar { align-items: flex-start; flex-direction: column; gap: 8px; } }
-@media print { main { margin: 0; padding: 0; max-width: none; } .print-toolbar { display: none; } }
+.projects article { padding: 3.5mm 0; border-top: 1px solid var(--line); }
+.projects article:last-child { padding-bottom: 0; }
+.project-meta { margin-bottom: 2mm; }
+.project-number { color: var(--accent); font-size: 7pt; font-weight: 700; letter-spacing: 1pt; }
+.project-links { display: flex; flex-wrap: wrap; gap: 2mm 5mm; margin-top: 2.5mm; font-size: 7.5pt; font-weight: 700; }
+.experience article + article { margin-top: 4mm; }
+ul { margin: 2mm 0; padding-left: 4mm; }
+.document-footer { margin-top: 8mm; padding-top: 3mm; border-top: 1px solid var(--ink); font-size: 7pt; color: var(--muted); break-inside: avoid; }
+.document-footer a { color: var(--ink); text-decoration: none; }
+@media screen and (max-width: 820px) {
+  main { width: calc(100% - 24px); min-height: 0; padding: 7mm; }
+}
+@media screen and (max-width: 580px) {
+  .print-toolbar { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .document-header { padding: 5mm; }
+  h1 { font-size: 30pt; }
+  .header-bottom { align-items: flex-start; flex-direction: column; gap: 2mm; }
+  .document-layout { grid-template-columns: 1fr; gap: 7mm; }
+  .document-sidebar { padding-right: 0; padding-bottom: 6mm; border-right: 0; border-bottom: 1px solid var(--line); }
+  .document-footer { align-items: flex-start; flex-direction: column; gap: 2mm; }
+}
+@media print {
+  body { background: white; }
+  main { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; }
+  .print-toolbar { display: none; }
+}

@@ -8,7 +8,8 @@ const { pathToFileURL } = require('node:url');
     const page = await browser.newPage();
     await page.goto(pathToFileURL(path.resolve(__dirname, '../portfolio-print.html')).href);
     await page.waitForSelector('html[data-ready="true"]');
-    await page.pdf({ path: path.resolve(__dirname, '../assets/portfolio.pdf'), format: 'A4', preferCSSPageSize: true, printBackground: false });
+    await page.evaluate(() => document.fonts.ready);
+    await page.pdf({ path: path.resolve(__dirname, '../assets/portfolio.pdf'), format: 'A4', preferCSSPageSize: true, printBackground: true });
     console.log('Generated assets/portfolio.pdf from current portfolio content. Review pagination before publishing.');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

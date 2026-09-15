@@ -78,7 +78,10 @@ The same PDF preview link appears after Experience when entries have been added;
 Opened directly, `portfolio-print.html` renders from `script/portfolio-content.js`.
 For an optional checked-in snapshot, generate `assets/portfolio.pdf` with `npm run build:pdf` after installing Chromium with
 `npx playwright install chromium`. Alternatively, point `CHROME_PATH` at an installed Chrome executable.
-The document uses monochrome styling, tabular numbers, and clickable contact/project links.
+The document uses an original black-and-white A4 layout with a muted teal accent, a dark nameplate,
+a contact/toolkit sidebar, and numbered project entries. Contact and project links remain clickable.
+The current content fits one page; longer experience content flows onto additional pages.
+Both the preview print styles and snapshot generator preserve background colors in the PDF.
 
 The FAQ preview needs no manual PDF rebuild. Regenerate the optional snapshot after major changes
 and inspect page breaks before committing it. The website continues to use the local desktop admin at `?admin=1`.

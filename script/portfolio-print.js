@@ -40,60 +40,84 @@ function renderPortfolioDocument(content) {
     node.target = "_blank";
     node.rel = "noopener noreferrer";
   };
-  element("h1", profile.name);
-  element("p", profile.role, root, "role");
-  const contacts = element("div", "", root, "contact");
-  element("span", profile.contact.location, contacts);
+  const header = element("header", "", root, "document-header");
+  const masthead = element("div", "", header, "masthead");
+  element("span", "Portfolio / Development", masthead, "eyebrow");
+  element("span", "GK /", masthead, "monogram").setAttribute("aria-hidden", "true");
+  element("h1", profile.name, header);
+  const headerBottom = element("div", "", header, "header-bottom");
+  element("p", profile.role, headerBottom, "role");
+  element("span", profile.contact.location, headerBottom, "location");
+
+  const layout = element("div", "", root, "document-layout");
+  const sidebar = element("aside", "", layout, "document-sidebar");
+  const section = (title, parent, className = "") => {
+    const node = element("section", "", parent, className);
+    element("h2", title, node);
+    return node;
+  };
+  const contacts = section("Contact", sidebar, "contact");
   link(profile.contact.email, `mailto:${profile.contact.email}`, contacts);
   link(profile.contact.phone, `tel:${profile.contact.phone.replace(/\s/g, "")}`, contacts);
-  link("GitHub", profile.contact.github, contacts);
-  link("LinkedIn", profile.contact.linkedin, contacts);
-  link("Live portfolio", livePortfolio, contacts);
-  element("h2", "Profile");
-  profile.intro.forEach(text => element("p", text));
-  element("h2", "Skills");
+  const social = element("div", "", contacts, "social-links");
+  link("GitHub ↗", profile.contact.github, social);
+  link("LinkedIn ↗", profile.contact.linkedin, social);
+  link("Online portfolio ↗", livePortfolio, contacts);
+
+  const skillsSection = section("Toolkit", sidebar);
   const skills = new Set(profile.skills || ["HTML", "CSS / SCSS", "JavaScript", "Angular", "React", "Tailwind CSS", "Responsive interfaces", "CSS animation"]);
   content.experience.forEach(entry => (entry.technologies || []).forEach(skill => skills.add(skill)));
-  element("p", [...skills].join(" · "));
-  if (content.experience.length) element("h2", "Experience");
-  content.experience.forEach(entry => {
-    const article = element("article", "");
-    element("h3", `${entry.role} — ${entry.company}`, article);
-    element("p", [entry.dates, entry.employmentType, entry.location].filter(Boolean).join(" · "), article, "meta");
-    element("p", entry.description, article);
-    if (entry.responsibilities?.length) {
-      const list = element("ul", "", article);
-      entry.responsibilities.forEach(text => element("li", text, list));
-    }
-    if (entry.technologies?.length) element("p", entry.technologies.join(" · "), article, "meta");
-  });
-  element("h2", profile.educationHeading);
+  const skillList = element("ul", "", skillsSection, "skills");
+  skills.forEach(skill => element("li", skill, skillList));
+
+  const education = section(profile.educationHeading, sidebar, "education");
   profile.education.forEach(entry => {
-    const article = element("article", "");
-    element("h3", `${entry.degree} — ${entry.institution}`, article);
-    element("p", [entry.period, polish(entry.note)].filter(Boolean).join(" · "), article, "meta");
+    const article = element("article", "", education);
+    element("p", entry.period, article, "meta");
+    element("h3", entry.degree, article);
+    element("p", entry.institution, article);
+    if (entry.note) element("p", entry.note, article, "meta");
   });
-  element("h2", profile.certification.heading);
-  link(profile.certification.label, profile.certification.url, root);
-  const projects = element("section", "", root, "projects");
-  element("h2", "Selected projects", projects);
+  const certification = section(profile.certification.heading, sidebar);
+  link(profile.certification.label, profile.certification.url, certification);
+
+  const body = element("div", "", layout, "document-body");
+  const about = section("01 / Profile", body, "profile");
+  profile.intro.forEach(text => element("p", text, about));
+  if (content.experience.length) {
+    const experience = section("02 / Experience", body, "experience");
+    content.experience.forEach(entry => {
+      const article = element("article", "", experience);
+      element("h3", `${entry.role} — ${entry.company}`, article);
+      element("p", [entry.dates, entry.employmentType, entry.location].filter(Boolean).join(" · "), article, "meta");
+      element("p", entry.description, article);
+      if (entry.responsibilities?.length) {
+        const list = element("ul", "", article);
+        entry.responsibilities.forEach(text => element("li", text, list));
+      }
+      if (entry.technologies?.length) element("p", entry.technologies.join(" · "), article, "meta");
+    });
+  }
+  const projects = section(`${content.experience.length ? "03" : "02"} / Selected work`, body, "projects");
   // Favorites are the owner's selection signal. Fill remaining places with
   // the strongest current projects, and never show more than three.
   const preferred = ["p13", "p12", "p8"];
   const rank = project => preferred.includes(project.id) ? preferred.indexOf(project.id) : preferred.length;
   const selected = [...content.projects].sort((a, b) => Number(Boolean(b.favorite)) - Number(Boolean(a.favorite)) || rank(a) - rank(b)).slice(0, 3);
-  selected.forEach(project => {
+  selected.forEach((project, index) => {
     const article = element("article", "", projects);
+    const metadata = element("div", "", article, "project-meta");
+    element("span", `P / ${String(index + 1).padStart(2, "0")}`, metadata, "project-number");
+    element("span", project.date, metadata, "meta");
     element("h3", project.title, article);
-    element("p", project.date, article, "meta");
     element("p", project.description, article);
-    const links = element("div", "", article, "contact");
+    const links = element("div", "", article, "project-links");
     if (project.liveUrl) link("View live project", project.liveUrl, links);
     if (project.repoUrl) link("Source on GitHub", project.repoUrl, links);
   });
-  const footer = element("p", "Explore more work on ", root, "note");
-  link("my portfolio", livePortfolio, footer);
-  footer.append(document.createTextNode(` · Updated ${new Date().toISOString().slice(0, 10)}`));
+  const footer = element("footer", "", root, "document-footer");
+  link("More work & experiments ↗", livePortfolio, footer);
+  element("span", `Updated / ${new Date().toISOString().slice(0, 10)}`, footer);
   document.documentElement.dataset.ready = "true";
 }
 
