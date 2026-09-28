@@ -1,6 +1,12 @@
 name: Sync public GitHub projects
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/sync-github-projects.yml
+      - script/sync-github-projects.cjs
   schedule:
     - cron: "17 * * * *"
   workflow_dispatch:
