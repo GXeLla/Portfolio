@@ -1,0 +1,36 @@
+name: Sync public GitHub projects
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Build the managed project list
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node script/sync-github-projects.cjs
+      - name: Commit changed project data
+        run: |
+          if git diff --quiet -- script/github-projects.js; then
+            exit 0
+          fi
+          previous="$(git log -1 --format=%s)"
+          version="$(node -e 'const previous = process.argv[1]; const match = previous.match(/^Portfolio V(\d+(?:\.\d+)*)$/); const parts = match ? match[1].split(".").map(Number) : [0, 0]; if (parts.length < 3) parts.push(1); else parts[parts.length - 1] += 1; console.log(`Portfolio V${parts.join(".")}`);' "$previous")"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add script/github-projects.js
+          git commit -m "$version"
+          git push

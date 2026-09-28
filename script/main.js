@@ -238,6 +238,41 @@ let portfolioContent =
     ? structuredClone(sourcePortfolioContent)
     : JSON.parse(JSON.stringify(sourcePortfolioContent));
 
+function normaliseUrl(value) {
+  try {
+    const url = new URL(value);
+    return `${url.origin}${url.pathname}`.replace(/\/$/, "").toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+// Handwritten projects retain their wording, chosen date, group, and live URL.
+// The generated list fills in public repositories that do not already have a
+// matching manual project.
+const generatedGithubProjects = Array.isArray(window.GITHUB_PROJECTS)
+  ? window.GITHUB_PROJECTS
+  : [];
+const manualProjects = Array.isArray(portfolioContent.projects)
+  ? portfolioContent.projects
+  : [];
+const managedProjects = generatedGithubProjects.filter((generatedProject) =>
+  !manualProjects.some((manualProject) => {
+    const sameRepository =
+      normaliseUrl(manualProject.repoUrl) ===
+      normaliseUrl(generatedProject.repoUrl);
+    const manualLiveUrl = normaliseUrl(manualProject.liveUrl);
+    const generatedLiveUrl = normaliseUrl(generatedProject.liveUrl);
+    const sameLiveSite =
+      manualLiveUrl &&
+      generatedLiveUrl &&
+      (manualLiveUrl === generatedLiveUrl ||
+        manualLiveUrl.startsWith(`${generatedLiveUrl}/`));
+    return sameRepository || sameLiveSite;
+  }),
+);
+portfolioContent.projects = [...manualProjects, ...managedProjects];
+
 function setEditableText(element, value, path) {
   element.textContent = value ?? "";
   element.dataset.adminPath = path;
@@ -260,7 +295,14 @@ const projectSectionTemplates = new Map(
     group.querySelector(".timeline-item.text-only")?.cloneNode(true) || null,
   ]),
 );
-const PROJECT_SECTIONS_PER_PAGE = 5;
+const technologyIconTemplates = new Map(
+  Array.from(projectTimeline.querySelectorAll(".icon")).flatMap((icon) =>
+    Array.from(icon.classList)
+      .filter((className) => className !== "icon")
+      .map((className) => [className, icon.cloneNode(true)]),
+  ),
+);
+const PROJECTS_PER_PAGE = 10;
 let currentProjectPage = 0;
 let projectPageBusy = false;
 let projectStackFrame;
@@ -491,11 +533,54 @@ function renderProjects() {
   });
 
   const sections = portfolioContent.projectSections;
+  const projectPages = [];
+  let currentPageSections = [];
+  let projectsOnCurrentPage = 0;
+
+  sections.forEach((section) => {
+    const orderedProjects = projects
+      .filter((project) => project.group === section.id)
+      .sort((first, second) => {
+        const firstDate = Date.parse(first.date || "") || 0;
+        const secondDate = Date.parse(second.date || "") || 0;
+        return firstDate - secondDate;
+      });
+
+    // Keep an empty section visible for the local admin, but never split a
+    // real journey heading away from all of its project entries.
+    if (orderedProjects.length === 0) {
+      currentPageSections.push({ section, projects: [] });
+      return;
+    }
+
+    let remainingProjects = orderedProjects;
+    while (remainingProjects.length) {
+      if (projectsOnCurrentPage === PROJECTS_PER_PAGE) {
+        projectPages.push(currentPageSections);
+        currentPageSections = [];
+        projectsOnCurrentPage = 0;
+      }
+
+      const spaceLeft = PROJECTS_PER_PAGE - projectsOnCurrentPage;
+      const pageProjects = remainingProjects.slice(0, spaceLeft);
+      currentPageSections.push({ section, projects: pageProjects });
+      projectsOnCurrentPage += pageProjects.length;
+      remainingProjects = remainingProjects.slice(pageProjects.length);
+
+      if (projectsOnCurrentPage === PROJECTS_PER_PAGE) {
+        projectPages.push(currentPageSections);
+        currentPageSections = [];
+        projectsOnCurrentPage = 0;
+      }
+    }
+  });
+
+  if (currentPageSections.length || projectPages.length === 0) {
+    projectPages.push(currentPageSections);
+  }
+
   const usesPagedProjects = desktopProjectPagination.matches;
-  const pageCount = Math.max(
-    1,
-    Math.ceil(sections.length / PROJECT_SECTIONS_PER_PAGE),
-  );
+  const pageCount = projectPages.length;
   currentProjectPage = usesPagedProjects
     ? Math.min(currentProjectPage, pageCount - 1)
     : 0;
@@ -520,8 +605,11 @@ function renderProjects() {
     pageButton.textContent = String(pageIndex + 1);
     pageButton.setAttribute("aria-label", `Open project page ${pageIndex + 1}`);
     pageButton.addEventListener("click", () => {
-      if (pageIndex >= currentProjectPage) return;
-      showProjectPage(pageIndex, "backward");
+      if (pageIndex === currentProjectPage) return;
+      showProjectPage(
+        pageIndex,
+        pageIndex > currentProjectPage ? "forward" : "backward",
+      );
     });
     pageButtons.appendChild(pageButton);
 
@@ -530,12 +618,9 @@ function renderProjects() {
     page.dataset.projectPagePanel = String(pageIndex);
     page.hidden = usesPagedProjects && pageIndex !== currentProjectPage;
 
-    const pageSections = sections.slice(
-      pageIndex * PROJECT_SECTIONS_PER_PAGE,
-      (pageIndex + 1) * PROJECT_SECTIONS_PER_PAGE,
-    );
+    const pageSections = projectPages[pageIndex];
 
-    pageSections.forEach((section) => {
+    pageSections.forEach(({ section, projects: sectionProjects }) => {
       const sectionIndex = sections.indexOf(section);
       const group = document.createElement("section");
       const template = projectSectionTemplates.get(section.id);
@@ -577,9 +662,6 @@ function renderProjects() {
       );
       group.appendChild(header);
 
-      const sectionProjects = projects.filter(
-        (project) => project.group === section.id,
-      );
       sectionProjects.forEach((project) => {
         const projectIndex = projects.indexOf(project);
         const item = document.createElement("div");
@@ -611,6 +693,40 @@ function renderProjects() {
             "title",
           ),
         );
+
+        if (Array.isArray(project.technologies) && project.technologies.length) {
+          const technologies = document.createElement("div");
+          technologies.className = "project-technologies";
+          technologies.setAttribute("aria-label", "Technologies used");
+
+          project.technologies.forEach((technology) => {
+            const normalized = technology.toLowerCase().replace(/[^a-z0-9]/g, "");
+            const iconKey = {
+              html5: "html",
+              javascript: "js",
+              typescript: "ts",
+              scss: "sass",
+            }[normalized] || normalized;
+            const badge = document.createElement("span");
+            const icon = technologyIconTemplates.get(iconKey)?.cloneNode(true);
+
+            badge.className = `project-technology project-technology-${iconKey}`;
+            badge.title = technology;
+            badge.setAttribute("aria-label", technology);
+
+            if (icon) {
+              badge.appendChild(icon);
+            } else {
+              // TypeScript does not appear in the original section headings,
+              // so use a compact, accessible abbreviation.
+              badge.textContent = iconKey === "ts" ? "TS" : technology.slice(0, 2).toUpperCase();
+            }
+
+            technologies.appendChild(badge);
+          });
+
+          item.appendChild(technologies);
+        }
         group.appendChild(item);
       });
 
@@ -650,8 +766,6 @@ function updateProjectPagination() {
   projectTimeline.querySelectorAll("[data-project-page]").forEach((button) => {
     const pageIndex = Number(button.dataset.projectPage);
     const isCurrent = pageIndex === currentProjectPage;
-    const isFuture = pageIndex > currentProjectPage;
-    button.hidden = isFuture;
     button.disabled = isCurrent;
     button.classList.toggle("is-current", isCurrent);
     if (isCurrent) button.setAttribute("aria-current", "page");
@@ -1058,14 +1172,36 @@ function projectsAreAtScrollEnd() {
   );
 }
 
-function advanceProjectPageFromScroll() {
+const PROJECT_PAGE_ADVANCE_DISTANCE = 180;
+let projectPageAdvanceDistance = 0;
+
+function resetProjectPageAdvanceHint() {
+  projectPageAdvanceDistance = 0;
+  const label = projectTimeline.querySelector(".project-pagination-label");
+  if (label) label.textContent = "Page";
+}
+
+function advanceProjectPageFromScroll(scrollDistance = 0) {
   const pageCount = projectTimeline.querySelectorAll(
     "[data-project-page-panel]",
   ).length;
-  if (currentPanel?.id !== "panel-projects" || !projectsAreAtScrollEnd())
+  if (currentPanel?.id !== "panel-projects" || !projectsAreAtScrollEnd()) {
+    resetProjectPageAdvanceHint();
     return false;
-  if (currentProjectPage >= pageCount - 1 || projectPageBusy) return false;
+  }
+  if (currentProjectPage >= pageCount - 1 || projectPageBusy) {
+    resetProjectPageAdvanceHint();
+    return false;
+  }
 
+  projectPageAdvanceDistance += Math.max(0, scrollDistance);
+  if (projectPageAdvanceDistance < PROJECT_PAGE_ADVANCE_DISTANCE) {
+    const label = projectTimeline.querySelector(".project-pagination-label");
+    if (label) label.textContent = `Scroll further for page ${currentProjectPage + 2}`;
+    return false;
+  }
+
+  resetProjectPageAdvanceHint();
   showProjectPage(currentProjectPage + 1, "forward");
   return true;
 }
@@ -1073,8 +1209,25 @@ function advanceProjectPageFromScroll() {
 messagesScroller.addEventListener(
   "wheel",
   (event) => {
-    if (event.deltaY <= 0 || !advanceProjectPageFromScroll()) return;
+    if (event.deltaY <= 0) {
+      resetProjectPageAdvanceHint();
+      return;
+    }
+
+    const pageCount = projectTimeline.querySelectorAll(
+      "[data-project-page-panel]",
+    ).length;
+    const canAdvance =
+      currentPanel?.id === "panel-projects" &&
+      projectsAreAtScrollEnd() &&
+      currentProjectPage < pageCount - 1 &&
+      !projectPageBusy;
+    if (!canAdvance) return;
+
+    // Keep the final project clickable: only deliberate extra scrolling after
+    // reaching the end advances to the next page.
     event.preventDefault();
+    advanceProjectPageFromScroll(event.deltaY);
   },
   { passive: false },
 );
@@ -1092,9 +1245,9 @@ messagesScroller.addEventListener(
   (event) => {
     if (projectTouchStartY === null) return;
     const endY = event.changedTouches[0]?.clientY ?? projectTouchStartY;
-    const swipedUp = projectTouchStartY - endY > 36;
+    const swipedUp = projectTouchStartY - endY > 100;
     projectTouchStartY = null;
-    if (swipedUp) advanceProjectPageFromScroll();
+    if (swipedUp) advanceProjectPageFromScroll(PROJECT_PAGE_ADVANCE_DISTANCE);
   },
   { passive: true },
 );

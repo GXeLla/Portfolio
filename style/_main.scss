@@ -951,15 +951,50 @@ body[data-weather="clear-night"] .video-overlay {
       }
     }
 
-    .featured-symbol {
+      .featured-symbol {
       display: inline-block;
       margin-right: 5px;
       color: #ffc187;
       font-style: normal;
       text-shadow: 0 0 12px rgba(255, 166, 91, 0.7);
-    }
+      }
 
-    .project-badge {
+      .project-technologies {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-left: 9px;
+        vertical-align: middle;
+      }
+
+      .project-technology {
+        display: inline-grid;
+        width: 18px;
+        height: 18px;
+        place-items: center;
+        color: rgba(255, 255, 255, 0.9);
+        font-family: "Avenir", sans-serif;
+        font-size: 8px;
+        font-weight: 800;
+        line-height: 1;
+
+        .icon {
+          width: 12px;
+          height: 12px;
+          fill: currentColor;
+          opacity: 1;
+        }
+
+        &.project-technology-html { color: #f16529; }
+        &.project-technology-css { color: #2965f1; }
+        &.project-technology-js { color: #f7df1e; }
+        &.project-technology-angular { color: #dd0031; }
+        &.project-technology-react { color: #61dafb; }
+        &.project-technology-sass { color: #cc6699; }
+        &.project-technology-ts { color: #3178c6; }
+      }
+
+      .project-badge {
       display: inline-flex;
       margin-bottom: 9px;
       padding: 4px 8px;
