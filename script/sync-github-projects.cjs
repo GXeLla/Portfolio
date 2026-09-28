@@ -4,6 +4,7 @@ const https = require("https");
 const owner = "GXeLla";
 const apiVersion = "2022-11-28";
 const token = process.env.GITHUB_TOKEN || "";
+const dateOverridesPath = "script/project-date-overrides.json";
 
 function request(url, method = "GET") {
   return new Promise((resolve, reject) => {
@@ -22,13 +23,13 @@ function request(url, method = "GET") {
       response.on("end", () => {
         if (response.statusCode >= 200 && response.statusCode < 300) {
           try {
-            resolve({ status: response.statusCode, body: body ? JSON.parse(body) : null });
+            resolve({ status: response.statusCode, body: body ? JSON.parse(body) : null, headers: response.headers });
           } catch (error) {
             reject(error);
           }
           return;
         }
-        resolve({ status: response.statusCode, body: null });
+        resolve({ status: response.statusCode, body: null, headers: response.headers });
       });
     });
     call.on("error", reject);
@@ -81,6 +82,24 @@ function formatDate(value) {
   }).format(new Date(value));
 }
 
+function dateOverrides() {
+  if (!fs.existsSync(dateOverridesPath)) return {};
+  const overrides = JSON.parse(fs.readFileSync(dateOverridesPath, "utf8"));
+  return overrides && typeof overrides === "object" ? overrides : {};
+}
+
+async function firstCommitDateFor(repo) {
+  const firstPage = await api(`/repos/${owner}/${encodeURIComponent(repo.name)}/commits?per_page=100`);
+  if (firstPage.status !== 200 || !Array.isArray(firstPage.body) || !firstPage.body.length) return repo.created_at;
+
+  const link = firstPage.headers?.link || "";
+  const lastPageLink = link.split(",").find((item) => item.includes('rel="last"'));
+  const lastPageUrl = lastPageLink?.match(/<([^>]+)>/)?.[1];
+  const lastPage = lastPageUrl ? await request(lastPageUrl) : firstPage;
+  const firstCommit = lastPage.body?.at(-1) || firstPage.body.at(-1);
+  return firstCommit?.commit?.author?.date || firstCommit?.commit?.committer?.date || repo.created_at;
+}
+
 function technologyList(languages, packageJson) {
   const technologies = Object.keys(languages || {});
   const dependencies = {
@@ -121,16 +140,17 @@ async function packageJsonFor(repo) {
 }
 
 async function buildProject(repo) {
-  const [languagesResponse, pagesResponse, packageJson] = await Promise.all([
+  const [languagesResponse, pagesResponse, packageJson, firstCommitDate] = await Promise.all([
     api(`/repos/${owner}/${encodeURIComponent(repo.name)}/languages`),
     api(`/repos/${owner}/${encodeURIComponent(repo.name)}/pages`),
     packageJsonFor(repo),
+    firstCommitDateFor(repo),
   ]);
   const technologies = technologyList(languagesResponse.body, packageJson);
   return {
     id: `github-${repo.id}`,
     group: groupFor(technologies),
-    date: formatDate(repo.created_at),
+    date: dateOverrides()[repo.name] || formatDate(firstCommitDate),
     title: repo.name === repo.name.toLowerCase() ? titleFromRepository(repo.name) : repo.name,
     description: repo.description || "Public GitHub repository.",
     technologies,

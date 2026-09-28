@@ -177,7 +177,7 @@ window.GITHUB_PROJECTS = [
   {
     "id": "github-1183228387",
     "group": "angular",
-    "date": "Mar 16, 2026",
+    "date": "Mar 9, 2026",
     "title": "Idle-Loader",
     "description": "This is an idle game built with Angular, designed to showcase game mechanics, world progression, and UI interactions in a web app environment. Unlike a traditional clicker, this game runs in the background, giving players resources and progress even while they’re idle.",
     "technologies": [
@@ -195,7 +195,7 @@ window.GITHUB_PROJECTS = [
   {
     "id": "github-1189479227",
     "group": "angular",
-    "date": "Mar 23, 2026",
+    "date": "Dec 31, 2025",
     "title": "Ecommerce App",
     "description": "Angular E-Commerce App with JWT auth, REST API integration, and responsive UI",
     "technologies": [
