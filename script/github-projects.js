@@ -199,7 +199,10 @@ window.GITHUB_PROJECTS = [
     "title": "Ecommerce App",
     "description": "Angular E-Commerce App with JWT auth, REST API integration, and responsive UI",
     "technologies": [
-      "Angular"
+      "Angular",
+      "TypeScript",
+      "Sass",
+      "HTML"
     ],
     "liveUrl": "https://product-shop-example01.netlify.app/",
     "repoUrl": "https://github.com/GXeLla/ecommerce-app",
@@ -208,11 +211,16 @@ window.GITHUB_PROJECTS = [
   },
   {
     "id": "github-1189481501",
-    "group": "github",
+    "group": "angular",
     "date": "Mar 23, 2026",
     "title": "Food Ordering App",
     "description": "Angular Food Ordering App with authentication, REST API, and responsive UI",
-    "technologies": [],
+    "technologies": [
+      "Angular",
+      "CSS",
+      "TypeScript",
+      "HTML"
+    ],
     "liveUrl": "",
     "repoUrl": "https://github.com/GXeLla/food-ordering-app",
     "favorite": false,
@@ -220,11 +228,15 @@ window.GITHUB_PROJECTS = [
   },
   {
     "id": "github-1330212066",
-    "group": "github",
+    "group": "javascript",
     "date": "Aug 10, 2026",
     "title": "Motion Shelf",
     "description": "A visual CSS animation library.",
-    "technologies": [],
+    "technologies": [
+      "JavaScript",
+      "CSS",
+      "HTML"
+    ],
     "liveUrl": "https://gxella.github.io/motion-shelf/",
     "repoUrl": "https://github.com/GXeLla/motion-shelf",
     "favorite": false,
@@ -232,11 +244,15 @@ window.GITHUB_PROJECTS = [
   },
   {
     "id": "github-1368387724",
-    "group": "github",
+    "group": "javascript",
     "date": "Sep 13, 2026",
     "title": "InkTrail",
     "description": "Turn any typed text into a self-contained, animated SVG that writes itself on screen — like Apple's Hello animation. Pick from 24 handwriting fonts or upload your own, fine-tune every stroke, and export a single SVG file that plays anywhere with no server, no installed fonts, and no JavaScript at playback time.",
-    "technologies": [],
+    "technologies": [
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
     "liveUrl": "https://gxella.github.io/InkTrail/",
     "repoUrl": "https://github.com/GXeLla/InkTrail",
     "favorite": false,
