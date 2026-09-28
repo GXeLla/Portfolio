@@ -64,12 +64,12 @@ window.PORTFOLIO_CONTENT = {
       dates: "Jul 1, 2026 – Present",
       location: "",
       description:
-        "Building performance-first, visually engaging advertising experiences with a focus on polished motion and reliable delivery.",
+        "Building performance-first, visually engaging advertising experiences with polished motion, strong visual quality, and reliable delivery.",
       responsibilities: [
         "Develop interactive ad experiences with HTML, CSS, and JavaScript.",
-        "Create and optimize animation-heavy visuals using video, images, Canvas, SVG, and Three.js.",
-        "Balance visual quality, responsive behavior, and performance across projects.",
-        "Use Python where useful to support creative-development workflows.",
+        "Optimize visual assets, including videos and images, to support fast, high-quality delivery.",
+        "Balance animation, responsive behavior, visual quality, and performance across projects.",
+        "Have hands-on experience with Canvas, SVG, Three.js, and Python; these are optional tools selected when they suit a project, including 3D banner work.",
       ],
       technologies: [
         "HTML",
