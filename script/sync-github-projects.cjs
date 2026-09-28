@@ -4,7 +4,7 @@ const https = require("https");
 const owner = "GXeLla";
 const apiVersion = "2022-11-28";
 const token = process.env.GITHUB_TOKEN || "";
-const dateOverridesPath = "script/project-date-overrides.json";
+const projectOverridesPath = "script/project-date-overrides.json";
 
 function request(url, method = "GET") {
   return new Promise((resolve, reject) => {
@@ -82,10 +82,16 @@ function formatDate(value) {
   }).format(new Date(value));
 }
 
-function dateOverrides() {
-  if (!fs.existsSync(dateOverridesPath)) return {};
-  const overrides = JSON.parse(fs.readFileSync(dateOverridesPath, "utf8"));
+function projectOverrides() {
+  if (!fs.existsSync(projectOverridesPath)) return {};
+  const overrides = JSON.parse(fs.readFileSync(projectOverridesPath, "utf8"));
   return overrides && typeof overrides === "object" ? overrides : {};
+}
+
+function projectOverrideFor(repo) {
+  const override = projectOverrides()[repo.name];
+  // A plain string remains a convenient handwritten date override.
+  return typeof override === "string" ? { date: override } : override || {};
 }
 
 async function firstCommitDateFor(repo) {
@@ -147,10 +153,11 @@ async function buildProject(repo) {
     firstCommitDateFor(repo),
   ]);
   const technologies = technologyList(languagesResponse.body, packageJson);
+  const override = projectOverrideFor(repo);
   return {
     id: `github-${repo.id}`,
-    group: groupFor(technologies),
-    date: dateOverrides()[repo.name] || formatDate(firstCommitDate),
+    group: override.group || groupFor(technologies),
+    date: override.date || formatDate(firstCommitDate),
     title: repo.name === repo.name.toLowerCase() ? titleFromRepository(repo.name) : repo.name,
     description: repo.description || "Public GitHub repository.",
     technologies,

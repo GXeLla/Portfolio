@@ -244,7 +244,7 @@ window.GITHUB_PROJECTS = [
   },
   {
     "id": "github-1368387724",
-    "group": "javascript",
+    "group": "banner",
     "date": "Sep 13, 2026",
     "title": "InkTrail",
     "description": "Turn any typed text into a self-contained, animated SVG that writes itself on screen — like Apple's Hello animation. Pick from 24 handwriting fonts or upload your own, fine-tune every stroke, and export a single SVG file that plays anywhere with no server, no installed fonts, and no JavaScript at playback time.",
