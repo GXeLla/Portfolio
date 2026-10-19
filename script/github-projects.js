@@ -257,5 +257,21 @@ window.GITHUB_PROJECTS = [
     "repoUrl": "https://github.com/GXeLla/InkTrail",
     "favorite": false,
     "isGitHubManaged": true
+  },
+  {
+    "id": "github-1425915966",
+    "group": "javascript",
+    "date": "Oct 19, 2026",
+    "title": "Svg Motion Studio",
+    "description": "A local-first SVG animation editor with editable layers, a visual timeline, custom effects, an offline artwork library, and animated SVG exports. No build step required.",
+    "technologies": [
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "liveUrl": "https://gxella.github.io/svg-motion-studio/",
+    "repoUrl": "https://github.com/GXeLla/svg-motion-studio",
+    "favorite": false,
+    "isGitHubManaged": true
   }
 ];
