@@ -286,7 +286,7 @@ function createEditableElement(tagName, value, path, className = "") {
 }
 
 const projectTimeline = document.querySelector(".timeline");
-const desktopProjectPagination = window.matchMedia("(min-width: 769px)");
+const desktopProjectPagination = window.matchMedia("(min-width: 769px) and (min-height: 501px)");
 const projectSectionTemplates = new Map(
   Array.from(
     projectTimeline.querySelectorAll(":scope > [data-project-group]"),
@@ -310,7 +310,12 @@ let projectStackFrame;
 function updateProjectStack() {
   cancelAnimationFrame(projectStackFrame);
   projectStackFrame = requestAnimationFrame(() => {
-    if (!desktopProjectPagination.matches) return;
+    if (!desktopProjectPagination.matches) {
+      projectTimeline.querySelectorAll('.container-library').forEach(folder => {
+        folder.style.removeProperty('clip-path');
+      });
+      return;
+    }
     const folders = Array.from(projectTimeline.querySelectorAll('.project-page:not([hidden]) > .container-library'));
     const bounds = folders.map(folder => folder.getBoundingClientRect());
     folders.forEach((folder, index) => {
@@ -486,15 +491,7 @@ function renderExperience() {
     list.appendChild(card);
   });
 
-  const pdfLink = document.createElement("a");
-  pdfLink.className = "experience-pdf-link";
-  pdfLink.href = "./portfolio-print.html";
-  pdfLink.target = "_blank";
-  pdfLink.rel = "noopener";
-  pdfLink.dataset.portfolioPdf = "";
-  pdfLink.textContent = "Download Portfolio PDF ↗";
-  pdfLink.title = "Open the current portfolio and choose Save as PDF";
-  panel.replaceChildren(list, pdfLink);
+  panel.replaceChildren(list);
 }
 
 function renderProjects() {

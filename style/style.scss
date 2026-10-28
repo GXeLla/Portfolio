@@ -220,3 +220,24 @@
   }
 }
 // =============End of Loading screen ======================
+
+// Give each intro element a separate, viewport-relative lane.
+.loading-container {
+  .header-txt { top: 12svh; left: 50%; width: calc(100% - 40px); max-width: 540px; text-align: center; transform: translateX(-50%); font-size: clamp(18px, 4.8vw, 24px); line-height: 1.35; }
+  .progress-bar-main-container { position: absolute; top: 43%; left: 50%; transform: translate(-50%, -50%); width: min(360px, calc(100% - 48px)); min-width: 0; max-width: none; }
+  .progress-bar-main-container .bar { position: relative; max-width: 100%; }
+  .progress-bar-main-container .bar h2 { top: 50%; margin: 0; transform: translate(-50%, -50%); white-space: nowrap; }
+  .x { position: absolute; top: 50%; left: 50%; transform: translateX(-50%); }
+  .cloud { position: absolute; left: 50%; top: calc(50% + 65px); scale: 1; transform: translateX(-50%) scale(.35); transform-origin: top center; }
+  .footer_loadingScreen { bottom: max(22px, env(safe-area-inset-bottom)); left: 50%; max-width: 540px; width: calc(100% - 48px); font-size: 14px; line-height: 1.5; }
+}
+@media (max-width: 768px), (max-height: 500px) {
+  .loading-container .footer_loadingScreen .hide { display: none; }
+  .loading-container .x { animation: none; opacity: .8; text-shadow: 0 0 8px #fff6; }
+  .loading-container .x::after { animation: none; opacity: 1; }
+}
+@media (max-height: 500px) {
+  .loading-container .header-txt { top: 7svh; }
+  .loading-container .cloud { top: calc(50% + 38px); transform: translateX(-50%) scale(.2); }
+  .loading-container .footer_loadingScreen { bottom: 12px; font-size: 12px; }
+}

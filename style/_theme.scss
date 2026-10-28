@@ -69,7 +69,6 @@ body .border {
   .faq-item { animation: none; } // Keep every answer readable at the scroll boundaries.
   .portfolio-pdf { width: 100%; margin-top: 20px; }
   .portfolio-pdf a { display: inline-flex; min-height: 44px; align-items: center; margin-top: 12px; padding: 10px 14px; border: 1px solid var(--edge); border-radius: 8px; background: var(--hover); color: var(--text); }
-  .experience-pdf-link { display: inline-flex; min-height: 44px; align-items: center; margin-top: 18px; padding: 10px 14px; border: 1px solid var(--edge); border-radius: 8px; background: var(--hover); color: var(--text); }
   .projects .timeline-item:hover { transform: none; backdrop-filter: none; }
 }
 
