@@ -276,14 +276,15 @@ window.GITHUB_PROJECTS = [
   },
   {
     "id": "github-1435930462",
-    "group": "html",
+    "group": "javascript",
     "date": "Oct 27, 2026",
     "title": "Signal-Jam",
     "description": "An offline-friendly Minesweeper game with custom boards, a 100-level Career, local records, unlockable cosmetics, and a guided tutorial. Built with HTML, CSS, and vanilla JavaScript.",
     "technologies": [
-      "HTML"
+      "HTML",
+      "JavaScript"
     ],
-    "liveUrl": "",
+    "liveUrl": "https://gxella.github.io/Signal-Jam/",
     "repoUrl": "https://github.com/GXeLla/Signal-Jam",
     "favorite": false,
     "isGitHubManaged": true
