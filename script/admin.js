@@ -143,9 +143,24 @@ export function initPortfolioAdmin(api) {
         <button type="button" role="tab" aria-selected="false" data-admin-tab="experience">Experience</button>
         <button type="button" role="tab" aria-selected="false" data-admin-tab="projects">Projects</button>
         <button type="button" role="tab" aria-selected="false" data-admin-tab="faq">FAQ</button>
+        <button type="button" role="tab" aria-selected="false" data-admin-tab="themes">Themes</button>
       </nav>
 
       <div class="admin-body">
+        <section class="admin-section" data-admin-section="themes" hidden>
+          <div class="admin-section-heading"><h3>Seasonal previews</h3><p>Preview a theme locally without changing your content or the public event calendar.</p></div>
+          <div class="admin-form-actions" role="group" aria-label="Seasonal previews">
+            <button type="button" data-admin-season="automatic">Automatic</button>
+            <button type="button" data-admin-season="original">Original</button>
+            <button type="button" data-admin-season="amber">Halloween · Amber</button>
+            <button type="button" data-admin-season="silver">Halloween · Silver</button>
+            <button type="button" data-admin-season="snow">Christmas · Snow</button>
+            <button type="button" data-admin-season="fireside">Christmas · Fireside</button>
+          </div>
+          <p id="admin-season-status" role="status"></p>
+          <a id="admin-season-replay" target="_blank" rel="noopener">Open loading preview in a new tab ↗</a>
+          <p>Halloween: October 20–November 3. Christmas: December 20–January 20. These dates repeat every year.</p>
+        </section>
         <section class="admin-section is-active" data-admin-section="overview">
           <div class="admin-section-heading">
             <h3>General content</h3>
@@ -286,6 +301,10 @@ export function initPortfolioAdmin(api) {
     <div class="admin-toast" id="admin-toast" role="status" aria-live="polite"></div>
   `;
   document.body.appendChild(shell);
+  const previewStyles=document.createElement('link');
+  previewStyles.rel='stylesheet';
+  previewStyles.href=new URL('./style/admin-preview.css?v=1',location.href).href;
+  document.head.append(previewStyles);
 
   const content = api.getContent();
   if (!Array.isArray(content.projectSections)) content.projectSections = [];
@@ -694,6 +713,17 @@ export function initPortfolioAdmin(api) {
     dockWeather("left");
   }
 
+  function syncSeasonPreview(){
+    const selected=window.PortfolioSeasonalPreview?.get()||'automatic';
+    shell.querySelectorAll('[data-admin-season]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.adminSeason===selected)));
+    shell.querySelector('#admin-season-status').textContent=selected==='automatic'?'Automatic event calendar is active.':`Local preview: ${selected}. Public calendar unchanged.`;
+    shell.querySelector('#admin-season-replay').href=location.href;
+  }
+  shell.querySelectorAll('[data-admin-season]').forEach(button=>button.addEventListener('click',()=>{
+    window.PortfolioSeasonalPreview?.set(button.dataset.adminSeason==='automatic'?null:button.dataset.adminSeason);
+    syncSeasonPreview();
+  }));
+  syncSeasonPreview();
   launcher.addEventListener("click", openPanel);
   closeButton.addEventListener("click", closePanel);
 

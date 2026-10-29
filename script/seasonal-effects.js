@@ -9,15 +9,15 @@
   const request=++pending;
   dispose();dispose=()=>{};
   if(id==='original')return;
-  const scene=doc.createElement('div'),front=doc.createElement('div');
-  scene.className='season-scene';front.className='season-foreground';
+  const scene=doc.createElement('div'),front=doc.createElement('div'),glass=doc.createElement('div');
+  scene.className='season-scene';front.className='season-foreground';glass.className='season-glass';glass.setAttribute('aria-hidden','true');
   scene.setAttribute('aria-hidden','true');front.setAttribute('aria-hidden','true');
-  doc.body.prepend(scene);doc.body.append(front);
+  doc.body.prepend(scene,glass);doc.body.append(front);
   const video=doc.querySelector('#bg_main');
   const sources=[...video.querySelectorAll('source')].map(e=>[e,e.getAttribute('src')]);
-  let stopScene=()=>{},cancelled=false;
+  let stopScene=()=>{},cancelled=false,rearForeground=null;
   dispose=()=>{
-   cancelled=true;stopScene();scene.remove();front.remove();
+   cancelled=true;stopScene();scene.remove();front.remove();glass.remove();rearForeground?.remove();
    delete doc.body.dataset.season;
    window.PortfolioSeasonalLoader.set(doc,'original');
    sources.forEach(([e,src])=>{if(src)e.src=src;});
@@ -34,6 +34,14 @@
   }));
   if(request!==pending||cancelled)return;
   if(decoded.some(ok=>!ok)){dispose();dispose=()=>{};return;}
+  const panel=doc.querySelector('.border');
+  function syncGlass(){
+   const rect=panel.getBoundingClientRect();
+   Object.assign(glass.style,{left:`${rect.left}px`,top:`${rect.top}px`,width:`${rect.width}px`,height:`${rect.height}px`,borderRadius:view.getComputedStyle(panel).borderRadius,visibility:'visible'});
+  }
+  syncGlass();
+  const glassObserver=new view.ResizeObserver(syncGlass);glassObserver.observe(panel);
+  view.addEventListener('resize',syncGlass,{passive:true});
   const winter=['snow','fireside'].includes(id);
   scene.innerHTML='<div class="season-art"></div><div class="season-colorwash"></div><div class="season-horizon"></div><div class="season-fog far"></div><div class="season-fog near"></div><div class="season-water"></div><div class="season-lights"></div><div class="season-vignette"></div><div class="season-motion"></div>';
   const motionLayer=scene.querySelector('.season-motion');
@@ -41,8 +49,13 @@
   if(winter)motionLayer.insertAdjacentHTML('beforeend','<div class="season-snowman"><i class="snow-body"></i><i class="snow-head"></i><i class="snow-hat"></i><i class="snow-scarf"></i><i class="snow-nose"></i></div>');
   const asset=kind=>new URL(`./images/seasons/${id}-${kind}.webp`,doc.baseURI).href;
   scene.querySelector('.season-art').style.cssText=`--landscape:url("${asset('desktop')}");--portrait:url("${asset('mobile')}")`;
-  front.innerHTML='<div class="season-front-art full"></div><div class="season-front-art left"></div><div class="season-front-art right"></div><div class="season-front-art floor"></div><div class="season-front-art corner"></div>';
+  front.innerHTML='<div class="season-front-art full"></div><div class="season-front-art left"></div><div class="season-front-art right"></div><div class="season-front-art floor"></div><div class="season-front-art corner"></div><div class="season-front-art top"></div>';
   front.style.setProperty('--foreground',`url("${asset('foreground')}")`);
+  if(id==='snow'){
+   rearForeground=front.cloneNode(true);rearForeground.classList.add('season-foreground-back');
+   doc.body.append(rearForeground);
+  }
+
   const bats=[];
   if(!winter)for(let i=0;i<9;i++){
    const e=doc.createElement('span');e.className='season-bat';e.innerHTML=batSVG;
@@ -57,6 +70,7 @@
    motionLayer.append(e);
   }
   const motion=view.matchMedia('(prefers-reduced-motion: reduce)');
+  const ghosts=!winter?view.PortfolioSeasonalGhosts?.create(doc):null;
   let tx=0,ty=0,x=0,y=0,scroll=0,raf=0,last=0,time=0,disposed=false;
   const pointer=e=>{tx=e.clientX/view.innerWidth*2-1;ty=e.clientY/view.innerHeight*2-1};
   const reset=()=>{tx=0;ty=0};
@@ -68,7 +82,12 @@
    x+=(tx-x)*Math.min(1,dt*3.8);y+=(ty-y)*Math.min(1,dt*3.8);
    scene.style.setProperty('--px',`${x*7+Math.sin(time*.09)*1.2}px`);
    scene.style.setProperty('--py',`${y*5+Math.sin(time*.13)-Math.min(scroll*.012,5)}px`);
-   front.style.transform=`translate3d(${-x*18+Math.sin(time*.18)*1.5}px,${-y*12+Math.cos(time*.14)-Math.min(scroll*.025,10)}px,0)`;
+   const frontY=-y*12+Math.cos(time*.14)-Math.min(scroll*.025,10);
+   front.style.transform=`translate3d(${-x*18+Math.sin(time*.18)*1.5}px,${frontY}px,0)`;
+   // Keep the shallow upper canopy near the viewport edge while the deeper
+   // foreground moves farther. Its eight-pixel bleed covers this smaller motion.
+   front.style.setProperty('--canopy-offset',`${-frontY*.75}px`);
+   if(rearForeground){rearForeground.style.transform=front.style.transform;rearForeground.style.setProperty('--canopy-offset',`${-frontY*.75}px`);}
    const w=view.innerWidth,h=view.innerHeight;
    bats.forEach(bat=>{
     const {e,wings,seed,depth,speed,direction}=bat;
@@ -98,11 +117,12 @@
     });
     e.style.transform=`translate3d(${bx-x*depth*12}px,${by-y*depth*7}px,0) rotate(${bat.heading}deg) scale(${depth*(.78+Math.sin(p*Math.PI)*.22)})`;
    });
+   ghosts?.tick(time,x,y,scroll);
    raf=view.requestAnimationFrame(tick);
   }
-  const schedule=()=>{view.cancelAnimationFrame(raf);last=0;if(!doc.hidden&&!motion.matches)raf=view.requestAnimationFrame(tick);if(motion.matches){front.style.transform='none';bats.forEach(({e},i)=>e.style.transform=`translate(${i*137%view.innerWidth}px,${30+i*33}px)`)}};
+  const schedule=()=>{view.cancelAnimationFrame(raf);last=0;if(!doc.hidden&&!motion.matches)raf=view.requestAnimationFrame(tick);if(motion.matches){ghosts?.hide(time);front.style.transform='none';front.style.removeProperty('--canopy-offset');if(rearForeground){rearForeground.style.transform='none';rearForeground.style.removeProperty('--canopy-offset');}bats.forEach(({e},i)=>e.style.transform=`translate(${i*137%view.innerWidth}px,${30+i*33}px)`)}};
   doc.addEventListener('visibilitychange',schedule);motion.addEventListener('change',schedule);schedule();
-  stopScene=()=>{disposed=true;view.cancelAnimationFrame(raf);doc.removeEventListener('pointermove',pointer);doc.removeEventListener('pointerleave',reset);doc.removeEventListener('scroll',scrolling,true);doc.removeEventListener('visibilitychange',schedule);motion.removeEventListener('change',schedule);scene.style.removeProperty('--px');scene.style.removeProperty('--py')};
+  stopScene=()=>{disposed=true;view.cancelAnimationFrame(raf);ghosts?.dispose();glassObserver.disconnect();view.removeEventListener('resize',syncGlass);doc.removeEventListener('pointermove',pointer);doc.removeEventListener('pointerleave',reset);doc.removeEventListener('scroll',scrolling,true);doc.removeEventListener('visibilitychange',schedule);motion.removeEventListener('change',schedule);scene.style.removeProperty('--px');scene.style.removeProperty('--py')};
  }
  window.PortfolioSeasonalEffects={apply,clear(){++pending;dispose();dispose=()=>{};}};
 })();

@@ -21,15 +21,15 @@ async function clickWeather(page){
  await control.evaluate(e=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
  const point=await control.evaluate(e=>{
   const r=e.getBoundingClientRect(),f=document.querySelector('.border').getBoundingClientRect();
-  for(let i=0;i<10;i++)for(let j=0;j<10;j++){
-   const x=r.left+r.width*(i+.5)/10,y=r.top+r.height*(j+.5)/10;
+  for(const i of[.5,.35,.65,.2,.8,.1,.9])for(const j of[.5,.35,.65,.2,.8,.1,.9]){
+   const x=Math.round(r.left+r.width*i),y=Math.round(r.top+r.height*j);
    if(x<2||y<2||x>innerWidth-2||y>innerHeight-2)continue;
    if(x>=f.left&&x<=f.right&&y>=f.top&&y<=f.bottom)continue;
-   if(e.contains(document.elementFromPoint(x,y)))return{x,y};
+   if(e.contains(document.elementFromPoint(x,y)))return{x:x-r.left,y:y-r.top};
   }return null;
  });
  assert(point,'Exposed original celestial control receives input');
- const before=await page.locator('body').getAttribute('data-weather');await page.mouse.click(point.x,point.y);
+ const before=await page.locator('body').getAttribute('data-weather');await control.click({position:point});
  assert.notEqual(await page.locator('body').getAttribute('data-weather'),before);
 }
 (async()=>{
@@ -46,6 +46,7 @@ async function clickWeather(page){
    assert.equal(image,viewport.width<=768&&viewport.height>500?1290:3840);
    await page.locator('.loading-container').waitFor({state:'hidden'});
    await page.emulateMedia({reducedMotion:'reduce'});
+   await page.waitForFunction(()=>matchMedia('(prefers-reduced-motion: reduce)').matches&&!document.querySelector('.sun.go-up,.sun.go-down,.moon.go-up,.moon.go-down'));
    for(let i=0;i<4;i++){await clickWeather(page);assert.equal(await page.locator('body').getAttribute('data-season'),theme);}
    for(const tab of['main','experience','projects','faq','contact']){
     await page.locator('#tab-'+tab).click();await page.locator('#panel-'+tab+'.active').waitFor({state:'visible'});

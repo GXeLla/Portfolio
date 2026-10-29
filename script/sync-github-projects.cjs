@@ -1,37 +1,40 @@
 const fs = require("fs");
 const https = require("https");
+const http = require("http");
 
 const owner = "GXeLla";
 const apiVersion = "2022-11-28";
 const token = process.env.GITHUB_TOKEN || "";
 const projectOverridesPath = "script/project-date-overrides.json";
 
+function requestHeaders(url, credential = token) {
+  return {
+    Accept: "application/vnd.github+json",
+    "User-Agent": "Portfolio-GitHub-sync",
+    "X-GitHub-Api-Version": apiVersion,
+    ...(credential && new URL(url).origin === "https://api.github.com" ? { Authorization: `Bearer ${credential}` } : {}),
+  };
+}
+
 function request(url, method = "GET") {
   return new Promise((resolve, reject) => {
-    const requestOptions = {
-      headers: {
-        Accept: "application/vnd.github+json",
-        "User-Agent": "Portfolio-GitHub-sync",
-        "X-GitHub-Api-Version": apiVersion,
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      method,
-    };
-    const call = https.request(url, requestOptions, (response) => {
+    const transport = new URL(url).protocol === "http:" ? http : https;
+    const call = transport.request(url, { headers: requestHeaders(url), method }, (response) => {
       let body = "";
-      response.on("data", (chunk) => (body += chunk));
+      response.on("data", chunk => body += chunk);
+      response.on("error", reject);
       response.on("end", () => {
-        if (response.statusCode >= 200 && response.statusCode < 300) {
-          try {
-            resolve({ status: response.statusCode, body: body ? JSON.parse(body) : null, headers: response.headers });
-          } catch (error) {
-            reject(error);
-          }
-          return;
+        const status = response.statusCode;
+        if (new URL(url).origin === "https://api.github.com" && (status === 429 || status >= 500 || (status === 403 && response.headers['x-ratelimit-remaining'] === '0'))) {
+          reject(new Error(`GitHub API unavailable or rate limited (HTTP ${status}); existing project data was not replaced.`));return;
         }
-        resolve({ status: response.statusCode, body: null, headers: response.headers });
+        if (status >= 200 && status < 300 && body && method !== "HEAD") {
+          try { resolve({ status, body: JSON.parse(body), headers: response.headers }); }
+          catch (error) { reject(error); }
+        } else resolve({ status, body: null, headers: response.headers });
       });
     });
+    call.setTimeout(20000, () => call.destroy(new Error(`Request timed out: ${new URL(url).hostname}`)));
     call.on("error", reject);
     call.end();
   });
@@ -152,6 +155,7 @@ async function buildProject(repo) {
     packageJsonFor(repo),
     firstCommitDateFor(repo),
   ]);
+  if (languagesResponse.status !== 200) throw new Error(`Could not read languages for ${repo.name} (HTTP ${languagesResponse.status}); existing project data was not replaced.`);
   const technologies = technologyList(languagesResponse.body, packageJson);
   const override = projectOverrideFor(repo);
   return {
@@ -168,13 +172,19 @@ async function buildProject(repo) {
   };
 }
 
-async function main() {
-  const response = await api(`/users/${owner}/repos?type=owner&sort=created&direction=asc&per_page=100`);
-  if (response.status !== 200) throw new Error(`Could not list repositories (HTTP ${response.status}).`);
+async function listRepositories(fetchPage = api) {
+  const repositories = new Map();
+  for (let page = 1; ; page++) {
+    const response = await fetchPage(`/users/${owner}/repos?type=owner&sort=created&direction=asc&per_page=100&page=${page}`);
+    if (response.status !== 200 || !Array.isArray(response.body)) throw new Error(`Could not list repositories (HTTP ${response.status}).`);
+    for (const repo of response.body) repositories.set(repo.id, repo);
+    if (response.body.length < 100) break;
+  }
+  return [...repositories.values()].filter(repo => !repo.private && !repo.archived && !repo.fork && repo.name !== "Portfolio");
+}
 
-  const repositories = response.body.filter(
-    (repo) => !repo.private && !repo.archived && !repo.fork && repo.name !== "Portfolio",
-  );
+async function main() {
+  const repositories = await listRepositories();
   const projects = [];
   for (const repository of repositories) projects.push(await buildProject(repository));
 
@@ -183,7 +193,9 @@ async function main() {
   console.log(`Synced ${projects.length} public GitHub repositories.`);
 }
 
-main().catch((error) => {
+module.exports = { listRepositories, requestHeaders };
+
+if (require.main === module) main().catch((error) => {
   console.error(error.message || error);
   process.exit(1);
 });

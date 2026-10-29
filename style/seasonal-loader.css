@@ -1,16 +1,36 @@
-/* Preserve the original loader styling; replace only its cloud illustration. */
+/* Preserve the original loader styling and timing; add seasonal decorations. */
 .loading-container[data-season-loader]>.cloud{display:none}
+.seasonal-loader-garland{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.tube-lantern{position:absolute;left:var(--anchor-x);top:var(--anchor-y);width:var(--lantern-size);height:calc(var(--cord-length) + var(--lantern-size)*.86);margin-left:calc(var(--lantern-size)*-.5);transform-origin:50% 0;animation:tube-lantern-sway var(--sway-duration) ease-in-out var(--sway-delay) infinite alternate}
+.tube-lantern[hidden]{display:none}
+.tube-lantern-cord{position:absolute;top:-3px;left:calc(50% - 1px);width:2px;height:calc(var(--cord-length) + 5px);background:linear-gradient(90deg,#2a2219,#b08b49 50%,#392d1b);box-shadow:1px 0 1px #100b08}
+.tube-lantern-cord::before{content:"";position:absolute;top:-5px;left:-3px;width:6px;height:9px;border:1px solid #bba379;border-radius:50%;background:#32271e}
+.tube-lantern-pumpkin{position:absolute;top:var(--cord-length);left:0;width:100%;height:calc(var(--lantern-size)*.86);border:1px solid #f29334;border-radius:46% 46% 43% 43%;background:radial-gradient(ellipse at 39% 22%,#ffbd55 0,#e96b16 42%,#a53508 78%,#6b2209 100%);box-shadow:inset 3px 0 5px #f9a83980,inset -4px -3px 6px #65200b99,0 0 12px #fa71075c,0 0 26px #fb790728;animation:tube-lantern-glow 2.2s ease-in-out var(--glow-delay) infinite alternate}
+.tube-lantern-pumpkin::before,.tube-lantern-pumpkin::after{content:"";position:absolute;top:-1px;width:50%;height:100%;border:1px solid #ffb54880;border-radius:50%;background:linear-gradient(90deg,#6d250d35,#fc9f292b 45%,#79230945)}
+.tube-lantern-pumpkin::before{left:10%}.tube-lantern-pumpkin::after{right:10%}
+.tube-lantern-stem{position:absolute;top:-16%;left:46%;width:11%;height:19%;border-radius:35% 15% 0 0;background:linear-gradient(90deg,#354124,#87904c,#344321);transform:rotate(-8deg)}
+.tube-lantern-eye,.tube-lantern-mouth{position:absolute;z-index:1;background:#281507;filter:drop-shadow(0 1px 1px #ffe18f)}
+.tube-lantern-eye{top:28%;width:22%;height:26%;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.tube-lantern-eye.left{left:20%;transform:rotate(-8deg)}.tube-lantern-eye.right{right:20%;transform:rotate(8deg)}
+.tube-lantern-mouth{left:20%;bottom:16%;width:60%;height:22%;clip-path:polygon(0 0,22% 26%,27% 8%,40% 35%,57% 35%,65% 10%,76% 25%,100% 0,87% 75%,64% 100%,36% 100%,13% 75%)}
+.tube-lantern[data-face="1"] .tube-lantern-eye{clip-path:none;border-radius:55% 45% 46% 54%;height:29%}
+.tube-lantern[data-face="1"] .tube-lantern-mouth{clip-path:polygon(0 0,20% 25%,35% 10%,48% 38%,63% 15%,78% 28%,100% 0,87% 73%,74% 53%,60% 100%,45% 68%,30% 93%,18% 55%)}
+.tube-lantern[data-face="2"] .tube-lantern-eye{height:21%;clip-path:polygon(0 0,100% 45%,80% 100%,15% 85%)}
+.tube-lantern[data-face="2"] .tube-lantern-eye.right{transform:scaleX(-1)}
+.tube-lantern[data-face="2"] .tube-lantern-mouth{clip-path:polygon(0 0,26% 20%,26% 52%,42% 52%,42% 27%,72% 20%,100% 0,87% 75%,65% 100%,35% 100%,13% 75%)}
+@keyframes tube-lantern-sway{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+@keyframes tube-lantern-glow{from{filter:brightness(.92);box-shadow:inset 3px 0 5px #f9a83980,inset -4px -3px 6px #65200b99,0 0 10px #fa71074a,0 0 22px #fb79071f}to{filter:brightness(1.12);box-shadow:inset 3px 0 5px #f9a83980,inset -4px -3px 6px #65200b99,0 0 16px #fa710780,0 0 32px #fb790742}}
 .seasonal-loader-art{position:absolute;top:calc(50% + 55px);left:50%;width:min(320px,calc(100vw - 48px));height:150px;transform:translateX(-50%);pointer-events:none;overflow:hidden;isolation:isolate;animation:intro-art-out 1s linear 3.3s both}
 .seasonal-loader-art>svg{position:relative;width:100%;height:100%;overflow:visible;z-index:1}
 .build-part{opacity:0;transform-box:fill-box;transform-origin:center;animation:intro-place .42s cubic-bezier(.2,.8,.3,1) var(--arrive) both}
 .snow-base{animation-name:intro-roll-left}.snow-middle{animation-name:intro-roll-right}.snow-top{animation-name:intro-drop}.snow-carrot{animation-name:intro-carrot}.snow-stone{animation-duration:.2s}
 .pumpkin-arrive{transform-box:fill-box;transform-origin:center bottom;animation:intro-pumpkin-arrive .55s cubic-bezier(.2,.8,.3,1) var(--arrival) both}
-.cut-outline{fill:none;stroke:#ffd59b;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:intro-cut-trace .3s linear var(--cut-at) both}
-.cut-hole{fill:#1c110c;stroke:url(#loaderCutRim);stroke-width:1.8;stroke-linejoin:round;opacity:0;animation:intro-cut-open .1s ease calc(var(--cut-at) + .28s) both}
-.cut-piece{opacity:0;transform-box:fill-box;transform-origin:center;animation:intro-cut-piece .3s ease-in calc(var(--cut-at) + .28s) both}
+.cut-outline{fill:none;stroke:#663010;stroke-width:1.3;opacity:0;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:intro-cut-trace .3s linear var(--cut-at) forwards}
+.cut-hole{fill:#1c110c;stroke:url(#loaderCutRim);stroke-width:1.8;stroke-linejoin:round;opacity:0;animation:intro-cut-open .06s ease calc(var(--cut-at) + .3s) both}
+.cut-piece{opacity:0;transform-box:fill-box;transform-origin:center;animation:intro-cut-piece .3s ease-in calc(var(--cut-at) + .3s) forwards}
 .pumpkin-light{opacity:0;filter:drop-shadow(0 0 5px #ffae35);animation:intro-light .45s ease var(--lit) both}
 .pumpkin-aura{opacity:0;animation:intro-light .7s ease var(--lit) both}
-.carving-knife{opacity:0;offset-path:var(--cut-path);offset-anchor:0px 0px;offset-position:0px 0px;offset-rotate:0deg;animation:intro-cut-follow .3s linear var(--cut-at) both,intro-cut-tool .3s linear var(--cut-at) both}
+.carving-knife{opacity:0;offset-path:var(--cut-path);offset-anchor:0px 0px;offset-position:0px 0px;offset-rotate:0deg;animation:intro-cut-follow .3s linear var(--cut-at) both,intro-cut-tool .3s linear var(--cut-at) forwards}
 .intro-particle{position:absolute;top:-18px;left:var(--left);width:var(--size);height:var(--size);font-size:var(--size);color:#ebf6ff;opacity:.5;animation:intro-drift var(--duration) linear var(--delay) infinite;z-index:2}
 .intro-particle.leaf{color:#d9924c;opacity:.6;animation-name:intro-leaf}.intro-particle svg{width:100%;height:100%}
 @keyframes intro-place{from{opacity:0;transform:scale(.5) translateY(-8px)}to{opacity:1;transform:none}}
@@ -20,14 +40,37 @@
 @keyframes intro-drop{0%{opacity:0;transform:translateY(-55px) rotate(-12deg)}75%{opacity:1;transform:translateY(3px) rotate(2deg)}100%{opacity:1;transform:none}}
 @keyframes intro-carrot{from{opacity:0;transform:translateX(40px) rotate(18deg)}to{opacity:1;transform:none}}
 @keyframes intro-pumpkin-arrive{from{opacity:0;transform:translateY(20px) rotate(-5deg) scale(.9)}to{opacity:1;transform:none}}
-@keyframes intro-cut-trace{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes intro-cut-trace{from{opacity:1;stroke-dashoffset:1}to{opacity:1;stroke-dashoffset:0}}
 @keyframes intro-cut-open{from{opacity:0}to{opacity:1}}
 @keyframes intro-cut-piece{0%{opacity:1;transform:none}100%{opacity:0;transform:translate(5px,17px) rotate(18deg) scale(.88)}}
 @keyframes intro-cut-follow{from{offset-distance:0%}to{offset-distance:100%}}
-@keyframes intro-cut-tool{0%,100%{opacity:0}8%,92%{opacity:1}}
+@keyframes intro-cut-tool{0%,99.9%{opacity:1}100%{opacity:0}}
 @keyframes intro-light{0%{opacity:0}60%{opacity:.65}80%{opacity:.45}100%{opacity:1}}
 @keyframes intro-drift{0%{transform:translate(0,-15px)}50%{transform:translate(14px,85px)}100%{transform:translate(-8px,180px)}}
 @keyframes intro-leaf{0%{transform:translate(0,-15px) rotate(0)}50%{transform:translate(20px,85px) rotate(100deg) rotateY(140deg)}100%{transform:translate(-8px,180px) rotate(250deg)}}
 @media(max-height:640px){.seasonal-loader-art{height:110px;top:calc(50% + 55px)}}
 @media(max-height:500px){.seasonal-loader-art{top:calc(50% + 34px);width:180px;height:64px}}
-@media(prefers-reduced-motion:reduce){.seasonal-loader-art *{animation:none!important;opacity:1}.carving-knife,.intro-particle,.cut-outline,.cut-piece{display:none}}
+@media(prefers-reduced-motion:reduce){.tube-lantern,.tube-lantern-pumpkin{animation:none}.seasonal-loader-art *{animation:none!important;opacity:1}.carving-knife,.intro-particle,.cut-outline,.cut-piece{display:none}}
+
+/* Frosted Christmas bulbs: muted glass, a small warm filament, no flashing. */
+[data-garland="winter"] .tube-lantern-cord{background:linear-gradient(90deg,#263330,#6e7c70,#263330);box-shadow:none}
+.tube-winter-bulb{position:absolute;top:var(--cord-length);left:17%;width:66%;height:calc(var(--lantern-size)*.82);border:1px solid #b4bdaf66;border-radius:45% 45% 48% 48%;background:radial-gradient(ellipse at 38% 25%,#ffffff35,transparent 28%),radial-gradient(ellipse at 50% 65%,var(--bulb-color),#343b3c 95%);opacity:.82;box-shadow:inset -3px -4px 7px #17232170,0 0 8px #e4c58320;animation:tube-bulb-breathe 5s ease-in-out var(--glow-delay) infinite alternate}
+.tube-winter-bulb::after{content:"";position:absolute;left:36%;top:53%;width:28%;height:19%;border:1px solid #f4ddb48c;border-top:0;border-radius:0 0 50% 50%;box-shadow:0 0 4px #efd1a433}
+.tube-bulb-cap{position:absolute;left:26%;top:-9%;width:48%;height:18%;border-radius:3px 3px 1px 1px;background:repeating-linear-gradient(#707773 0 2px,#3d4842 2px 4px)}
+@keyframes tube-bulb-breathe{to{opacity:.94;box-shadow:inset -3px -4px 7px #17232170,0 0 11px #e4c5832b}}
+@media(prefers-reduced-motion:reduce){.tube-winter-bulb{animation:none}}
+
+/* Fairy lights wind around both tubes: the tube occludes the rear half-turns. */
+.loading-container[data-season-loader="winter"]>.light{z-index:1}
+.loading-container[data-season-loader="winter"]>:is(.header-txt,.progress-bar-main-container,.footer_loadingScreen,.x,.seasonal-loader-art){z-index:4}
+.loading-container[data-season-loader="winter"]>.seasonal-loader-garland{z-index:3}
+.tube-string-wrap{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;pointer-events:none}
+.tube-string-wrap.back{z-index:0;opacity:.38}
+.tube-string-wrap.front{z-index:2}
+.tube-string-wire{fill:none;stroke:#516d58;stroke-width:1.25;stroke-linecap:round}
+.tube-string-wrap.back .tube-string-wire{stroke:#344636;stroke-width:1}
+.tube-string-socket{fill:#485549;stroke:#8b9b7d;stroke-width:.35}
+.tube-string-glass{fill:var(--fairy-color);stroke:#e3dfbe80;stroke-width:.45;filter:drop-shadow(0 0 1.6px #d8c99c55);animation:fairy-breathe 4.8s ease-in-out var(--fairy-delay) infinite alternate}
+.tube-string-highlight{fill:none;stroke:#fff5d080;stroke-width:.65;stroke-linecap:round}
+@keyframes fairy-breathe{from{opacity:.7}to{opacity:.95}}
+@media(prefers-reduced-motion:reduce){.tube-string-glass{animation:none}}

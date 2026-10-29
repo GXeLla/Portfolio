@@ -1,5 +1,94 @@
-/* Only the original cloud's visual slot changes. The original intro owns timing. */
+/* The original intro owns timing; seasonal art and tube decorations follow it. */
 (() => {
+ const garlandCleanups=new WeakMap();
+ function christmasWrap(doc,loader){
+  const ns='http://www.w3.org/2000/svg',view=doc.defaultView;
+  const layers=['back','front'].map(depth=>{const svg=doc.createElementNS(ns,'svg');svg.classList.add('tube-string-wrap',depth);svg.setAttribute('aria-hidden','true');loader.append(svg);return svg;});
+  function position(){
+   const w=loader.clientWidth,h=loader.clientHeight;
+   if(!w||!h)return;
+   layers.forEach(svg=>{svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.replaceChildren();});
+   const colors=['#d8bd87','#91b9a9','#b8a4c8','#c59387'];
+   for(const tube of loader.querySelectorAll('.light')){
+    const style=view.getComputedStyle(tube);if(style.display==='none')continue;
+    const width=tube.offsetWidth,height=tube.offsetHeight,[ox,oy]=style.transformOrigin.split(' ').map(parseFloat);
+    const matrix=new view.DOMMatrix().translate(tube.offsetLeft+ox,tube.offsetTop+oy).rotate(parseFloat(style.rotate)||0).multiply(new view.DOMMatrix(style.transform)).translate(-ox,-oy);
+    const groups=layers.map(svg=>{const g=doc.createElementNS(ns,'g');g.setAttribute('transform',matrix.toString());svg.append(g);return g;});
+    const pitch=56,radius=height*.5+3;
+    for(let x=-pitch;x<width+pitch;x+=pitch){
+     const center=new view.DOMPoint(x+pitch*.5,height*.5).matrixTransform(matrix);
+     if(center.x< -120||center.x>w+120||center.y< -120||center.y>h+120)continue;
+     for(let front=0;front<2;front++){
+      const group=groups[front],start=front?-Math.PI/2:Math.PI/2;
+      const offset=front?0:pitch*.5;
+      const point=t=>[x+offset+t*pitch*.5,height*.5+Math.sin(start+t*Math.PI)*radius];
+      const d=Array.from({length:21},(_,i)=>{const [a,b]=point(i/20);return`${i?'L':'M'}${a.toFixed(2)} ${b.toFixed(2)}`;}).join(' ');
+      const wire=doc.createElementNS(ns,'path');wire.setAttribute('d',d);wire.classList.add('tube-string-wire');group.append(wire);
+      for(const [i,t]of[.24,.73].entries()){
+       const [a,b]=point(t),bulb=doc.createElementNS(ns,'g');bulb.classList.add('tube-string-bulb');
+       bulb.style.setProperty('--fairy-color',colors[(Math.round(x/pitch)+i+400)%colors.length]);
+       bulb.style.setProperty('--fairy-delay',`${-((x/pitch+i)%7)}s`);
+       bulb.setAttribute('transform',`translate(${a.toFixed(2)} ${b.toFixed(2)}) rotate(${(Math.cos(start+t*Math.PI)*24).toFixed(2)}) scale(${front?1:.72})`);
+       bulb.innerHTML='<path class="tube-string-socket" d="M-1.3 0H1.3V2H-1.3Z"/><ellipse class="tube-string-glass" cx="0" cy="4" rx="2.1" ry="3.2"/><path class="tube-string-highlight" d="M-.7 3V4.5"/>';
+       group.append(bulb);
+      }
+     }
+    }
+   }
+  }
+  return{position,dispose(){layers.forEach(e=>e.remove());}};
+ }
+
+ function hangSeasonalGarland(doc,loader,family){
+  const tube=loader.querySelector('.light:not(.bot)'),view=doc.defaultView;
+  if(!tube||!view)return;
+  const garland=doc.createElement('div');
+  garland.className='seasonal-loader-garland';garland.dataset.garland=family;garland.setAttribute('aria-hidden','true');
+  // Original CSS artwork inspired by Coding Maker's pumpkin light garland.
+  // Keep the pumpkins upright while their attachment points follow the angled tube.
+  garland.innerHTML=Array.from({length:7},(_,i)=>`<span class="tube-lantern" data-face="${i%3}" style="--sway-delay:-${i*.47}s;--glow-delay:-${i*.61}s;--sway-duration:${family==='winter'?3.8+i%3*.6:2.6+i%3*.4}s;--bulb-color:${['#d1a96c','#8eada8','#b7a2b9'][i%3]}"><span class="tube-lantern-cord"></span>${family==='winter'?'<span class="tube-winter-bulb"><i class="tube-bulb-cap"></i></span>':'<span class="tube-lantern-pumpkin"><i class="tube-lantern-stem"></i><i class="tube-lantern-eye left"></i><i class="tube-lantern-eye right"></i><i class="tube-lantern-mouth"></i></span>'}</span>`).join('');
+  loader.append(garland);
+  const lanterns=[...garland.children];
+  const wrap=family==='winter'?christmasWrap(doc,loader):null;
+  function position(){
+   if(!garland.isConnected||!loader.clientWidth||!loader.clientHeight)return;
+   wrap?.position();
+   const style=view.getComputedStyle(tube),width=tube.offsetWidth,height=tube.offsetHeight;
+   const [ox,oy]=style.transformOrigin.split(' ').map(parseFloat);
+   const matrix=new view.DOMMatrix().translate(tube.offsetLeft+ox,tube.offsetTop+oy)
+    .rotate(parseFloat(style.rotate)||0).multiply(new view.DOMMatrix(style.transform))
+    .translate(-ox,-oy);
+   const start=new view.DOMPoint(0,height).matrixTransform(matrix);
+   const end=new view.DOMPoint(width,height).matrixTransform(matrix);
+   const slope=(end.y-start.y)/(end.x-start.x);
+   const yAt=x=>start.y+(x-start.x)*slope;
+   const size=Math.max(27,Math.min(52,loader.clientWidth*.04));
+   const margin=size*.75;
+   // Use only the visible upper section of the existing tube.
+   const bounds=[margin,loader.clientWidth-margin,(20-start.y)/slope+start.x,(loader.clientHeight*.65-start.y)/slope+start.x];
+   const left=Math.max(bounds[0],Math.min(bounds[2],bounds[3]));
+   const right=Math.min(bounds[1],Math.max(bounds[2],bounds[3]));
+   const count=Math.max(0,Math.min(lanterns.length,Math.floor((right-left)/(size*1.85))+1));
+   const loaderBox=loader.getBoundingClientRect();
+   const textBoxes=[...loader.querySelectorAll('.header-txt,.progress-bar-main-container,.footer_loadingScreen')].map(e=>e.getBoundingClientRect());
+   lanterns.forEach((lantern,i)=>{
+    lantern.hidden=i>=count;if(lantern.hidden)return;
+    const x=count===1?(left+right)/2:left+(right-left)*(i+.5)/count;
+    const y=yAt(x),cord=20+i%3*11;
+    const bottom=y+cord+size*.86,top=y-8;
+    // Leave the original loading copy and progress bar unobstructed.
+    lantern.hidden=textBoxes.some(b=>x+size*.65>b.left-loaderBox.left-8&&x-size*.65<b.right-loaderBox.left+8&&bottom>b.top-loaderBox.top-8&&top<b.bottom-loaderBox.top+8);
+    lantern.style.setProperty('--anchor-x',`${x}px`);
+    lantern.style.setProperty('--anchor-y',`${y}px`);
+    lantern.style.setProperty('--lantern-size',`${size}px`);
+    lantern.style.setProperty('--cord-length',`${cord}px`);
+   });
+  }
+  position();
+  const observer=new view.ResizeObserver(position);observer.observe(loader);
+  doc.fonts?.ready.then(position);
+  garlandCleanups.set(loader,()=>{observer.disconnect();garland.remove();wrap?.dispose();});
+ }
  const snowman=`<svg viewBox="0 0 340 180" aria-hidden="true"><defs><radialGradient id="loaderSnow" cx="35%" cy="25%"><stop stop-color="#ffffff"/><stop offset=".7" stop-color="#e8f2f7"/><stop offset="1" stop-color="#9eb6ce"/></radialGradient></defs><ellipse cx="170" cy="168" rx="66" ry="7" fill="#d2e5fa" opacity=".12"/>
  <g class="build-part snow-base" style="--arrive:.05s"><circle cx="170" cy="138" r="33" fill="url(#loaderSnow)"/></g>
  <g class="build-part snow-middle" style="--arrive:.65s"><circle cx="170" cy="98" r="26" fill="url(#loaderSnow)"/></g>
@@ -39,6 +128,7 @@
   const loader=doc.querySelector('.loading-container');if(!loader)return;
   const family=id==='original'?'':(['snow','fireside'].includes(id)?'winter':'halloween');
   if(loader.dataset.seasonLoader===family)return;
+  garlandCleanups.get(loader)?.();garlandCleanups.delete(loader);
   loader.querySelector('.seasonal-loader-art')?.remove();
   if(!family){delete loader.dataset.seasonLoader;return;}
   loader.dataset.seasonLoader=family;
@@ -49,6 +139,7 @@
    p.innerHTML=family==='winter'?'❄':leaf;art.append(p);
   }
   loader.append(art);
+  hangSeasonalGarland(doc,loader,family);
  }
  window.PortfolioSeasonalLoader={set};
 })();

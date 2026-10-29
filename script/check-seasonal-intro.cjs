@@ -28,6 +28,15 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),path
      assert(Math.abs(shapes[0].scale/shapes[1].scale-1.1)<.001,'Left pumpkin is ten percent larger');
      assert.equal(await f.locator('.carve-feature').count(),8,'Each face is cut feature by feature');
      assert.equal(await f.locator('.pumpkin-light').first().evaluate(e=>getComputedStyle(e).opacity),'0','Pumpkins are unlit before carving');
+     assert(await f.locator('.cut-piece,.cut-outline,.carving-knife,.cut-hole').evaluateAll(nodes=>nodes.every(e=>+getComputedStyle(e).opacity===0)),'Intact skin: no future cut pieces, marks or knives before carving');
+     await f.locator('.seasonal-loader-art').evaluate(e=>{for(const a of e.parentElement.getAnimations({subtree:true})){a.pause();a.currentTime=850}});
+     assert(await f.locator('.cut-piece,.cut-hole').evaluateAll(nodes=>nodes.every(e=>+getComputedStyle(e).opacity===0)),'Skin stays intact until a contour has been fully cut');
+     assert(await f.locator('.loader-pumpkin').first().locator('.carve-feature').first().evaluate(e=>{
+      const outline=e.querySelector('.cut-outline'),knife=e.querySelector('.carving-knife');
+      const progress=1-parseFloat(getComputedStyle(outline).strokeDashoffset);
+      const tip=parseFloat(getComputedStyle(knife).offsetDistance)/100;
+      return +getComputedStyle(knife).opacity>.99&&Math.abs(progress-tip)<.01;
+     }),'Incision grows exactly with the knife, with no premature cutout');
      await f.locator('.seasonal-loader-art').evaluate(e=>{for(const a of e.parentElement.getAnimations({subtree:true})){a.pause();a.currentTime=1100}});
      const holes=await f.locator('.loader-pumpkin').first().locator('.cut-hole').evaluateAll(nodes=>nodes.map(e=>+getComputedStyle(e).opacity));
      assert(holes[0]>.99&&holes[1]===0,'Carving opens one cut before the next');

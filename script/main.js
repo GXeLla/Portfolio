@@ -746,9 +746,12 @@ function renderProjects() {
   mobileTopButton.className = "project-mobile-top";
   mobileTopButton.innerHTML = '<span aria-hidden="true">↑</span> Go to top';
   mobileTopButton.addEventListener("click", () => {
-    document
-      .querySelector(".messages")
-      .scrollTo({ top: 0, behavior: "smooth" });
+    // Focus follows the destination, rather than leaving the off-screen footer
+    // button focused. Reset both scrollers across phone/landscape layouts.
+    pages.querySelector('.timeline-item.text-only')?.focus({ preventScroll: true });
+    for (const scroller of [pages, mobileTopButton.closest('.messages')]) {
+      scroller?.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
   });
 
   pagination.append(paginationLabel, pageButtons);
@@ -1867,7 +1870,7 @@ if (
   };
 
   window.portfolioAdminApi = adminApi;
-  const adminModuleUrl = new URL("./script/admin.js?v=3", window.location.href);
+  const adminModuleUrl = new URL("./script/admin.js?v=4", window.location.href);
   import(adminModuleUrl.href)
     .then(({ initPortfolioAdmin }) => initPortfolioAdmin(adminApi))
     .catch((error) =>

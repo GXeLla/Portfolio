@@ -13,6 +13,11 @@ on:
 
 permissions:
   contents: write
+  pages: write
+
+concurrency:
+  group: public-project-sync
+  cancel-in-progress: false
 
 jobs:
   sync:
@@ -29,8 +34,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node script/sync-github-projects.cjs
       - name: Commit changed project data
+        id: commit
         run: |
           if git diff --quiet -- script/github-projects.js; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           previous="$(git log -1 --format=%s)"
@@ -39,4 +46,17 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add script/github-projects.js
           git commit -m "$version"
+          git pull --rebase origin main
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the current repository list
+        if: steps.commit.outputs.changed == 'true' || github.event_name != 'schedule'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl --fail-with-body --retry 3 --request POST \
+            --header "Authorization: Bearer $GITHUB_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/pages/builds"
+          echo "Requested GitHub Pages publication of the synced project list." >> "$GITHUB_STEP_SUMMARY"

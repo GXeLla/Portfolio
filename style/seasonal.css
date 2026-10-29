@@ -4,7 +4,7 @@ body[data-season="silver"]{--glow:#d4bcff;--mist:#9883b6;--text:#faf7ff;--muted:
 body[data-season="snow"]{--glow:#dcf2ff;--mist:#8faec7;--text:#f9fcff;--muted:#c8dcec;--edge:#d8edffad;--focus:#d5edff;--highlight:#d5edff;--hover:#b4cde72a}
 body[data-season="fireside"]{--glow:#f5c776;--mist:#97713e;--text:#fff7e8;--muted:#e0d2b7;--edge:#e7bf75b0;--focus:#ffdc9a;--highlight:#ffdc9a;--hover:#d5af6828}
 body[data-season] :is(#bg_main,.video-overlay){display:none!important}
-body[data-season] .border{top:50svh;height:84svh;width:92%;border:1px solid var(--edge);border-radius:15px;background:rgba(8,12,20,.26);box-shadow:0 0 25px color-mix(in srgb,var(--glow) 14%,transparent),inset 0 0 2px #fff6;backdrop-filter:none;transition:background .8s,border-color .8s,box-shadow .8s}
+body[data-season] .border{top:50svh;height:84svh;width:92%;border:1px solid transparent;border-radius:15px;background:transparent;box-shadow:none;backdrop-filter:none;transition:background .8s,border-color .8s,box-shadow .8s}
 /* Celestial appearance and resting positions come unchanged from the original stylesheet. */
 body[data-season]{--environment-filter:brightness(1) saturate(1);--light-wash:transparent}
 body[data-season][data-weather="day"]{--environment-filter:brightness(1.48) saturate(.82);--light-wash:#ffefb824}
@@ -19,6 +19,7 @@ body[data-season] .border .links-group .link::before{background:var(--glow);box-
 .season-scene{display:none;position:fixed;inset:0;overflow:hidden;pointer-events:none;isolation:isolate;z-index:0;--px:0px;--py:0px}
 [data-season] .season-scene{display:block;background:#080d19}
 .season-art{position:absolute;inset:-16px;background-image:var(--landscape);background-size:100% 100%;background-position:center;transform:translate3d(calc(var(--px)*-.7),calc(var(--py)*-.7),0);filter:var(--environment-filter);transition:filter 1.8s ease;will-change:transform}
+/* Near branches and corner props cross the glass frame; all input passes through. */
 .season-foreground{display:none;position:fixed;inset:-32px;z-index:490;pointer-events:none;filter:var(--environment-filter);transition:filter 1.8s;will-change:transform}
 
 [data-season] .season-foreground{display:block}
@@ -62,10 +63,32 @@ body[data-season]:not([data-weather="storm"]) .season-snow{display:none}
 @keyframes season-water{to{transform:translate3d(7px,3px,0);opacity:.4}}
 @keyframes season-glow{to{opacity:.3}}
 @media(min-width:769px) and (min-height:501px){body[data-season] .border .messages{right:3%;width:49%;top:7%;height:86%}body[data-season] .border h1{padding-top:3%;padding-left:4%}body[data-season] .border h1+p{padding-left:4%}body[data-season] .border .links-group{width:37%;padding-left:4%;padding-top:11%}body[data-season] .border .main-intro{font-size:clamp(13px,1.1vw,17px);line-height:1.8}body[data-season] .border .main-intro p{width:100%;max-width:50ch;margin-inline:auto}}
-@media(max-width:768px),(max-height:500px){body[data-season] .border{top:calc(env(safe-area-inset-top,0px) + 72px);left:10px;width:calc(100vw - 20px);height:calc(100svh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 144px);transform:none;border-radius:14px;background:rgba(8,12,20,.28);backdrop-filter:none}body[data-season] .border .messages{padding:16px 8px 22px;background:transparent}.season-art{background-image:var(--portrait)}.season-fog{filter:blur(22px)}.season-snow:nth-of-type(n+35),.season-bat:nth-of-type(n+7){display:none}.season-vignette{box-shadow:inset 0 0 45px #03050940}.season-front-art.full{display:none}.season-front-art.left,.season-front-art.right{display:block;background-size:auto 100%}.season-front-art.left{background-position:left bottom;mask:linear-gradient(to right,#000 2%,transparent 8%)}.season-front-art.right{background-position:right bottom;mask:linear-gradient(to left,#000 2%,transparent 8%)}.season-front-art.floor{display:block;background-size:100% auto;background-position:center bottom;mask:linear-gradient(to top,#000 1%,transparent 6%)}}
+@media(max-width:768px),(max-height:500px){body[data-season] .border{top:calc(env(safe-area-inset-top,0px) + 72px);left:10px;width:calc(100vw - 20px);height:calc(100svh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 144px);transform:none;border-radius:14px;background:transparent;backdrop-filter:none}body[data-season] .border .messages{padding:16px 8px 22px;background:transparent}.season-art{background-image:var(--portrait)}.season-fog{filter:blur(22px)}.season-snow:nth-of-type(n+35),.season-bat:nth-of-type(n+7){display:none}.season-vignette{box-shadow:inset 0 0 45px #03050940}.season-front-art.full{display:none}.season-front-art.left,.season-front-art.right{display:block;background-size:auto 100%}.season-front-art.left{background-position:left bottom;mask:linear-gradient(to right,#000 2%,transparent 8%)}.season-front-art.right{background-position:right bottom;mask:linear-gradient(to left,#000 2%,transparent 8%)}.season-front-art.floor{display:block;background-size:100% auto;background-position:center bottom;mask:linear-gradient(to top,#000 1%,transparent 6%)}}
+/* Reuse the transparent canopy at its natural aspect ratio on compact screens.
+   The full foreground stays hidden here: its lower decorations have separate
+   layers. Fade only the canopy's lower edge, keeping the upper corners intact. */
+@media(max-width:768px),(max-height:500px){
+ .season-front-art.top{display:block;background-size:100% auto;background-position:center 24px;translate:0 var(--canopy-offset,0px);mask-image:linear-gradient(to bottom,#000 0,#000 96px,transparent 168px)}
+}
 @media(max-height:500px){body[data-season] .border{top:54px;height:calc(100svh - 110px);left:10px;width:calc(100vw - 20px)}.season-art{background-image:var(--landscape)}}
 @media(max-width:768px) and (min-height:501px){.season-front-art.corner{display:block;inset:auto auto 0 0;width:34%;height:28%;background-size:auto 48svh;background-position:left bottom;mask:linear-gradient(to bottom,transparent,#000 15%);pointer-events:none}body[data-season] .border .messages{padding-bottom:110px}}
 @media(max-width:768px) and (min-height:501px){.season-front-art.corner{mask-image:linear-gradient(to bottom,transparent,#000 15%),linear-gradient(to right,#000 65%,transparent);mask-composite:intersect}}
 @media(max-width:768px) and (min-height:501px){.season-front-art.left{background-size:auto calc(100svh + 64px);background-position:left top;mask-image:linear-gradient(to right,#000 2%,transparent 8%),linear-gradient(to bottom,#000 35%,transparent 55%);mask-composite:intersect}}
 @media(max-width:768px) and (min-height:501px){.season-snowman{right:auto;bottom:auto;left:22px;top:8px;transform:scale(.65);transform-origin:left top}}
 @media(prefers-reduced-motion:reduce){.season-scene *{animation:none!important;will-change:auto}.season-snow,.season-leaf{top:var(--y)}.season-rain,.season-lightning{display:none}}
+
+/* Keep the frame paint below near foliage, and its interactive content above it. */
+.season-glass{position:fixed;visibility:hidden;box-sizing:border-box;z-index:480;border:1px solid var(--edge);background:rgba(8,12,20,.26);box-shadow:0 0 25px color-mix(in srgb,var(--glow) 14%,transparent),inset 0 0 2px #fff6;pointer-events:none}
+body[data-season] .weather-shell{z-index:479}
+@media(max-width:768px),(max-height:500px){.season-glass{background:rgba(8,12,20,.28)}}
+
+/* Silver Halloween: cool valley mist behind the glass, with two drifting depths. */
+[data-season="silver"] .season-fog.far{bottom:19%;height:38%;opacity:.34;filter:blur(26px);background:radial-gradient(ellipse at 12% 70%,#c5c7dcbb,transparent 42%),radial-gradient(ellipse at 49% 57%,#a9b5c9aa,transparent 43%),radial-gradient(ellipse at 88% 68%,#d2cbe1bb,transparent 42%);mask-image:linear-gradient(transparent,#000 24%,#000 78%,transparent);animation:silver-fog-far 46s ease-in-out infinite alternate}
+[data-season="silver"] .season-fog.near{bottom:-5%;height:43%;opacity:.46;filter:blur(20px);background:radial-gradient(ellipse at 8% 55%,#c4c8d9c9,transparent 39%),radial-gradient(ellipse at 43% 68%,#aab8cec2,transparent 43%),radial-gradient(ellipse at 77% 44%,#d6cfe4b8,transparent 38%),radial-gradient(ellipse at 100% 72%,#b4c1d6c4,transparent 40%);mask-image:linear-gradient(transparent,#000 23%,#000 81%,transparent);transform:translate3d(calc(var(--px)*1.5),calc(var(--py)*.7),0);animation:silver-fog-near 31s ease-in-out -12s infinite alternate}
+@keyframes silver-fog-far{from{translate:-3% 1%;opacity:.26}to{translate:6% -3%;opacity:.38}}
+@keyframes silver-fog-near{from{translate:5% 3%;opacity:.36}to{translate:-5% -2%;opacity:.49}}
+@media(max-width:768px),(max-height:500px){[data-season="silver"] .season-fog.far{filter:blur(18px)}[data-season="silver"] .season-fog.near{filter:blur(16px);height:39%;bottom:-3%}}
+
+/* Snow: left foliage sits behind the glass, while the right edge crosses it. */
+[data-season="snow"] .season-foreground:not(.season-foreground-back){mask-image:linear-gradient(to right,transparent 48%,#000 52%)}
+[data-season="snow"] .season-foreground-back{z-index:478;mask-image:linear-gradient(to right,#000 48%,transparent 52%)}

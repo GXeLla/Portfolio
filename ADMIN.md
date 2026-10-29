@@ -41,3 +41,9 @@ Chrome or Edge supports direct folder writing. If the browser does not support i
 - Direct writing happens only after you choose the project folder in the browser's protected folder picker.
 
 This is a safe local editing workflow for a static portfolio. A true online admin that only one account can access would require server-side authentication; a password placed in public JavaScript would not be secure.
+
+## Seasonal previews
+
+Open the local admin at `http://127.0.0.1:8864/?admin=1` (or your own local server port), then select **Themes**. Preview Amber, Silver, Snow, Fireside or Original without losing unsaved form edits. **Automatic** restores the real calendar. **Open loading preview in a new tab** replays the intro without reloading the editor. A direct local link such as `?admin=1&preview=snow` also works, including when reviewing a phone-sized viewport.
+
+These overrides only work on localhost with `admin=1`. Public visitors cannot activate them or change the automatic event calendar through query parameters. The admin itself remains desktop-only.
