@@ -1,0 +1,33 @@
+/* Preserve the original loader styling; replace only its cloud illustration. */
+.loading-container[data-season-loader]>.cloud{display:none}
+.seasonal-loader-art{position:absolute;top:calc(50% + 55px);left:50%;width:min(320px,calc(100vw - 48px));height:150px;transform:translateX(-50%);pointer-events:none;overflow:hidden;isolation:isolate;animation:intro-art-out 1s linear 3.3s both}
+.seasonal-loader-art>svg{position:relative;width:100%;height:100%;overflow:visible;z-index:1}
+.build-part{opacity:0;transform-box:fill-box;transform-origin:center;animation:intro-place .42s cubic-bezier(.2,.8,.3,1) var(--arrive) both}
+.snow-base{animation-name:intro-roll-left}.snow-middle{animation-name:intro-roll-right}.snow-top{animation-name:intro-drop}.snow-carrot{animation-name:intro-carrot}.snow-stone{animation-duration:.2s}
+.pumpkin-arrive{transform-box:fill-box;transform-origin:center bottom;animation:intro-pumpkin-arrive .55s cubic-bezier(.2,.8,.3,1) var(--arrival) both}
+.cut-outline{fill:none;stroke:#ffd59b;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:intro-cut-trace .3s linear var(--cut-at) both}
+.cut-hole{fill:#1c110c;stroke:url(#loaderCutRim);stroke-width:1.8;stroke-linejoin:round;opacity:0;animation:intro-cut-open .1s ease calc(var(--cut-at) + .28s) both}
+.cut-piece{opacity:0;transform-box:fill-box;transform-origin:center;animation:intro-cut-piece .3s ease-in calc(var(--cut-at) + .28s) both}
+.pumpkin-light{opacity:0;filter:drop-shadow(0 0 5px #ffae35);animation:intro-light .45s ease var(--lit) both}
+.pumpkin-aura{opacity:0;animation:intro-light .7s ease var(--lit) both}
+.carving-knife{opacity:0;offset-path:var(--cut-path);offset-anchor:0px 0px;offset-position:0px 0px;offset-rotate:0deg;animation:intro-cut-follow .3s linear var(--cut-at) both,intro-cut-tool .3s linear var(--cut-at) both}
+.intro-particle{position:absolute;top:-18px;left:var(--left);width:var(--size);height:var(--size);font-size:var(--size);color:#ebf6ff;opacity:.5;animation:intro-drift var(--duration) linear var(--delay) infinite;z-index:2}
+.intro-particle.leaf{color:#d9924c;opacity:.6;animation-name:intro-leaf}.intro-particle svg{width:100%;height:100%}
+@keyframes intro-place{from{opacity:0;transform:scale(.5) translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes intro-art-out{from{opacity:1}to{opacity:0}}
+@keyframes intro-roll-left{from{opacity:0;transform:translateX(-95px) rotate(-100deg)}to{opacity:1;transform:none}}
+@keyframes intro-roll-right{from{opacity:0;transform:translate(95px,-23px) rotate(95deg)}to{opacity:1;transform:none}}
+@keyframes intro-drop{0%{opacity:0;transform:translateY(-55px) rotate(-12deg)}75%{opacity:1;transform:translateY(3px) rotate(2deg)}100%{opacity:1;transform:none}}
+@keyframes intro-carrot{from{opacity:0;transform:translateX(40px) rotate(18deg)}to{opacity:1;transform:none}}
+@keyframes intro-pumpkin-arrive{from{opacity:0;transform:translateY(20px) rotate(-5deg) scale(.9)}to{opacity:1;transform:none}}
+@keyframes intro-cut-trace{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes intro-cut-open{from{opacity:0}to{opacity:1}}
+@keyframes intro-cut-piece{0%{opacity:1;transform:none}100%{opacity:0;transform:translate(5px,17px) rotate(18deg) scale(.88)}}
+@keyframes intro-cut-follow{from{offset-distance:0%}to{offset-distance:100%}}
+@keyframes intro-cut-tool{0%,100%{opacity:0}8%,92%{opacity:1}}
+@keyframes intro-light{0%{opacity:0}60%{opacity:.65}80%{opacity:.45}100%{opacity:1}}
+@keyframes intro-drift{0%{transform:translate(0,-15px)}50%{transform:translate(14px,85px)}100%{transform:translate(-8px,180px)}}
+@keyframes intro-leaf{0%{transform:translate(0,-15px) rotate(0)}50%{transform:translate(20px,85px) rotate(100deg) rotateY(140deg)}100%{transform:translate(-8px,180px) rotate(250deg)}}
+@media(max-height:640px){.seasonal-loader-art{height:110px;top:calc(50% + 55px)}}
+@media(max-height:500px){.seasonal-loader-art{top:calc(50% + 34px);width:180px;height:64px}}
+@media(prefers-reduced-motion:reduce){.seasonal-loader-art *{animation:none!important;opacity:1}.carving-knife,.intro-particle,.cut-outline,.cut-piece{display:none}}

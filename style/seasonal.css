@@ -1,0 +1,71 @@
+/* Annual seasonal scenery; original portfolio layout and controls remain intact. */
+body[data-season]{--ink:#0d1119;--glow:#f5b165;--mist:#bf7630;--text:#fff8ef;--muted:#d9cbb9;--edge:#dba261a6;--focus:#ffd3a0;--highlight:#f3c58c;--hover:#e4ae6e26;--surface:#0a0d1480;--glass-card:#10172088;--glass-dialog:#101620f5;--card:#181d27;background:var(--ink);color-scheme:dark}
+body[data-season="silver"]{--glow:#d4bcff;--mist:#9883b6;--text:#faf7ff;--muted:#d1c7e2;--edge:#c1a5eeb0;--focus:#dec9ff;--highlight:#dec9ff;--hover:#b7a2dd26}
+body[data-season="snow"]{--glow:#dcf2ff;--mist:#8faec7;--text:#f9fcff;--muted:#c8dcec;--edge:#d8edffad;--focus:#d5edff;--highlight:#d5edff;--hover:#b4cde72a}
+body[data-season="fireside"]{--glow:#f5c776;--mist:#97713e;--text:#fff7e8;--muted:#e0d2b7;--edge:#e7bf75b0;--focus:#ffdc9a;--highlight:#ffdc9a;--hover:#d5af6828}
+body[data-season] :is(#bg_main,.video-overlay){display:none!important}
+body[data-season] .border{top:50svh;height:84svh;width:92%;border:1px solid var(--edge);border-radius:15px;background:rgba(8,12,20,.26);box-shadow:0 0 25px color-mix(in srgb,var(--glow) 14%,transparent),inset 0 0 2px #fff6;backdrop-filter:none;transition:background .8s,border-color .8s,box-shadow .8s}
+/* Celestial appearance and resting positions come unchanged from the original stylesheet. */
+body[data-season]{--environment-filter:brightness(1) saturate(1);--light-wash:transparent}
+body[data-season][data-weather="day"]{--environment-filter:brightness(1.48) saturate(.82);--light-wash:#ffefb824}
+body[data-season][data-weather="clear-night"]{--environment-filter:brightness(.76) saturate(.9);--light-wash:#223d872e}
+body[data-season][data-weather="sunset"]{--environment-filter:brightness(.94) sepia(.2) saturate(1.25);--light-wash:#b5452736}
+body[data-season] .border :is(h1,h1+p,.messages,.links-group .link){color:var(--text);text-shadow:0 2px 7px #000c}
+body[data-season] .border .messages{border-color:color-mix(in srgb,var(--glow) 30%,transparent);background:transparent;padding-inline:30px 16px}
+body[data-season] .border .main-intro{max-width:100%;width:100%;padding:0 8px;align-self:center}
+body[data-season] .border .links-group .link{transition:background .3s,color .3s;transform:none!important}
+body[data-season] .border .links-group .link.active{background:linear-gradient(90deg,color-mix(in srgb,var(--glow) 16%,transparent),#ffffff0c);color:#fff}
+body[data-season] .border .links-group .link::before{background:var(--glow);box-shadow:0 0 8px var(--glow)}
+.season-scene{display:none;position:fixed;inset:0;overflow:hidden;pointer-events:none;isolation:isolate;z-index:0;--px:0px;--py:0px}
+[data-season] .season-scene{display:block;background:#080d19}
+.season-art{position:absolute;inset:-16px;background-image:var(--landscape);background-size:100% 100%;background-position:center;transform:translate3d(calc(var(--px)*-.7),calc(var(--py)*-.7),0);filter:var(--environment-filter);transition:filter 1.8s ease;will-change:transform}
+.season-foreground{display:none;position:fixed;inset:-32px;z-index:490;pointer-events:none;filter:var(--environment-filter);transition:filter 1.8s;will-change:transform}
+
+[data-season] .season-foreground{display:block}
+.season-front-art{position:absolute;inset:0;background-image:var(--foreground);background-repeat:no-repeat;pointer-events:none}
+.season-front-art.full{background-size:100% 100%}
+.season-front-art:not(.full){display:none}
+.season-colorwash{position:absolute;inset:0;background:linear-gradient(var(--light-wash),var(--light-wash));pointer-events:none;transition:background 1.8s}
+.season-horizon{position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse at 76% 67%,#ef863647,transparent 55%),linear-gradient(transparent 37%,#e59b2733 65%,#5e1d431c);mix-blend-mode:screen;transition:opacity 1.8s}
+[data-weather="sunset"] .season-horizon{opacity:1}
+[data-weather="day"] .season-horizon{opacity:.35;background:radial-gradient(ellipse at 74% 12%,#fff4bd66,transparent 65%)}
+.season-vignette{position:absolute;inset:0;box-shadow:inset 0 0 110px #03050950}
+.season-fog{position:absolute;left:-25%;width:150%;height:45%;bottom:-18%;opacity:.24;background:radial-gradient(ellipse at 20% 55%,var(--mist),transparent 38%),radial-gradient(ellipse at 75% 50%,var(--mist),transparent 40%);filter:blur(35px);animation:season-mist 34s ease-in-out infinite alternate}
+.season-fog.far{bottom:12%;opacity:.12;animation-duration:49s;animation-direction:alternate-reverse;transform:translate3d(var(--px),var(--py),0)}
+.season-water{position:absolute;bottom:0;left:0;right:0;height:19%;background:repeating-linear-gradient(176deg,transparent 0 19px,#e1c6a907 20px,transparent 22px 39px);mask:linear-gradient(transparent,#0009);animation:season-water 9s ease-in-out infinite alternate}
+.season-lights{position:absolute;inset:0;opacity:.6;background:radial-gradient(circle at 2% 83%,#f3af5355,transparent 9%),radial-gradient(circle at 98% 66%,#f3af5333,transparent 7%);animation:season-glow 5s ease-in-out infinite alternate}
+[data-season="silver"] .season-lights{display:none}
+.season-bat{position:absolute;top:0;left:0;width:var(--size);color:#070711;filter:drop-shadow(0 1px 1px #d4b4bd55);will-change:transform}
+.season-bat svg{width:100%;overflow:visible;perspective:100px}
+.season-bat .wing path{stroke:#282035;stroke-width:.35;stroke-linejoin:round}
+.season-motion{position:absolute;inset:0;pointer-events:none}
+.season-snow,.season-leaf,.season-rain{position:absolute;top:-25px;left:var(--x);width:var(--size);opacity:var(--opacity);will-change:transform;animation:season-fall var(--duration) linear var(--delay) infinite}
+.season-snow{height:var(--size);border-radius:50%;background:#f0f7ff;box-shadow:0 0 4px #ffffff55}.season-snow:nth-of-type(3n){filter:blur(1px)}
+.season-snow.crystal{width:16px;height:16px;background:none;box-shadow:none;color:#e9f7ff}
+.season-leaf{color:#ba713b;animation-name:season-leaf-fall}.season-leaf:nth-of-type(2n){color:#d99a50}
+body:is([data-season="snow"],[data-season="fireside"]) .rain-particle{display:none}
+body[data-season]:not([data-weather="storm"]) .season-snow{display:none}
+.season-snowman{position:absolute;right:16px;bottom:16px;width:48px;height:86px;filter:drop-shadow(0 3px 7px #0016)}
+.season-snowman i{position:absolute;display:block}
+.snow-body{width:44px;height:47px;bottom:0;left:2px;border-radius:50%;background:radial-gradient(circle at 40% 24%,#fff 5%,#dce9f1 62%,#91b1c9);box-shadow:inset -4px -3px 8px #9ab2c55c}
+.snow-body::after{content:"";position:absolute;left:22px;top:14px;width:3px;height:3px;border-radius:50%;background:#343a48;box-shadow:0 9px #343a48,0 18px #343a48}
+.snow-head{width:31px;height:30px;top:16px;left:9px;border-radius:50%;background:radial-gradient(circle at 35% 25%,#fff,#dce9f1 70%,#a6bdcc)}
+.snow-head::after{content:"";position:absolute;top:10px;left:10px;width:3px;height:3px;border-radius:50%;background:#263340;box-shadow:10px 0 #263340}
+.snow-hat{top:0;left:12px;width:25px;height:20px;background:linear-gradient(90deg,#111e2e,#34435a,#121c2b);border-radius:3px 3px 0 0;border-bottom:4px solid #a64b49}
+.snow-hat::after{content:"";position:absolute;left:-5px;bottom:-6px;width:35px;height:4px;background:#1a2638;border-radius:3px}
+.snow-scarf{left:10px;top:40px;width:30px;height:6px;border-radius:4px;background:#a64b49}
+.snow-scarf::after{content:"";position:absolute;top:3px;left:20px;width:7px;height:19px;border-radius:2px;background:#c65e56;rotate:-12deg}
+.snow-nose{top:29px;left:25px;width:14px;height:5px;background:#dc8d43;clip-path:polygon(0 0,100% 50%,0 100%)}
+@keyframes season-fall{0%{transform:translate3d(0,-15px,0)}25%{transform:translate3d(20px,27vh,0)}50%{transform:translate3d(-15px,54vh,0)}75%{transform:translate3d(25px,81vh,0)}100%{transform:translate3d(var(--drift),110vh,0)}}
+@keyframes season-leaf-fall{0%{transform:translate3d(0,0,0) rotate(0)}30%{transform:translate3d(65px,33vh,0) rotate(75deg) rotateY(120deg)}65%{transform:translate3d(-25px,70vh,0) rotate(210deg) rotateY(250deg)}100%{transform:translate3d(var(--drift),110vh,0) rotate(340deg)}}
+@keyframes season-mist{to{translate:9% 3%;opacity:.12}}
+@keyframes season-water{to{transform:translate3d(7px,3px,0);opacity:.4}}
+@keyframes season-glow{to{opacity:.3}}
+@media(min-width:769px) and (min-height:501px){body[data-season] .border .messages{right:3%;width:49%;top:7%;height:86%}body[data-season] .border h1{padding-top:3%;padding-left:4%}body[data-season] .border h1+p{padding-left:4%}body[data-season] .border .links-group{width:37%;padding-left:4%;padding-top:11%}body[data-season] .border .main-intro{font-size:clamp(13px,1.1vw,17px);line-height:1.8}body[data-season] .border .main-intro p{width:100%;max-width:50ch;margin-inline:auto}}
+@media(max-width:768px),(max-height:500px){body[data-season] .border{top:calc(env(safe-area-inset-top,0px) + 72px);left:10px;width:calc(100vw - 20px);height:calc(100svh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 144px);transform:none;border-radius:14px;background:rgba(8,12,20,.28);backdrop-filter:none}body[data-season] .border .messages{padding:16px 8px 22px;background:transparent}.season-art{background-image:var(--portrait)}.season-fog{filter:blur(22px)}.season-snow:nth-of-type(n+35),.season-bat:nth-of-type(n+7){display:none}.season-vignette{box-shadow:inset 0 0 45px #03050940}.season-front-art.full{display:none}.season-front-art.left,.season-front-art.right{display:block;background-size:auto 100%}.season-front-art.left{background-position:left bottom;mask:linear-gradient(to right,#000 2%,transparent 8%)}.season-front-art.right{background-position:right bottom;mask:linear-gradient(to left,#000 2%,transparent 8%)}.season-front-art.floor{display:block;background-size:100% auto;background-position:center bottom;mask:linear-gradient(to top,#000 1%,transparent 6%)}}
+@media(max-height:500px){body[data-season] .border{top:54px;height:calc(100svh - 110px);left:10px;width:calc(100vw - 20px)}.season-art{background-image:var(--landscape)}}
+@media(max-width:768px) and (min-height:501px){.season-front-art.corner{display:block;inset:auto auto 0 0;width:34%;height:28%;background-size:auto 48svh;background-position:left bottom;mask:linear-gradient(to bottom,transparent,#000 15%);pointer-events:none}body[data-season] .border .messages{padding-bottom:110px}}
+@media(max-width:768px) and (min-height:501px){.season-front-art.corner{mask-image:linear-gradient(to bottom,transparent,#000 15%),linear-gradient(to right,#000 65%,transparent);mask-composite:intersect}}
+@media(max-width:768px) and (min-height:501px){.season-front-art.left{background-size:auto calc(100svh + 64px);background-position:left top;mask-image:linear-gradient(to right,#000 2%,transparent 8%),linear-gradient(to bottom,#000 35%,transparent 55%);mask-composite:intersect}}
+@media(max-width:768px) and (min-height:501px){.season-snowman{right:auto;bottom:auto;left:22px;top:8px;transform:scale(.65);transform-origin:left top}}
+@media(prefers-reduced-motion:reduce){.season-scene *{animation:none!important;will-change:auto}.season-snow,.season-leaf{top:var(--y)}.season-rain,.season-lightning{display:none}}

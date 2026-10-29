@@ -1,1 +1,10 @@
 node_modules/
+
+# Local design studio and preserved generation masters are not published.
+/seasonal-preview.html
+/images/seasonal-local/
+/script/seasonal-studio.js
+/style/seasonal-studio.css
+/script/check-seasonal-studio.cjs
+/script/check-seasonal-loader.cjs
+/script/export-seasonal-assets.py

@@ -22,6 +22,7 @@ setTimeout(function () {
 //cloud raindrops
 function rain() {
   if (motionPreference.matches || document.hidden) return;
+  if (document.querySelector('.loading-container')?.dataset.seasonLoader) return;
   //creating rain properties
   let cloud = document.querySelector(".cloud");
   let e = document.createElement("div");

@@ -14,6 +14,7 @@ const root=path.resolve(__dirname,'..');
     const file=path.resolve(root,name);if(!file.startsWith(root+path.sep)||!fs.existsSync(file))return route.fulfill({status:404,body:''});
     const ext=path.extname(name);return route.fulfill({body:fs.readFileSync(file),contentType:({'.js':'text/javascript','.css':'text/css','.html':'text/html','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.woff2':'font/woff2','.woff':'font/woff','.pdf':'application/pdf'})[ext]||'application/octet-stream'});
    });
+   await page.clock.setFixedTime(new Date('2026-06-15T12:00:00+04:00'));
    await page.goto('https://portfolio.test/');await page.waitForTimeout(400);
    const loading=await page.evaluate(()=>{const r=s=>{const e=document.querySelector(s),b=e.getBoundingClientRect();return{top:b.top,bottom:b.bottom,left:b.left,right:b.right}};return{title:r('.header-txt'),bar:r('.progress-bar-main-container'),cloud:r('.loading-container .cloud'),footer:r('.footer_loadingScreen')}});
    assert(loading.title.left>=0&&loading.title.right<=width,'Loader title stays on-screen');
@@ -29,9 +30,18 @@ const root=path.resolve(__dirname,'..');
    };
    for(let i=0;i<4;i++){
     const visible=page.locator('.sun[aria-hidden="false"],.moon[aria-hidden="false"]');
-    const r=await visible.boundingBox(),x=Math.min(width-4,Math.max(4,r.x+r.width/2)),y=Math.min(height-8,Math.max(18,r.y+r.height/2));
-    const hit=await visible.evaluate((e,{x,y})=>({ok:e.contains(document.elementFromPoint(x,y)),target:document.elementFromPoint(x,y)?.className,rect:e.getBoundingClientRect().toJSON(),weather:document.body.dataset.weather}),{x,y});
-    assert(hit.ok,'Weather control must receive touch input '+JSON.stringify({width,height,i,x,y,...hit}));
+    await visible.evaluate(e=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+    const point=await visible.evaluate(e=>{
+     const r=e.getBoundingClientRect(),f=document.querySelector('.border').getBoundingClientRect();
+     for(let i=0;i<10;i++)for(let j=0;j<10;j++){
+      const x=r.left+r.width*(i+.5)/10,y=r.top+r.height*(j+.5)/10;
+      if(x<2||y<2||x>innerWidth-2||y>innerHeight-2)continue;
+      if(x>=f.left&&x<=f.right&&y>=f.top&&y<=f.bottom)continue;
+      if(e.contains(document.elementFromPoint(x,y)))return{x,y};
+     }return null;
+    });
+    assert(point,'Exposed weather control must receive touch input '+JSON.stringify({width,height,i}));
+    const {x,y}=point;
     const before=await page.locator('body').getAttribute('data-weather');await page.mouse.click(x,y);await page.waitForTimeout(30);
     assert.notEqual(await page.locator('body').getAttribute('data-weather'),before,'Weather must change on a tap');
    }
