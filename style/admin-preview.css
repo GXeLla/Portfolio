@@ -1,0 +1,5 @@
+[data-admin-section="themes"] .admin-form-actions{flex-wrap:wrap;margin:16px 0}
+[data-admin-section="themes"] [aria-pressed="true"]{border-color:#c8afff;background:#9f7cc433;color:#fff}
+[data-admin-section="themes"] p{margin:14px 0;line-height:1.6}
+#admin-season-replay{display:inline-block;padding:10px 14px;border:1px solid #bfa3dd66;border-radius:8px;color:#ede1ff;text-decoration:none}
+#admin-season-replay:focus-visible{outline:2px solid #d4bcff;outline-offset:3px}

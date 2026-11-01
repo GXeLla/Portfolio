@@ -1,0 +1,11 @@
+/* Distant visitors sit behind the glass panel and never receive pointer input. */
+.season-ghost-layer{position:fixed;inset:0;z-index:2;overflow:hidden;pointer-events:none}
+.season-ghost-layer *{pointer-events:none}
+.season-ghost{position:absolute;left:0;top:0;width:var(--ghost-size,40px);height:calc(var(--ghost-size,40px)*1.27);opacity:0;will-change:transform,opacity;transform-origin:50% 65%}
+.season-ghost[hidden]{display:none}
+.season-ghost>svg{display:block;width:100%;height:100%;overflow:visible}
+.season-ghost-body{stroke:#93a8b6;stroke-opacity:.35;stroke-width:1;stroke-linecap:round;stroke-linejoin:round}
+.season-ghost-face{fill:#283b4a;fill-opacity:.6}
+.season-ghost-fold{fill:none;stroke-width:1;stroke-linecap:round}
+.season-ghost-fold.light{stroke:#b1c2ca;stroke-opacity:.2}.season-ghost-fold.dark{stroke:#657c8e;stroke-opacity:.15}
+@media(prefers-reduced-motion:reduce){.season-ghost-layer{display:none}.season-ghost{will-change:auto}}

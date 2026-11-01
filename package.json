@@ -1,0 +1,12 @@
+{
+  "name": "giorgi-portfolio",
+  "private": true,
+  "scripts": {
+    "build:css": "sass style/style.scss style/style.css",
+    "build:pdf": "node script/build-pdf.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0",
+    "sass": "1.104.0"
+  }
+}

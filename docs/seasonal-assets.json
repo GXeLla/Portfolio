@@ -1,0 +1,197 @@
+{
+  "generator": "Built-in image_gen",
+  "assets": [
+    {
+      "id": "amber",
+      "kind": "desktop",
+      "prompt": "Use case: stylized-concept. Production scenic background layer for premium cinematic website. Reference is aesthetic reference ONLY; remove all UI, typography, phones, panels, numbers and frames. Wide panoramic 16:9 composition, target native 3840x2160 4K or maximum available native resolution. Widely pulled-back composition with entire landscape, every outer corner visible, not a close-up. AMBER MOON: rich copper autumn and charcoal, distant lake and layered natural mountains, mist over forest, gothic castle far left, tiny amber village windows reflected in water, dramatic warm moonlit clouds. Extremely sharp photographic matte painting detail at maximum native resolution, realistic geography, botanical detail, believable light scattering, exquisite natural texture, no softness or blur. Wide open immersive landscape, detailed visible center not black. IMPORTANT: no sun, no moon, no celestial disc anywhere (a clickable moon/sun will be composited separately). No foreground branches, lantern, pumpkin, ornaments or near-edge objects because these will be separate transparent parallax layers. Keep beautiful distant scenery in all corners. No people, no bats, no snow particles, no text, no UI, no frames.",
+      "nativeSize": [
+        1672,
+        941
+      ],
+      "exportSize": [
+        3840,
+        2160
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 6150096
+    },
+    {
+      "id": "amber",
+      "kind": "mobile",
+      "prompt": "Use case: stylized-concept. Production scenic background layer for premium cinematic website. Reference is aesthetic reference ONLY; remove all UI, typography, phones, panels, numbers and frames. Tall portrait 9:19.5 composition, target 1290x2796 or highest native portrait resolution. Compose specifically for a phone: beautiful open sky in top 22%, landscape across middle, interesting edges and foreground lower corners visible within portrait, not a crop of a landscape image. AMBER MOON: rich copper autumn and charcoal, distant lake and layered natural mountains, mist over forest, gothic castle far left, tiny amber village windows reflected in water, dramatic warm moonlit clouds. Extremely sharp photographic matte painting detail at maximum native resolution, realistic geography, botanical detail, believable light scattering, exquisite natural texture, no softness or blur. Wide open immersive landscape, detailed visible center not black. IMPORTANT: no sun, no moon, no celestial disc anywhere (a clickable moon/sun will be composited separately). No foreground branches, lantern, pumpkin, ornaments or near-edge objects because these will be separate transparent parallax layers. Keep beautiful distant scenery in all corners. No people, no bats, no snow particles, no text, no UI, no frames.",
+      "nativeSize": [
+        885,
+        1777
+      ],
+      "exportSize": [
+        1290,
+        2796
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 3759160
+    },
+    {
+      "id": "amber",
+      "kind": "foreground",
+      "prompt": "Use case: background-extraction. Production parallax foreground layer for a premium portfolio website. REFERENCE is aesthetic reference only. Wide panoramic 16:9 composition, target native 3840x2160 4K or maximum available native resolution. Widely pulled-back composition with entire landscape, every outer corner visible, not a close-up. Generate a truly TRANSPARENT PNG with a large completely empty transparent center (central 80% width and 78% height empty). ONLY render extremely fine realistic objects hugging the outermost edges and corners: Natural dark oak branches with finely detailed copper orange maple leaves in upper corners and narrow sides. A realistic glowing vintage brass lantern and small carved pumpkin in bottom-left, stone ledge with scattered copper leaves only along bottom edge. Warm amber illumination. Art should be tack sharp, rich microtexture, natural physically believable materials, exquisite cinematic quality matching reference. All empty space must be fully transparent, not black, no sky, no landscape, no moon, no UI, no text, no border lines, no gradients filling center. Keep all objects fully visible inside image boundaries. High-quality isolated natural environmental elements, not stylized cartoon.",
+      "nativeSize": [
+        1672,
+        941
+      ],
+      "exportSize": [
+        3840,
+        2160
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 3448528
+    },
+    {
+      "id": "silver",
+      "kind": "desktop",
+      "prompt": "Use case: stylized-concept. Production scenic background layer for premium cinematic website. Reference is aesthetic reference ONLY; remove all UI, typography, phones, panels, numbers and frames. Wide panoramic 16:9 composition, target native 3840x2160 4K or maximum available native resolution. Widely pulled-back composition with entire landscape, every outer corner visible, not a close-up. SILVER HAUNT: elegant midnight indigo and dusty violet, layered sharp mountain forest and reflective silver lake, misty distant gothic castle on high right ridge, sparkling natural stars and moonlit thin clouds. Extremely sharp photographic matte painting detail at maximum native resolution, realistic geography, botanical detail, believable light scattering, exquisite natural texture, no softness or blur. Wide open immersive landscape, detailed visible center not black. IMPORTANT: no sun, no moon, no celestial disc anywhere (a clickable moon/sun will be composited separately). No foreground branches, lantern, pumpkin, ornaments or near-edge objects because these will be separate transparent parallax layers. Keep beautiful distant scenery in all corners. No people, no bats, no snow particles, no text, no UI, no frames.",
+      "nativeSize": [
+        1672,
+        941
+      ],
+      "exportSize": [
+        3840,
+        2160
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 6438420
+    },
+    {
+      "id": "silver",
+      "kind": "mobile",
+      "prompt": "Use case: stylized-concept. Production scenic background layer for premium cinematic website. Reference is aesthetic reference ONLY; remove all UI, typography, phones, panels, numbers and frames. Tall portrait 9:19.5 composition, target 1290x2796 or highest native portrait resolution. Compose specifically for a phone: beautiful open sky in top 22%, landscape across middle, interesting edges and foreground lower corners visible within portrait, not a crop of a landscape image. SILVER HAUNT: elegant midnight indigo and dusty violet, layered sharp mountain forest and reflective silver lake, misty distant gothic castle on high right ridge, sparkling natural stars and moonlit thin clouds. Extremely sharp photographic matte painting detail at maximum native resolution, realistic geography, botanical detail, believable light scattering, exquisite natural texture, no softness or blur. Wide open immersive landscape, detailed visible center not black. IMPORTANT: no sun, no moon, no celestial disc anywhere (a clickable moon/sun will be composited separately). No foreground branches, lantern, pumpkin, ornaments or near-edge objects because these will be separate transparent parallax layers. Keep beautiful distant scenery in all corners. No people, no bats, no snow particles, no text, no UI, no frames.",
+      "nativeSize": [
+        1022,
+        1539
+      ],
+      "exportSize": [
+        1290,
+        2796
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 3720814
+    },
+    {
+      "id": "silver",
+      "kind": "foreground",
+      "prompt": "Use case: background-extraction. Production parallax foreground layer for a premium portfolio website. REFERENCE is aesthetic reference only. Wide panoramic 16:9 composition, target native 3840x2160 4K or maximum available native resolution. Widely pulled-back composition with entire landscape, every outer corner visible, not a close-up. Generate a truly TRANSPARENT PNG with a large completely empty transparent center (central 80% width and 78% height empty). ONLY render extremely fine realistic objects hugging the outermost edges and corners: Elegant highly detailed bare dark oak branches only in upper corners and outer sides, lavender moonlit rocks and tiny low wisps of mist only at bottom corners. Silver blue and dusty violet light. No skulls, no pumpkins. Art should be tack sharp, rich microtexture, natural physically believable materials, exquisite cinematic quality matching reference. All empty space must be fully transparent, not black, no sky, no landscape, no moon, no UI, no text, no border lines, no gradients filling center. Keep all objects fully visible inside image boundaries. High-quality isolated natural environmental elements, not stylized cartoon.",
+      "nativeSize": [
+        1672,
+        941
+      ],
+      "exportSize": [
+        3840,
+        2160
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 3397610
+    },
+    {
+      "id": "snow",
+      "kind": "desktop",
+      "prompt": "Use case: stylized-concept. Production scenic background layer for premium cinematic website. Reference is aesthetic reference ONLY; remove all UI, typography, phones, panels, numbers and frames. Wide panoramic 16:9 composition, target native 3840x2160 4K or maximum available native resolution. Widely pulled-back composition with entire landscape, every outer corner visible, not a close-up. SILVER SNOW: beautiful sharp snowy alpine peaks, snow covered spruce forest, quiet large lake with crisp silver reflections and far cozy chalets, ivory moonlight, sophisticated navy blue and silver, cold naturally illuminated snow. Extremely sharp photographic matte painting detail at maximum native resolution, realistic geography, botanical detail, believable light scattering, exquisite natural texture, no softness or blur. Wide open immersive landscape, detailed visible center not black. IMPORTANT: no sun, no moon, no celestial disc anywhere (a clickable moon/sun will be composited separately). No foreground branches, lantern, pumpkin, ornaments or near-edge objects because these will be separate transparent parallax layers. Keep beautiful distant scenery in all corners. No people, no bats, no snow particles, no text, no UI, no frames.",
+      "nativeSize": [
+        1672,
+        941
+      ],
+      "exportSize": [
+        3840,
+        2160
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 7553738
+    },
+    {
+      "id": "snow",
+      "kind": "mobile",
+      "prompt": "Use case: stylized-concept. Production scenic background layer for premium cinematic website. Reference is aesthetic reference ONLY; remove all UI, typography, phones, panels, numbers and frames. Tall portrait 9:19.5 composition, target 1290x2796 or highest native portrait resolution. Compose specifically for a phone: beautiful open sky in top 22%, landscape across middle, interesting edges and foreground lower corners visible within portrait, not a crop of a landscape image. SILVER SNOW: beautiful sharp snowy alpine peaks, snow covered spruce forest, quiet large lake with crisp silver reflections and far cozy chalets, ivory moonlight, sophisticated navy blue and silver, cold naturally illuminated snow. Extremely sharp photographic matte painting detail at maximum native resolution, realistic geography, botanical detail, believable light scattering, exquisite natural texture, no softness or blur. Wide open immersive landscape, detailed visible center not black. IMPORTANT: no sun, no moon, no celestial disc anywhere (a clickable moon/sun will be composited separately). No foreground branches, lantern, pumpkin, ornaments or near-edge objects because these will be separate transparent parallax layers. Keep beautiful distant scenery in all corners. No people, no bats, no snow particles, no text, no UI, no frames.",
+      "nativeSize": [
+        1021,
+        1541
+      ],
+      "exportSize": [
+        1290,
+        2796
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 4147764
+    },
+    {
+      "id": "snow",
+      "kind": "foreground",
+      "prompt": "Use case: background-extraction. Production parallax foreground layer for a premium portfolio website. REFERENCE is aesthetic reference only. Wide panoramic 16:9 composition, target native 3840x2160 4K or maximum available native resolution. Widely pulled-back composition with entire landscape, every outer corner visible, not a close-up. Generate a truly TRANSPARENT PNG with a large completely empty transparent center (central 80% width and 78% height empty). ONLY render extremely fine realistic objects hugging the outermost edges and corners: Photographic snow laden evergreen branches framing upper corners and narrow sides, finely crystalline snowy rocks, small warm brass lantern bottom-left, a few tiny gold tree lights, delicate frost in bottom corners. Cool navy and ivory. Art should be tack sharp, rich microtexture, natural physically believable materials, exquisite cinematic quality matching reference. All empty space must be fully transparent, not black, no sky, no landscape, no moon, no UI, no text, no border lines, no gradients filling center. Keep all objects fully visible inside image boundaries. High-quality isolated natural environmental elements, not stylized cartoon.",
+      "nativeSize": [
+        1672,
+        941
+      ],
+      "exportSize": [
+        3840,
+        2160
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 3710678
+    },
+    {
+      "id": "fireside",
+      "kind": "desktop",
+      "prompt": "Use case: stylized-concept. Production scenic background layer for premium cinematic website. Reference is aesthetic reference ONLY; remove all UI, typography, phones, panels, numbers and frames. Wide panoramic 16:9 composition, target native 3840x2160 4K or maximum available native resolution. Widely pulled-back composition with entire landscape, every outer corner visible, not a close-up. FIRESIDE CHRISTMAS: cozy golden alpine village and church across a still winter lake, detailed snow covered mountains and spruce forest, hundreds of tiny inviting warm windows, warm gold cloud rim lighting, sophisticated dark pine and cranberry gold tones. Extremely sharp photographic matte painting detail at maximum native resolution, realistic geography, botanical detail, believable light scattering, exquisite natural texture, no softness or blur. Wide open immersive landscape, detailed visible center not black. IMPORTANT: no sun, no moon, no celestial disc anywhere (a clickable moon/sun will be composited separately). No foreground branches, lantern, pumpkin, ornaments or near-edge objects because these will be separate transparent parallax layers. Keep beautiful distant scenery in all corners. No people, no bats, no snow particles, no text, no UI, no frames.",
+      "nativeSize": [
+        1672,
+        941
+      ],
+      "exportSize": [
+        3840,
+        2160
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 7328644
+    },
+    {
+      "id": "fireside",
+      "kind": "mobile",
+      "prompt": "Use case: stylized-concept. Production scenic background layer for premium cinematic website. Reference is aesthetic reference ONLY; remove all UI, typography, phones, panels, numbers and frames. Tall portrait 9:19.5 composition, target 1290x2796 or highest native portrait resolution. Compose specifically for a phone: beautiful open sky in top 22%, landscape across middle, interesting edges and foreground lower corners visible within portrait, not a crop of a landscape image. FIRESIDE CHRISTMAS: cozy golden alpine village and church across a still winter lake, detailed snow covered mountains and spruce forest, hundreds of tiny inviting warm windows, warm gold cloud rim lighting, sophisticated dark pine and cranberry gold tones. Extremely sharp photographic matte painting detail at maximum native resolution, realistic geography, botanical detail, believable light scattering, exquisite natural texture, no softness or blur. Wide open immersive landscape, detailed visible center not black. IMPORTANT: no sun, no moon, no celestial disc anywhere (a clickable moon/sun will be composited separately). No foreground branches, lantern, pumpkin, ornaments or near-edge objects because these will be separate transparent parallax layers. Keep beautiful distant scenery in all corners. No people, no bats, no snow particles, no text, no UI, no frames.",
+      "nativeSize": [
+        1019,
+        1543
+      ],
+      "exportSize": [
+        1290,
+        2796
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 3722262
+    },
+    {
+      "id": "fireside",
+      "kind": "foreground",
+      "prompt": "Use case: background-extraction. Production parallax foreground layer for a premium portfolio website. REFERENCE is aesthetic reference only. Wide panoramic 16:9 composition, target native 3840x2160 4K or maximum available native resolution. Widely pulled-back composition with entire landscape, every outer corner visible, not a close-up. Generate a truly TRANSPARENT PNG with a large completely empty transparent center (central 80% width and 78% height empty). ONLY render extremely fine realistic objects hugging the outermost edges and corners: Detailed natural fir branches at upper corners and sides, small gold fairy lights, few gold and burgundy ornaments in top-left, warm brass candle lantern at bottom-left, snow covered stone ledge and pinecones along bottom narrow edge. Sophisticated rich warm Christmas. Art should be tack sharp, rich microtexture, natural physically believable materials, exquisite cinematic quality matching reference. All empty space must be fully transparent, not black, no sky, no landscape, no moon, no UI, no text, no border lines, no gradients filling center. Keep all objects fully visible inside image boundaries. High-quality isolated natural environmental elements, not stylized cartoon.",
+      "nativeSize": [
+        1672,
+        941
+      ],
+      "exportSize": [
+        3840,
+        2160
+      ],
+      "resampled": true,
+      "encoding": "lossless WebP; no quantization; alpha preserved",
+      "bytes": 3858262
+    }
+  ]
+}

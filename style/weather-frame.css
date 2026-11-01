@@ -1,0 +1,4 @@
+/* Continuous weather behind the real translucent frame; the frame handles input. */
+.weather-shell{position:fixed;inset:0;z-index:499;pointer-events:none;overflow:hidden}
+.weather-shell :is(.sun,.moon){position:fixed;pointer-events:auto}
+.weather-shell .weather{clip-path:none}
