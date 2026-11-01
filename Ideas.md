@@ -20,7 +20,11 @@ discussed and decisions are made so future Codex sessions can continue the work.
 - Add new ideas without silently dropping earlier ones. If a new idea conflicts
   with an earlier decision, resolve it with Giorgi and update the document.
 - Treat the direction below as the current concept, not a finished specification.
-- Giorgi will create and supply the scenes. No V3 scenes or assets are ready yet.
+- Giorgi is currently creating the animated vinyl player and continuing work on
+  the final background animations. He may download/export the vinyl separately;
+  the final asset structure is not decided yet.
+- No final V3 background has been delivered yet. Giorgi will provide the final
+  version, then implementation will begin together with him.
 - Latest concept update: November 1, 2026.
 
 ## V3 vision
@@ -85,11 +89,17 @@ wording as a visual reference; the exact reference and scenes are still to come.
 ### Audio across places
 
 - Audio should behave as though it belongs to the environment.
+- Switching portfolio tabs/sections determines which music plays, such as vinyl
+  or piano. This refers to navigation within the portfolio.
+- If Giorgi develops a distinct concept for every tab, each will have its own
+  place and corresponding musical source.
+- Otherwise, use random selection where dedicated concepts are missing. The
+  exact fallback rules and what is randomized will be refined later.
 - During camera travel, the departing place's music gradually fades until it is
   barely noticeable.
 - On arrival at a different place, that place's music begins from the start.
-- Whether the piano and vinyl occupy separate places, and whether any sources
-  can play together, are still open questions.
+- The exact tab-to-place and tab-to-instrument assignments, and whether any
+  sources can play together, are still open questions.
 
 ## Sound mode and background interaction
 
@@ -142,6 +152,8 @@ These are a backlog for future discussion, not blockers to recording ideas.
 - What is the unique loading-screen concept?
 - What exact visual reference does “Higsfield” describe?
 - What are the places, their scene assets, and their relationship to each section?
+- Which tabs get dedicated musical places, and how should random selection work
+  for the remaining tabs?
 - What is the precise early-morning lighting reference?
 - How does a visitor leave sound mode and restore navigation?
 - What interactions will the background support beyond the musical objects?
